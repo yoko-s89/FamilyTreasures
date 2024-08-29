@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views import View
-
+from app.forms import SignupForm
 # Create your views here.
 
 class SignupView(View):
     def get(self, request):
-        # form = SignupForm()
+        form = SignupForm()
         return render(request, "signup.html", context={
-            # "form":form
+            "form":form
         })
         
 class LoginView(View):
