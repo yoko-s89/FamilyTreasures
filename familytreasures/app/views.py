@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from app.forms import SignupForm
+from django.contrib.auth import login
 # Create your views here.
 
 class SignupView(View):
@@ -9,6 +10,16 @@ class SignupView(View):
         return render(request, "signup.html", context={
             "form":form
         })
+    def post(self, request):
+        print(request.POST)
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+        return render(request, "signup.html", context={
+            "form": form
+        })
         
 class LoginView(View):
     def get(self, request):
@@ -16,6 +27,6 @@ class LoginView(View):
     
 
 class HomeView(View):
-    # login_url = "login"
+    login_url = "login"
     def get(self, request):
         return render(request, "home.html")

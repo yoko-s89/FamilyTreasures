@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-AUTH_USER_MODEL = "appUser"
+AUTH_USER_MODEL = "app.User"
 AUTHENTICATION_BACKENDS = [
     "app.backends.UserAuthBackend"
 ]
