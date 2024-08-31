@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.forms import SignupForm
+from app.forms import SignupForm, LoginForm
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class SignupView(View):
@@ -24,9 +25,17 @@ class SignupView(View):
 class LoginView(View):
     def get(self, request):
         return render(request, "login.html")
-    
+    def post(self, request):
+        print(request.POST)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
+            return redirect("home")
+        return render(request, "login.html", context={
+            "form": form
+        })
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
     login_url = "login"
     def get(self, request):
         return render(request, "home.html")
