@@ -17,7 +17,7 @@ class SignupView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")
+            return redirect("app:home")
         return render(request, "signup.html", context={
             "form": form
         })
@@ -30,7 +30,7 @@ class LoginView(View):
         form = LoginForm(request.POST)
         if form.is_valid():
             login(request, form.user)
-            return redirect("home")
+            return redirect("app:home")
         return render(request, "login.html", context={
             "form": form
         })
