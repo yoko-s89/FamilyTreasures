@@ -9,7 +9,7 @@
     <h1>新規アカウント登録</h1>
     <form method="post">
         {% csrf_token %}
-        <div>名前/ニックネーム <input type="text" name="name" value="{{ form.name.value|default:'' }}"></div>
+        <div>名前/ニックネーム <input type="text" name="user_name" value="{{ form.name.value|default:'' }}"></div>
         <div>メールアドレス<input type="email" name="email"></div>
         <div>パスワード<input type="password" name="password1"></div>
         <div>パスワード再入力<input type="password" name="password2"></div>

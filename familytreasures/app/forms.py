@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 class SignupForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ["name", "email", "password1", "password2"]
+        fields = ["user_name", "email", "password1", "password2"]
         
     def clean_email(self):
         email = self.cleaned_data.get('email')

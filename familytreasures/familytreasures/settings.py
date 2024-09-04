@@ -154,3 +154,11 @@ LOGGING = {
         },
     },
 }
+
+
+if not DEBUG:  # 本番環境
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:  # 開発環境
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
