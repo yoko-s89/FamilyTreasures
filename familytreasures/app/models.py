@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,  AbstractBaseUser, PermissionsMixin
 )
+
 # Create your models here.
 
 
@@ -49,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     image_url = models.CharField(max_length=300,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    last_login = models.DateTimeField(auto_now=True)
+    # last_login = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "user_name" #このテーブルのレコードを一意に識別
     EMAIL_FIELD = "email"
@@ -62,3 +63,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "users"
+        
+        
+"""世帯"""
+class Household(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)  # 作成日時（レコード作成時に自動で設定）
+    updated_at = models.DateTimeField(auto_now=True)  # 更新日時（レコードが更新されるたびに自動で設定）
+
+    class Meta:
+        db_table = 'households'  # テーブル名を指定
+        
+"""子供の情報"""
+class Children(models.Model):
+    household = models.ForeignKey(Household, on_delete=models.CASCADE)  # 外部キーとして定義
+    child_name = models.CharField(max_length=255)  # こどもの名前
+    birthdate = models.DateField()  # 生年月日
+    created_at = models.DateTimeField(auto_now_add=True)  # 作成日
+    updated_at = models.DateTimeField(auto_now=True)  # 更新日
+
+    def __str__(self):
+        return self.child_name
+
+    class Meta:
+        db_table = 'children'  # テーブル名を明示的に指定
+        

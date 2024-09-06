@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from app.models import User
 from django.contrib.auth import authenticate
+from .models import Children
 
 class SignupForm(UserCreationForm):
     class Meta:
@@ -30,3 +31,10 @@ class LoginForm(forms.Form):
         if self.user is None:
             raise forms.ValidationError("認証に失敗しました")
         return self.cleaned_data
+    
+    
+
+class ChildrenForm(forms.ModelForm):
+    class Meta:
+        model = Children
+        fields = ['household', 'child_name', 'birthdate']  # 外部キーをフォームに含める

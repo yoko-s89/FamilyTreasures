@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Treasures</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    {% block content %}
+    <h1>こども追加</h1>
+
+    <!-- フォームを表示 -->
+    <form method="post">
+        {% csrf_token %}
+        <!-- 名前/ニックネームの入力フィールド -->
+        <label for="id_child_name">名前/ニックネーム:</label>
+        {{ form.child_name }}
+        <br>
+
+        <!-- 誕生日の入力フィールド -->
+        <label for="id_birthdate">誕生日:</label>
+        {{ form.birthdate }}
+        <br>
+
+        <!-- 追加ボタン -->
+        <button type="submit">追加</button>
+    </form>
+
+    <!-- 戻るリンク -->
+    <a href="{% url 'app:children_list' %}">Back to List</a><!-- マイページに戻るようにする -->
+    {% endblock %}
+</body>
+</html>
