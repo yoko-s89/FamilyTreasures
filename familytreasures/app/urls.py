@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView,SignupView,LoginView,ChildrenListView, ChildrenCreateView, ChildrenUpdateDeleteView, DiaryCreateView
+from .views import HomeView,SignupView,LoginView,ChildrenListView, ChildrenCreateView, ChildrenUpdateDeleteView, DiaryCreateView, DiaryListView
 
 app_name = 'app'
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('children/add/', ChildrenCreateView.as_view(), name='children_add'),  # 子供の追加
     path('children/update_delete/<int:pk>/', ChildrenUpdateDeleteView.as_view(), name='children_update_delete'),
     path('diary/new/', DiaryCreateView.as_view(), name='diary_create'),
+    path('diaries/', DiaryListView.as_view(), name='diary_list'),
 ]

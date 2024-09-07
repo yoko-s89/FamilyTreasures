@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>日記一覧</h1>
+    <form method="get" action=".">
+    <label for="child">子供を選択：</label>
+    <select name="child" id="child">
+    <option value="">全ての子供</option>  <!-- デフォルトで全ての子供を表示するオプション -->
+    
+{% for child in children %}
+    <!-- 子供リストをループし、選択した子供には 'selected' 属性を付ける -->
+    <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child %}selected{% endif %}>
+      {{ child.child_name }}
+    </option>
+{% endfor %}
+    </select>
+
+    <input type="submit" value="フィルタ">
+    </form>
+{% endblock %}
+<hr>
+
+    {% for diary in diaries %}
+    <h3>{{ diary.child.name }}の日記</h3>
+
+    <!-- 年月と日付・曜日の表示 -->
+    <p>年月: {{ diary.created_at|date:"Y年 m月" }}</p>
+    <p>日付と曜日: {{ diary.created_at|date:"j日 (l)" }}</p>
+
+    <!-- 日記の内容の表示 -->
+    <p>{{ diary.content }}</p>
+
+    <!-- 最初に追加された画像の表示 -->
+    {% if diary.first_image %}
+    <img src="{{ diary.first_image.media_url }}" alt="最初の画像" style="max-width: 300px;">
+    {% endif %}
+
+    <hr>
+    {% endfor %}

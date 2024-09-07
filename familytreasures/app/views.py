@@ -200,3 +200,26 @@ class DiaryCreateView(View):
             'form': form,
             'errors': form.errors
             })
+class DiaryListView(View):
+    def get(self, request):
+        selected_child = request.GET.get('child')
+        # 日記を新しい順に取得
+        diaries = Diary.objects.all().order_by('-created_at')
+        
+        if selected_child:
+            diaries = diaries.filter(child__id=selected_child)
+
+
+        # 子供の選択用プルダウンのために子供のリストを取得
+        children = Children.objects.all()
+        
+        # 各日記に関連する最初の画像を取得
+        for diary in diaries:
+            first_image = diary.diarymedia_set.filter(media_type='image').first()
+            diary.first_image = first_image  # テンプレートで使用できるように属性として設定
+
+        return render(request, 'diary_list.html', {
+            'diaries': diaries,
+            'children': children,
+            'selected_child': selected_child
+        })
