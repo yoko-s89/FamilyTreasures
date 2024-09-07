@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from app.models import User
 from django.contrib.auth import authenticate
-from .models import Children
+from .models import Children, Diary, DiaryMedia
+
 
 class SignupForm(UserCreationForm):
     class Meta:
@@ -38,3 +39,26 @@ class ChildrenForm(forms.ModelForm):
     class Meta:
         model = Children
         fields = ['household', 'child_name', 'birthdate']  # 外部キーをフォームに含める
+
+
+class DiaryForm(forms.ModelForm):
+    class Meta:
+        model = Diary
+        fields = ['child', 'template', 'stamp', 'content']
+        # widgets = {
+        #     'content': forms.Textarea(attrs={'rows': 5}),  # 日記内容のテキストエリアを設定
+        # }
+
+    child = forms.ModelChoiceField(
+        queryset=Children.objects.all(),  # 子供のリストをプルダウンメニューに表示
+        empty_label="子供を選択してください",  # 初期値として表示するメッセージ
+        label="子供"  # フィールドのラベル
+    )
+
+class DiaryMediaForm(forms.ModelForm):
+    class Meta:
+        model = DiaryMedia
+        fields = ['media_type', 'media_url']
+        widgets = {
+            'media_url': forms.ClearableFileInput(attrs={'multiple': True}),  # 複数ファイル選択を許可
+        }

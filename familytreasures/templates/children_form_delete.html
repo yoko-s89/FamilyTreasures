@@ -1,26 +1,18 @@
 {% extends 'base.html' %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Treasures</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-{% block content %}
-<body>
-    <h1>Update or Delete Child</h1>
+    {% block content %}
+        <h1>Update or Delete Child</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-        <!-- 更新ボタン -->
-        <button type="submit" name="保存">Update</button>
+            <!-- 更新ボタン -->
+            <button type="submit" name="保存">Update</button>
 
-        <!-- 削除ボタン -->
-        <button type="submit" name="削除" onclick="return confirm('Are you sure you want to delete this item?');">
-            Delete
-        </button>
-    </form>
-
-</body>
-</html>
+            <!-- 削除ボタン -->
+            <button type="submit" name="削除" onclick="return confirm('Are you sure you want to delete this item?');">
+                Delete
+            </button>
+        </form>
+        {% endblock %}
+    </html>

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,  AbstractBaseUser, PermissionsMixin
 )
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -87,3 +87,59 @@ class Children(models.Model):
     class Meta:
         db_table = 'children'  # テーブル名を明示的に指定
         
+
+
+class Child(models.Model):
+    """子供の情報を管理するモデル"""
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Template(models.Model):
+    """定型文を管理するモデル"""
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.text[:50]  # 定型文の最初の50文字を表示
+
+class Stamp(models.Model):
+    """気持ちスタンプを管理するモデル"""
+    name = models.CharField(max_length=50)
+    image_url = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class Diary(models.Model):
+    """日記を管理するモデル"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    child = models.ForeignKey(Child, on_delete=models.CASCADE)
+    template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True, blank=True)
+    stamp = models.ForeignKey(Stamp, on_delete=models.SET_NULL, null=True, blank=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} の日記 ({self.child.name} - {self.created_at.date()})"
+
+class DiaryMedia(models.Model):
+    """日記に関連するメディアを管理するモデル"""
+    MEDIA_TYPE_CHOICES = [
+        ('image', '画像'),
+        ('video', '動画'),
+    ]
+
+    diary = models.ForeignKey(Diary, on_delete=models.CASCADE)
+    media_type = models.CharField(max_length=10, choices=MEDIA_TYPE_CHOICES)
+    media_url = models.TextField()  # メディアファイルのURLやパスをtext型に変更
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Media for {self.diary.child.name}'s diary - {self.media_type}"

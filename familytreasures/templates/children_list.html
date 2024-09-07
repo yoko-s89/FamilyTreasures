@@ -1,29 +1,19 @@
 {% extends 'base.html' %}
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Treasures</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
     {% block content %}
-    <h1>こどもリスト</h1>
+        <h1>こどもリスト</h1>
 
-    {% if children_list %}
-    <ul>
-        {% for child in children_list %}
-        <li>{{ child.child_name }} ({{ child.birthdate }}) - 
-            <a href="{% url 'app:children_update' child.id %}">Edit</a> | 
-            <a href="{% url 'app:children_delete' child.id %}">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No children information available.</p>  <!-- データがない場合の表示 -->
-    {% endif %}
-    
-    <a href="{% url 'app:children_add' %}">Add New Child</a>
-    {% endblock %}
-</body>
-</html>
+        {% if children_list %}
+        <ul>
+            {% for child in children_list %}
+            <li>{{ child.child_name }} ({{ child.birthdate }}) - 
+                <a href="{% url 'app:children_update' child.id %}">Edit</a> | 
+                <a href="{% url 'app:children_delete' child.id %}">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No children information available.</p>  <!-- データがない場合の表示 -->
+        {% endif %}
+        
+        <a href="{% url 'app:children_add' %}">Add New Child</a>
+        {% endblock %}

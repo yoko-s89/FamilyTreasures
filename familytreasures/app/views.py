@@ -4,8 +4,9 @@ from app.forms import SignupForm, LoginForm, ChildrenForm
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Children
-from .forms import ChildrenForm 
+from .models import Children, Diary, DiaryMedia, Child
+from .forms import ChildrenForm, DiaryForm, DiaryMediaForm
+
 
 # Create your views here.
 
@@ -148,3 +149,54 @@ class ChildrenUpdateDeleteView(View):
             "form": form,
             "child": child
         })
+
+
+#日記投稿画面
+class DiaryCreateView(View):
+    template_name = 'diary_form.html'
+    success_url = reverse_lazy('diary_list')  # 投稿完了後のリダイレクト先
+    
+    def get(self, request, *args, **kwargs):
+        form = DiaryForm()  # 日記フォーム
+        media_form = DiaryMediaForm()  # メディアフォーム
+        return render(request, self.template_name, {'form': form, 'media_form': media_form})
+
+    def get(self, request, *args, **kwargs):
+        # 子供のリストを取得してフォームに渡す
+        form = DiaryForm()
+        return render(request, self.template_name, {'form': form})
+    
+    def get(self, request, *args, **kwargs):
+        form = DiaryForm()  # DiaryFormには定型文とスタンプのプルダウンメニューも含まれる
+        return render(request, self.template_name, {'form': form})
+
+    
+    def post(self, request, *args, **kwargs):
+        form = DiaryForm(request.POST)  
+        media_files = request.FILES.getlist('media_url')  # 複数のファイルを取得
+
+        if form.is_valid():
+            diary = form.save(commit=False)  # データベースに保存せずにインスタンスを作成
+            diary.user = request.user  # ログインユーザーを日記に関連付ける
+            diary.save()  # 日記データを保存
+            
+            for media_file in media_files:
+                media = DiaryMedia(diary=diary, media_url=media_file)
+                media.media_type = 'image' if media_file.content_type.startswith('image') else 'video'
+                media.save()
+
+
+            # メディアの保存（もしメディアもフォームで受け取るなら）
+            # media_form = DiaryMediaForm(request.POST, request.FILES)
+            # if media_form.is_valid():
+            #     media = media_form.save(commit=False)
+            #     media.diary = diary
+            #     media.save()
+
+        return redirect(self.success_url)  # 成功したらリダイレクト
+
+        # バリデーションに失敗した場合、エラーメッセージと共にフォームを再表示
+        return render(request, self.template_name, {
+            'form': form,
+            'errors': form.errors
+            })
