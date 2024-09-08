@@ -10,7 +10,7 @@
 {% for child in children %}
     <!-- 子供リストをループし、選択した子供には 'selected' 属性を付ける -->
     <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child %}selected{% endif %}>
-      {{ child.child_name }}
+    {{ child.child_name }}
     </option>
 {% endfor %}
     </select>
@@ -29,6 +29,11 @@
 
     <!-- 日記の内容の表示 -->
     <p>{{ diary.content }}</p>
+
+    <!-- 日記の内容の表示をクリック可能にし、詳細ページに移動 -->
+    <a href="{% url 'app:diary_detail' diary.pk %}">
+        <p>{{ diary.content|truncatewords:10 }}</p>  <!-- クリックで詳細ページへ移動 -->
+    </a>
 
     <!-- 最初に追加された画像の表示 -->
     {% if diary.first_image %}

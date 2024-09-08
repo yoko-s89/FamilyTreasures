@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,  AbstractBaseUser, PermissionsMixin
 )
-from django.contrib.auth.models import User
-# Create your models here.
+# from django.contrib.auth.models import User
+from django.conf import settings  # AUTH_USER_MODELを使用するためにsettingsをインポート
+
+
+
 
 
 class UserManager(BaseUserManager):
@@ -104,6 +107,8 @@ class Template(models.Model):
 
     def __str__(self):
         return self.text[:50]  # 定型文の最初の50文字を表示
+    class Meta:
+        db_table = 'templates' 
 
 class Stamp(models.Model):
     """気持ちスタンプを管理するモデル"""
@@ -114,10 +119,12 @@ class Stamp(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        db_table = 'stamps' 
 
 class Diary(models.Model):
     """日記を管理するモデル"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # settings.AUTH_USER_MODELを使用
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
     template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey(Stamp, on_delete=models.SET_NULL, null=True, blank=True)
@@ -127,6 +134,8 @@ class Diary(models.Model):
 
     def __str__(self):
         return f"{self.user.username} の日記 ({self.child.name} - {self.created_at.date()})"
+    class Meta:
+        db_table = 'diaries'     
 
 class DiaryMedia(models.Model):
     """日記に関連するメディアを管理するモデル"""
@@ -143,3 +152,20 @@ class DiaryMedia(models.Model):
 
     def __str__(self):
         return f"Media for {self.diary.child.name}'s diary - {self.media_type}"
+    class Meta:
+        db_table = 'diary_media'     
+
+
+"""コメント"""
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)# 投稿者
+    diary = models.ForeignKey(Diary, on_delete=models.CASCADE)  # 日記への外部キー
+    content = models.TextField()  # コメント内容
+    created_at = models.DateTimeField(auto_now_add=True)  # 作成日
+    updated_at = models.DateTimeField(auto_now=True)  # 更新日
+
+    def __str__(self):
+        return f"{self.user.user_name} のコメント (日記: {self.diary.child.name})"
+    
+    class Meta:
+        db_table = "comments"

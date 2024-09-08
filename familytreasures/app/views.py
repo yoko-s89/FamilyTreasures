@@ -4,8 +4,12 @@ from app.forms import SignupForm, LoginForm, ChildrenForm
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Children, Diary, DiaryMedia, Child
-from .forms import ChildrenForm, DiaryForm, DiaryMediaForm
+from .models import Children, Diary, DiaryMedia, Child, Comment
+from .forms import ChildrenForm, DiaryForm, DiaryMediaForm, CommentForm
+# from app.models import User  # Userモデルを直接インポート
+from django.contrib.auth import get_user_model  # get_user_modelを使用
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -222,4 +226,36 @@ class DiaryListView(View):
             'diaries': diaries,
             'children': children,
             'selected_child': selected_child
+        })
+
+class DiaryDetailView(View):
+    def get(self, request, pk):
+        diary = get_object_or_404(Diary, pk=pk)
+        comments = Comment.objects.filter(diary=diary).order_by('-created_at')
+        return render(request, "diary_detail.html", context={
+            "diary": diary,
+            "comments": comments
+        })
+        
+class CommentCreateView(View):
+    def get(self, request, diary_id):
+        form = CommentForm()
+        diary = get_object_or_404(Diary, pk=diary_id)
+        return render(request, "comment_form.html", context={
+            "form": form,
+            "diary": diary
+        })
+
+    def post(self, request, diary_id):
+        diary = get_object_or_404(Diary, pk=diary_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.diary = diary
+            comment.save()
+            return redirect('diary_detail', pk=diary_id)
+        return render(request, "comment_form.html", context={
+            "form": form,
+            "diary": diary
         })
