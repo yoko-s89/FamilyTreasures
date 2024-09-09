@@ -2,14 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from app.forms import SignupForm, LoginForm, ChildrenForm
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Children, Diary, DiaryMedia, Child, Comment
 from .forms import ChildrenForm, DiaryForm, DiaryMediaForm, CommentForm
 # from app.models import User  # Userモデルを直接インポート
 from django.contrib.auth import get_user_model  # get_user_modelを使用
-
 User = get_user_model()
+from django.contrib import messages
+
 
 
 # Create your views here.
@@ -254,8 +255,58 @@ class CommentCreateView(View):
             comment.user = request.user
             comment.diary = diary
             comment.save()
-            return redirect('diary_detail', pk=diary_id)
+            return redirect('app:diary_detail', pk=diary_id)
         return render(request, "comment_form.html", context={
             "form": form,
             "diary": diary
         })
+
+class CommentEditView(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = 'comment_edit.html'
+
+    def get(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        form = CommentForm(instance=comment)
+        return render(request, self.template_name, {
+            'form': form,
+            'comment': comment
+        })
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'コメントが編集されました。')
+            return redirect('app:diary_detail', pk=comment.diary.pk)
+        messages.error(request, 'コメントの編集に失敗しました。')
+        return render(request, self.template_name, {
+            'form': form,
+            'comment': comment
+        })
+
+    def test_func(self):
+        comment = get_object_or_404(Comment, pk=self.kwargs['pk'])
+        return self.request.user == comment.user
+    
+# app/views.py
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = 'comment_confirm_delete.html'
+
+    def get(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        return render(request, self.template_name, {
+            'comment': comment
+        })
+
+    def post(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        diary_pk = comment.diary.pk
+        comment.delete()
+        messages.success(request, 'コメントが削除されました。')
+        return redirect('app:diary_detail', pk=diary_pk)
+
+    def test_func(self):
+        comment = get_object_or_404(Comment, pk=self.kwargs['pk'])
+        return self.request.user == comment.user

@@ -74,6 +74,12 @@ class DiaryMediaForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+        label='コメント内容',
+        help_text='コメントを入力してください。',
+        max_length=500  # 最大500文字
+    )
     class Meta:
         model = Comment
         fields = ['content']

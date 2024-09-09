@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<h1>{{ diary.child.name }}の日記詳細</h1>
-<p>投稿者: {{ diary.user.user_name }}</p>
-<p>投稿日: {{ diary.created_at }}</p>
-<p>天気: {{ diary.weather }}  <!-- もし天気を追加するなら対応するフィールドを追加 --> </p>
-<p>気持ち: {{ diary.stamp.name }}</p>
-<p>内容: {{ diary.content }}</p>
+    {% block content %}
+        <h1>{{ diary.child.name }}の日記詳細</h1>
+        <p>投稿者: {{ diary.user.user_name }}</p>
+        <p>投稿日: {{ diary.created_at }}</p>
+        <p>天気: {{ diary.weather }}  <!-- もし天気を追加するなら対応するフィールドを追加 --> </p>
+        <p>気持ち: {{ diary.stamp.name }}</p>
+        <p>内容: {{ diary.content }}</p>
 
-<h3>メディアファイル</h3>
-{% for media in diary.diarymedia_set.all %}
+        <h3>メディアファイル</h3>
+    {% for media in diary.diarymedia_set.all %}
     {% if media.media_type == 'image' %}
         <img src="{{ media.media_url }}" alt="Image">
     {% elif media.media_type == 'video' %}
@@ -17,19 +17,25 @@
             <source src="{{ media.media_url }}" type="video/mp4">
         </video>
     {% endif %}
-{% endfor %}
+    {% endfor %}
 
 <h3>コメント</h3>
-{% for comment in comments %}
-    <div class="comment">
-        <p>{{ comment.user.user_name }}: {{ comment.content }}</p>
-        <p>投稿日時: {{ comment.created_at }}</p>
-        <a href="{% url 'comment_edit' comment.id %}">編集</a> |
-        <a href="{% url 'comment_delete' comment.id %}">削除</a>
-    </div>
-{% endfor %}
+<ul></ul>
+    {% for comment in comments %}
+        <li>
+            <strong>{{ comment.user.user_name }}:</strong> {{ comment.content }}
+            {% if request.user == comment.user %}
+                <!-- 編集・削除リンク -->
+                <a href="{% url 'app:comment_edit' comment.pk %}">編集</a>
+                <a href="{% url 'app:comment_delete' comment.pk %}">削除</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>コメントはまだありません。</li>
+    {% endfor %}
+</ul>
 
-<a href="{% url 'app:diary_edit' diary.id %}">日記の編集</a> |
-<a href="{% url 'app:diary_delete' diary.id %}">日記の削除</a> |
-<a href="{% url 'app:comment_add' diary.id %}">コメントを追加</a>
+<a href="{% url 'app:diary_edit' diary.id %}">日記の編集</a> 
+<a href="{% url 'app:diary_delete' diary.id %}">日記の削除</a> 
+<a href="{% url 'app:comment_create' diary.id %}">コメントを追加</a>
 {% endblock %}
