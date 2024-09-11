@@ -11,7 +11,7 @@ class SignupForm(UserCreationForm):
         fields = ["user_name", "email", "password1", "password2"]
 
 from django.contrib.auth import authenticate
-from .models import Children, Diary, DiaryMedia, Comment
+from .models import Children, Diary, DiaryMedia, Comment, Weather, Stamp, Template
 
 
 class SignupForm(UserCreationForm):
@@ -53,7 +53,7 @@ class ChildrenForm(forms.ModelForm):
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
-        fields = ['child', 'template', 'stamp', 'content']
+        fields = ['child', 'template', 'stamp', 'weather', 'content']
         # widgets = {
         #     'content': forms.Textarea(attrs={'rows': 5}),  # 日記内容のテキストエリアを設定
         # }
@@ -64,6 +64,24 @@ class DiaryForm(forms.ModelForm):
         label="子供"  # フィールドのラベル
     )
 
+    weather = forms.ModelChoiceField(
+        queryset=Weather.objects.all(),  # 天気のリストをプルダウンメニューに表示
+        empty_label="天気を選択してください",
+        label="天気"
+    )
+    
+    stamp = forms.ModelChoiceField(
+        queryset=Stamp.objects.all(),
+        empty_label="気持ちを選択してください",
+        label="気持ちのスタンプ",
+        widget=forms.Select(attrs={'class': 'stamp-select'})  # スタンプを選択するためのフィールド
+    )
+
+    template = forms.ModelChoiceField(
+        queryset=Template.objects.all(),
+        empty_label="定型文を選択してください",
+        label="一言"
+    )
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia

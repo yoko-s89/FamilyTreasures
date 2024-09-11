@@ -121,6 +121,17 @@ class Stamp(models.Model):
         return self.name
     class Meta:
         db_table = 'stamps' 
+        
+class Weather(models.Model):
+    """天気を管理するモデル"""
+    name = models.CharField(max_length=50)  # 天気の名前
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'weather'  # テーブル名を指定
 
 class Diary(models.Model):
     """日記を管理するモデル"""
@@ -128,6 +139,7 @@ class Diary(models.Model):
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
     template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey(Stamp, on_delete=models.SET_NULL, null=True, blank=True)
+    weather = models.ForeignKey('Weather', on_delete=models.SET_NULL, null=True, blank=True)  # 天気を外部キーで設定
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -162,18 +162,10 @@ class DiaryCreateView(View):
     success_url = reverse_lazy('diary_list')  # 投稿完了後のリダイレクト先
     
     def get(self, request, *args, **kwargs):
-        form = DiaryForm()  # 日記フォーム
-        media_form = DiaryMediaForm()  # メディアフォーム
-        return render(request, self.template_name, {'form': form, 'media_form': media_form})
-
-    def get(self, request, *args, **kwargs):
-        # 子供のリストを取得してフォームに渡す
+        # DiaryFormとDiaryMediaFormをテンプレートに渡す
         form = DiaryForm()
-        return render(request, self.template_name, {'form': form})
-    
-    def get(self, request, *args, **kwargs):
-        form = DiaryForm()  # DiaryFormには定型文とスタンプのプルダウンメニューも含まれる
-        return render(request, self.template_name, {'form': form})
+        media_form = DiaryMediaForm()
+        return render(request, self.template_name, {'form': form, 'media_form': media_form})
 
     
     def post(self, request, *args, **kwargs):
@@ -198,13 +190,14 @@ class DiaryCreateView(View):
             #     media.diary = diary
             #     media.save()
 
-        return redirect(self.success_url)  # 成功したらリダイレクト
-
-        # バリデーションに失敗した場合、エラーメッセージと共にフォームを再表示
+            return redirect(self.success_url)  # 成功したらリダイレクト
+        
         return render(request, self.template_name, {
             'form': form,
             'errors': form.errors
-            })
+        })
+
+    
 class DiaryListView(View):
     def get(self, request):
         selected_child = request.GET.get('child')

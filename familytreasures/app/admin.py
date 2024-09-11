@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import Household, Children, Child, Diary, Template, Stamp, DiaryMedia
+from .models import Household, Children, Child, Diary, Template, Stamp, DiaryMedia, Weather
 
 
 
@@ -21,4 +21,6 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ['user_name', 'email']  # 検索対象のフィールドを指定
     ordering = ['user_name']
     
-    
+@admin.register(Weather)
+class WeatherAdmin(admin.ModelAdmin):
+    list_display = ['name']  # 管理画面で表示するフィールドの指定
