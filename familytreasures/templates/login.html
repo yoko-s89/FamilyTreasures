@@ -6,14 +6,26 @@
     <title>Family Treasures</title>
 </head>
 <body>
-    <h1>Family Treasures</h1>
+    <h1>Family Treasures ログイン</h1>
     <form method="post">
         {% csrf_token %}
-        <div>メールアドレス<input type="email" name="email"></div>
-        <div>パスワード<input type="password" name="password"></div>
+        <div>
+            メールアドレス<input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
+            <!-- 個別のエラーメッセージ表示 -->
+            <div class="errors">{{ form.email.errors }}</div>
+        </div>
+        <div>
+            パスワード<input type="password" name="password">
+            <!-- 個別のエラーメッセージ表示 -->
+            <div class="errors">{{ form.password.errors }}</div>
+        </div>
         <button type="submit">ログイン</button>
     </form>
-    {{ form.errors }}
+
+    <!-- 全体のエラーメッセージ表示 -->
+    <div class="errors">
+        {{ form.non_field_errors }}
+    </div>
     <a href="{% url 'app:signup' %}">新規アカウント登録</a>
 </body>
 </html>

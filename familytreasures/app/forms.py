@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate
 # from app.models import User
 from django.contrib.auth import get_user_model  # get_user_modelをインポート
 
@@ -42,7 +43,8 @@ class LoginForm(forms.Form):
             raise forms.ValidationError("認証に失敗しました")
         return self.cleaned_data
     
-    
+    def get_user(self):
+        return self.user
 
 class ChildrenForm(forms.ModelForm):
     class Meta:
@@ -60,6 +62,7 @@ class DiaryForm(forms.ModelForm):
 
     child = forms.ModelChoiceField(
         queryset=Children.objects.all(),  # 子供のリストをプルダウンメニューに表示
+        required=False,  # 子供の選択を任意にする
         empty_label="子供を選択してください",  # 初期値として表示するメッセージ
         label="子供"  # フィールドのラベル
     )
@@ -85,9 +88,10 @@ class DiaryForm(forms.ModelForm):
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia
-        fields = ['media_type', 'media_url']
+        # fields = ['media_type', 'media_url']
+        fields = ['media_file']
         widgets = {
-            'media_url': forms.ClearableFileInput(attrs={'multiple': True}),  # 複数ファイル選択を許可
+            'media_file': forms.ClearableFileInput(attrs={'multiple': True}),  # 複数ファイル選択を許可
         }
 
 

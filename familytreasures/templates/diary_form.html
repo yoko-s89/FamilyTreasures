@@ -2,7 +2,8 @@
 
 {% block content %}
     <h2>日記を投稿</h2>
-    <form method="post" enctype="multipart/form-data" action="{% url 'app:diary_list' %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}">
+
     {% csrf_token %}
         <!-- フォーム内容 -->
         <div class="form-group">

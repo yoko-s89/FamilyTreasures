@@ -82,7 +82,9 @@ DATABASES = {
 }
 AUTH_USER_MODEL = "app.User"
 AUTHENTICATION_BACKENDS = [
-    "app.backends.UserAuthBackend"
+    "app.backends.UserAuthBackend",
+    'app.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  
 ]
 
 # Password validation
@@ -120,7 +122,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 LOGOUT_REDIRECT_URL = '/app/login/'  # ログアウト後にリダイレクトするURL
+
+MEDIA_URL = '/media/'  # ブラウザからアクセスするURL
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 画像ファイルが保存されるディレクトリ
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

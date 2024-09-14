@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>日記を削除</h2>
+  <p>本当にこの日記を削除しますか？</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">削除する</button>
+    <a href="{% url 'app:diary_list' %}" class="btn btn-secondary">キャンセル</a>
+  </form>
+{% endblock %}

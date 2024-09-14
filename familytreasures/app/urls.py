@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import HomeView,SignupView,LoginView,ChildrenListView, ChildrenCreateView, ChildrenUpdateDeleteView, DiaryCreateView, DiaryListView, DiaryDetailView, CommentCreateView, CommentEditView, CommentDeleteView
+from .views import HomeView,SignupView,LoginView,ChildrenListView, ChildrenCreateView, ChildrenUpdateDeleteView, DiaryCreateView, DiaryListView, DiaryDetailView, CommentCreateView, CommentEditView, CommentDeleteView, DiaryEditView, DiaryDeleteView
 
 app_name = 'app'
 
@@ -15,7 +15,9 @@ urlpatterns = [
     path('diary/new/', DiaryCreateView.as_view(), name='diary_new'),# 日記新規作成ページ
     path('diaries/', DiaryListView.as_view(), name='diary_list'),  # 日記一覧画面
     path('diary/<int:pk>/', DiaryDetailView.as_view(), name='diary_detail'),  # 日記詳細ページ
+    path('diary/<int:pk>/edit/', DiaryEditView.as_view(), name='diary_edit'),
+    path('diary/<int:pk>/delete/', DiaryDeleteView.as_view(), name='diary_delete'),
     path('diary/<int:diary_id>/comment/', CommentCreateView.as_view(), name='comment_create'),
-    path('comment/<int:pk>/edit/', CommentEditView.as_view(), name='comment_edit'),  # 編集用URL
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),  # 削除用URL
+    path('comment/<int:pk>/edit/', CommentEditView.as_view(), name='comment_edit'),  # コメント編集用URL
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),  # コメント削除用URL
 ]

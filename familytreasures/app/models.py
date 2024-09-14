@@ -113,7 +113,7 @@ class Template(models.Model):
 class Stamp(models.Model):
     """気持ちスタンプを管理するモデル"""
     name = models.CharField(max_length=50)
-    image_url = models.URLField()
+    image = models.ImageField(upload_to='stamps/')  # 画像ファイルを保存するフィールド
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -136,7 +136,8 @@ class Weather(models.Model):
 class Diary(models.Model):
     """日記を管理するモデル"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # settings.AUTH_USER_MODELを使用
-    child = models.ForeignKey(Child, on_delete=models.CASCADE)
+    # child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, blank=True)
+    child = models.ForeignKey(Child, on_delete=models.SET_NULL, null=True, blank=True)
     template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey(Stamp, on_delete=models.SET_NULL, null=True, blank=True)
     weather = models.ForeignKey('Weather', on_delete=models.SET_NULL, null=True, blank=True)  # 天気を外部キーで設定
@@ -145,7 +146,11 @@ class Diary(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} の日記 ({self.child.name} - {self.created_at.date()})"
+        child_name = self.child.name if self.child else "No Child"
+        return f"{self.user.user_name} の日記 ({child_name} - {self.created_at.date()})"
+    
+    # def __str__(self):
+    #     return f"{self.user.user_name} の日記 ({self.child.name if self.child else '子供なし'} - {self.created_at.date()})"
     class Meta:
         db_table = 'diaries'     
 
@@ -158,12 +163,18 @@ class DiaryMedia(models.Model):
 
     diary = models.ForeignKey(Diary, on_delete=models.CASCADE)
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPE_CHOICES)
-    media_url = models.TextField()  # メディアファイルのURLやパスをtext型に変更
+    # media_url = models.TextField()  # メディアファイルのURLやパスをtext型に変更
+    media_file = models.FileField(upload_to='diary_media/')  # メディアファイルのパスを保存
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # def __str__(self):
+    #     diary_name = self.diary.child.name if self.diary and self.diary.child else "No Diary"
+    #     return f"Media for {self.diary.child.name}'s diary - {self.media_type}"
+    
     def __str__(self):
-        return f"Media for {self.diary.child.name}'s diary - {self.media_type}"
+        diary_name = self.diary.child.name if self.diary and self.diary.child else "No Diary"
+        return f"Media for {diary_name}'s diary - {self.media_type}"
     class Meta:
         db_table = 'diary_media'     
 
