@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>作品を削除</h2>
+  <p>本当にこの作品「{{ artwork.title }}」を削除しますか？</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">削除</button>
+    <a href="{% url 'app:artwork_detail' artwork.id %}" class="btn btn-secondary">キャンセル</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>家族招待URLの作成</h1>
+
+<!-- 招待URL作成フォーム -->
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">家族招待URLを作成する</button>
+</form>
+
+{% if created %}
+    <p>{{ message }}</p>
+    <p>招待URL:</p>
+    <a href="{{ invite_url }}">{{ invite_url }}</a>
+{% endif %}
+
+<p>利用方法：</p>
+<ul>
+    <li>「家族招待URLを作成する」をクリックし、リンク先URLを表示</li>
+    <li>招待したい家族にリンク先を共有しアカウントを登録してもらう</li>
+    <li>※発行されたURLは一度利用すると失効します。</li>
+</ul>
+{% endblock %}

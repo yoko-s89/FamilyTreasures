@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>マイページ</h1>
+
+<!-- 名前/ニックネームの表示 -->
+<h2>{{ user.user_name }}</h2>
+
+<!-- プロフィール編集フォーム -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- ユーザーの写真の表示と編集 -->
+    <div>
+        {% if user.image_url %}
+            <img src="{{ user.image_url.url }}" alt="ユーザーの写真" style="max-width: 200px;">
+        {% else %}
+            <p>写真が設定されていません。</p>
+        {% endif %}
+    </div>
+    
+    <!-- プロフィール編集フォーム -->
+    {{ form.as_p }}
+    <button type="submit">プロフィール更新</button>
+</form>
+
+<!-- アカウント情報変更画面へのリンク -->
+<a href="{% url 'app:account_update' %}">アカウント情報変更</a><!-- アカウント情報変更の画面を作成したら遷移先変更する-->
+
+<!-- 家族リストの表示 -->
+<h2>家族リスト</h2>
+<table>
+    <thead>
+        <tr>
+            <th>名前/ニックネーム</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in family_members %}
+        <tr>
+            <td>{{ member.user_name }}</td>
+            <td>
+                <!-- 家族削除ボタン -->
+                <form action="{% url 'app:family_delete' member.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- 家族招待URLの作成ボタン -->
+<a href="{% url 'app:create_invitation' %}">家族招待URLの作成</a>
+
+<hr>
+
+<!-- こどもリストの表示 -->
+<h2>こどもリスト</h2>
+<table>
+    <thead>
+        <tr>
+            <th>名前/ニックネーム</th>
+            <th>誕生日</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for child in children_list %}
+        <tr>
+            <td>{{ child.child_name }}</td>
+            <td>{{ child.birthdate }}</td>
+            <td>
+                <!-- 子供情報編集削除画面へのボタン -->
+                <a href="{% url 'app:children_update_delete' pk=child.id %}">編集/削除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- 子供追加画面へのボタン -->
+<a href="{% url 'app:children_add' %}">子供追加</a>
+
+{% endblock %}

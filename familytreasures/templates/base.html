@@ -37,8 +37,8 @@
                         アルバム
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">投稿画面</a></li>
-                            <li><a class="dropdown-item" href="#">閲覧画面</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:artwork_create' %}">投稿画面</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:artwork_list' %}">閲覧画面</a></li>
                         </ul>
                     </li>
                     <!-- 成長記録ドロップダウン -->
@@ -47,13 +47,13 @@
                         成長記録
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">投稿画面</a></li>
-                            <li><a class="dropdown-item" href="#">閲覧画面</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:growth_record_add' %}">投稿画面</a></li>
+                            <li><a class="dropdown-item" href="{% url 'app:growth_record_list' %}">閲覧画面</a></li>
                         </ul>
                     </li>
                     <!-- マイページリンク -->
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">マイページ</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'app:my_page' %}">マイページ</a>
                     </li>
 
                     <!-- ログイン・ログアウトリンク -->
@@ -72,6 +72,20 @@
             </div>
         </div>
     </nav>
+
+    <!-- フラッシュメッセージの表示部分 -->
+    <div class="container mt-3">
+        {% if messages %}
+            <div class="alert alert-info">
+                <ul class="mb-0">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
     <div class="container">
         {% block content %}
         <!-- 子テンプレートで指定したコンテンツがここに表示される -->

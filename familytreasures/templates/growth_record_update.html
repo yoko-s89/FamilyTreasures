@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>成長記録の編集</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!-- 保存ボタン -->
+    <button type="submit" name="save">保存</button>
+
+    <!-- 削除ボタン -->
+    <button type="submit" name="delete" onclick="return confirm('本当に削除しますか？');">削除</button>
+</form>
+
+{% endblock %}

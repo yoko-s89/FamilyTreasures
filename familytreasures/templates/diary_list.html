@@ -3,7 +3,7 @@
 {% block content %}
 <h1>日記一覧</h1>
 <form method="get" action=".">
-    <label for="child">子供を選択：</label>
+    <label for="child">子供の名前で絞り込み：</label>
     <select name="child" id="child">
         <option value="">全ての子供</option>  <!-- デフォルトで全ての子供を表示するオプション -->
         {% for child in children %}

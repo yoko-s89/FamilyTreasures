@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>成長記録一覧</h1>
+
+<!-- 子供の名前でフィルタリングするフォーム -->
+<form method="get" action=".">
+    <label for="child">子供を選択：</label>
+    <select name="child" id="child">
+        <option value="">全ての子供</option>
+        {% for child in children %}
+            <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child %}selected{% endif %}>
+                {{ child.child_name }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="絞り込み">
+</form>
+
+<hr>
+
+<!-- 成長記録の一覧表示 -->
+<table>
+    <thead>
+        <tr>
+            <th>記録日</th>
+            <th>年齢</th>
+            <th>身長 (cm)</th>
+            <th>体重 (kg)</th>
+            <th>メモ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in growth_records %}
+            <tr>
+                <td>
+                    <!-- 編集ページへのリンク -->
+                    <a href="{% url 'app:growth_record_update' record.id %}">
+                        {{ record.measurement_date }}
+                    </a>
+                </td>
+                <td>
+                    {{ record.age_years }}年 {{ record.age_months }}ヶ月
+                </td>
+                <td>{{ record.height }}</td>
+                <td>{{ record.weight }}</td>
+                <td>{{ record.memo }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">記録がありません。</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

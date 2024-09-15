@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>制作物を投稿</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="child">子供の名前</label>
+      {{ form.child }}
+    </div>
+    <div class="form-group">
+      <label for="image">写真や動画</label>
+      {{ form.image }}
+    </div>
+    <div class="form-group">
+      <label for="created_at">作成日</label>
+      {{ form.created_at }}
+    </div>
+    <div class="form-group">
+      <label for="title">作品名</label>
+      {{ form.title }}
+    </div>
+    <div class="form-group">
+      <label for="comment">コメント・感想</label>
+      {{ form.comment }}
+    </div>
+    <button type="submit" class="btn btn-primary">投稿</button>
+  </form>
+{% endblock %}
