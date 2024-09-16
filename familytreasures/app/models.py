@@ -144,7 +144,8 @@ class Diary(models.Model):
     template = models.ForeignKey('Template', on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey('Stamp', on_delete=models.SET_NULL, null=True, blank=True)
     weather = models.ForeignKey('Weather', on_delete=models.SET_NULL, null=True, blank=True)  # 天気を外部キーで設定
-    content = models.TextField()
+    content = models.TextField(blank=True, null=True)
+    entry_date = models.DateField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

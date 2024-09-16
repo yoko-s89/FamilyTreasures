@@ -6,8 +6,7 @@ from django.contrib.auth import get_user_model  # get_user_modelをインポー�
 from .models import Children, Diary, DiaryMedia, Comment, Weather, Stamp, Template, Artwork, GrowthRecord
 from .models import User
 User = get_user_model()  # 動的にカスタムユーザーモデルを取得
-
-
+from django.utils import timezone
 
 class SignupForm(UserCreationForm):
     class Meta:
@@ -86,7 +85,7 @@ class InvitationSignupForm(UserCreationForm):
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
-        fields = ['child', 'template', 'stamp', 'weather', 'content']
+        fields = ['child', 'template', 'stamp', 'weather', 'content', 'entry_date']
 
     child = forms.ModelChoiceField(
         queryset=Children.objects.all(),  # 子供のリストをプルダウンメニューに表示
@@ -97,12 +96,14 @@ class DiaryForm(forms.ModelForm):
 
     weather = forms.ModelChoiceField(
         queryset=Weather.objects.all(),  # 天気のリストをプルダウンメニューに表示
+        required=False,  # 選択を任意にする
         empty_label="天気を選択してください",
         label="天気"
     )
     
     stamp = forms.ModelChoiceField(
         queryset=Stamp.objects.all(),
+        required=False,  # 選択を任意にする
         empty_label="気持ちを選択してください",
         label="気持ちのスタンプ",
         widget=forms.Select(attrs={'class': 'stamp-select'})  # スタンプを選択するためのフィールド
@@ -110,9 +111,27 @@ class DiaryForm(forms.ModelForm):
 
     template = forms.ModelChoiceField(
         queryset=Template.objects.all(),
+        required=False,  # 選択を任意にする
         empty_label="定型文を選択してください",
         label="一言"
     )
+    
+    entry_date = forms.DateField(
+        initial=timezone.now,  # デフォルトで今日の日付を設定
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="日記の日付"
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # ユーザー情報を取得
+        super().__init__(*args, **kwargs)
+        
+        # 現在のユーザーに関連する子供のリストを表示
+        if user:
+            self.fields['child'].queryset = Children.objects.filter(household=user.household)
+        else:
+            self.fields['child'].queryset = Children.objects.none()  # デフォルトは空にする
+
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia

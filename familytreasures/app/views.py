@@ -329,7 +329,7 @@ class DiaryCreateView(View):
     success_url = 'app:diary_list'  # 投稿後にリダイレクトするURL
 
     def get(self, request):
-        form = DiaryForm()
+        form = DiaryForm(user=request.user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
@@ -660,40 +660,59 @@ class GrowthRecordUpdateView(LoginRequiredMixin, View):
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
         def ensure_datetime(dt):
-            
+            # Check if the object is a datetime and make it timezone aware if needed
             if isinstance(dt, date):
                 dt = datetime.combine(dt, datetime.min.time())
             if timezone.is_naive(dt):
                 dt = timezone.make_aware(dt)
             return dt
         
-        diaries = [
+        # 選択された子供の取得
+        selected_child_id = request.GET.get('child_id')
+
+        # 子供のリストを取得
+        children_list = Children.objects.filter(household=request.user.household)
+
+        # 選択された子供の投稿を取得
+        if selected_child_id:
+            selected_child = get_object_or_404(Children, id=selected_child_id, household=request.user.household)
+            diaries = Diary.objects.filter(child=selected_child)
+            artworks = Artwork.objects.filter(child=selected_child)
+            growth_records = GrowthRecord.objects.filter(child=selected_child)
+        else:
+            # 選択されていない場合はすべての投稿を取得
+            diaries = Diary.objects.filter(child__household=request.user.household)
+            artworks = Artwork.objects.filter(child__household=request.user.household)
+            growth_records = GrowthRecord.objects.filter(child__household=request.user.household)
+
+        # 各リストを作成
+        diaries_list = [
             {
                 'created_at': ensure_datetime(d.created_at),
                 'id': d.id,
                 'type': 'diary',
-                'content': d.content,  # 日記の内容
-                'template': d.template.text if d.template else '',  # 一言
+                'content': d.content,
+                'template': d.template.text if d.template else '',
                 'first_image': d.diarymedia_set.filter(media_type='image').first().media_file.url if d.diarymedia_set.filter(media_type='image').exists() else None,
-                'detail_url': reverse('app:diary_detail', args=[d.id]),  # 日記の詳細ページへのリンク
+                'detail_url': reverse('app:diary_detail', args=[d.id]),
             }
-            for d in Diary.objects.all()
+            for d in diaries
         ]
-        artworks = [
+
+        artworks_list = [
             {
                 'created_at': ensure_datetime(a.created_at),
                 'id': a.id,
                 'type': 'artwork',
                 'child_name': a.child.child_name,
-                'title': a.title,  # 作品名
-                'image': a.image.url if a.image else None,  # 添付画像
-                'detail_url': reverse('app:artwork_detail', args=[a.id]),  # 制作物の詳細ページへのリンク
+                'title': a.title,
+                'image': a.image.url if a.image else None,
+                'detail_url': reverse('app:artwork_detail', args=[a.id]),
             }
-            for a in Artwork.objects.all()
+            for a in artworks
         ]
 
-        
-        growth_records = [
+        growth_records_list = [
             {
                 'created_at': ensure_datetime(g.measurement_date),
                 'id': g.id,
@@ -702,17 +721,20 @@ class HomeView(LoginRequiredMixin, View):
                 'height': g.height,
                 'weight': g.weight,
                 'memo': g.memo,
-                'list_url': reverse('app:growth_record_list'),  # 成長記録の一覧ページへのリンク
+                'list_url': reverse('app:growth_record_list'),
             }
-            for g in GrowthRecord.objects.all()
+            for g in growth_records
         ]
 
+        # 全ての投稿を1つのリストにまとめてソート
         combined_list = sorted(
-            chain(diaries, artworks, growth_records),
+            chain(diaries_list, artworks_list, growth_records_list),
             key=lambda x: x['created_at'],
             reverse=True
         )
 
         return render(request, "home.html", context={
-            "combined_list": combined_list
+            "combined_list": combined_list,
+            "children_list": children_list,
+            "selected_child_id": selected_child_id,  # 選択された子供のIDをテンプレートに渡す
         })

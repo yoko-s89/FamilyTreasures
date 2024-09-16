@@ -5,13 +5,25 @@
 {% endblock %}
 
 {% block content %}
-    <h1>ホーム画面</h1>
+    <!-- <h1>ホーム画面</h1> -->
+
+    <!-- 子供選択のプルダウンメニュー -->
+    <form method="get" action="">
+        <label for="child_select">子供を選択:</label>
+        <select name="child_id" id="child_select" onchange="this.form.submit()">
+            <option value="">すべての投稿</option>
+            {% for child in children_list %}
+                <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child_id %}selected{% endif %}>{{ child.child_name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
     <ul>
         {% for item in combined_list %}
             <li>
                 {% if item.type == 'diary' %}
                     <h2><a href="{{ item.detail_url }}">日記</a></h2>
-                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p>
                     <p>内容: {{ item.content }}</p>
                     <p>一言: {{ item.template }}</p>
                     {% if item.first_image %}
@@ -19,7 +31,7 @@
                     {% endif %}
                 {% elif item.type == 'artwork' %}
                     <h2><a href="{{ item.detail_url }}">制作物</a></h2>
-                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p>
                     <p>子供の名前: {{ item.child_name }}</p>
                     <p>作品名: {{ item.title }}</p>
                     {% if item.image %}
@@ -27,7 +39,7 @@
                     {% endif %}
                 {% elif item.type == 'growth_record' %}
                     <h2><a href="{{ item.list_url }}">成長記録</a></h2>
-                    <p>計測日: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>計測日: {{ item.created_at|date:"Y年m月d日" }}</p>
                     <p>子供の名前: {{ item.child_name }}</p>
                     <p>身長: {{ item.height }} cm</p>
                     <p>体重: {{ item.weight }} kg</p>
