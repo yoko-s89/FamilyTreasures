@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,  AbstractBaseUser, PermissionsMixin
 )
-# from django.contrib.auth.models import User
 from django.conf import settings  # AUTH_USER_MODELを使用するためにsettingsをインポート
 import uuid
 from django.db import models
@@ -39,12 +38,6 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-    # first_name = None
-    # last_name = None
-    # date_joined = None
-    # username = None
-    # groups = None
-    # user_permissions = None
 
     household = models.ForeignKey('Household', on_delete=models.SET_NULL, null=True, blank=True)
     user_name = models.CharField(max_length=255, unique=True)
@@ -108,12 +101,6 @@ class Children(models.Model):
         
 
 
-# class Child(models.Model):
-#     """子供の情報を管理するモデル"""
-#     name = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.name
 
 class Template(models.Model):
     """定型文を管理するモデル"""
@@ -165,8 +152,6 @@ class Diary(models.Model):
         child_name = self.child.child_name if self.child else "No Child"
         return f"{self.user.user_name} の日記 ({child_name} - {self.created_at.date()})"
     
-    # def __str__(self):
-    #     return f"{self.user.user_name} の日記 ({self.child.name if self.child else '子供なし'} - {self.created_at.date()})"
     class Meta:
         db_table = 'diaries'     
 
@@ -184,9 +169,7 @@ class DiaryMedia(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     diary_name = self.diary.child.name if self.diary and self.diary.child else "No Diary"
-    #     return f"Media for {self.diary.child.name}'s diary - {self.media_type}"
+
     
     def __str__(self):
         diary_name = self.diary.child.name if self.diary and self.diary.child else "No Diary"

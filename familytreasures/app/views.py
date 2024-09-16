@@ -1,6 +1,6 @@
+from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
@@ -10,37 +10,59 @@ from django.contrib.auth import get_user_model  # get_user_modelを使用
 User = get_user_model()
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from .models import Children, Diary, DiaryMedia, Comment, Artwork, Invitation, Household, User, GrowthRecord
-from .forms import ChildrenForm, DiaryForm, DiaryMediaForm, CommentForm, InvitationSignupForm
 from django.db.models import Q
 from django.http import HttpResponseForbidden  
 from django.utils import timezone
 import datetime
-from .forms import UserProfileForm, AccountUpdateForm
 from dateutil.relativedelta import relativedelta
+from itertools import chain
+from datetime import datetime, date
+from django.utils import timezone
+from .forms import (ChildrenForm, DiaryForm, DiaryMediaForm, CommentForm, 
+                    InvitationSignupForm,  UserProfileForm, AccountUpdateForm
+)
+from .models import(
+    Children, Diary, DiaryMedia, Comment, Artwork, Invitation,
+    Household, User, GrowthRecord
+)
+from uuid import UUID
 # Create your views here.
+
 
 class SignupView(View):
     def get(self, request):
         form = SignupForm()
         return render(request, "signup.html", context={
-            "form":form
+            "form": form
         })
+
     def post(self, request):
         print(request.POST)
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            # 新しいhouseholdを作成し、ユーザーに関連付ける
+            household = Household.objects.create()
+            user.household = household
+            user.save()  # householdが関連付けられた状態でユーザーを保存
             login(request, user)
             return redirect("app:home")
         return render(request, "signup.html", context={
             "form": form
         })
 
+
 class InviteSignupView(View):
     template_name = 'signup_from_invitation.html'
 
     def get_invitation(self, token):
+        # トークンが有効なUUID形式かどうかをチェック
+        try:
+            UUID(token, version=4)  # UUID形式かどうか確認
+        except ValueError:
+            # UUIDでない場合、Noneを返す
+            return None
+        
         # トークンで招待を検索し、有効性を検証する共通メソッド
         invitation = get_object_or_404(Invitation, token=token)
         if not invitation.is_valid() or invitation.is_used:
@@ -96,7 +118,6 @@ class LoginView(View):
             return redirect("app:home")
         return render(request, "login.html", {"form": form}) 
 class HomeView(LoginRequiredMixin, View):
-    login_url = "login"
     def get(self, request):
         return render(request, "home.html")
 
@@ -120,21 +141,6 @@ def use_invitation(request, token):
         # 招待が無効または既に使用されている場合のエラーページを表示
         return render(request, 'invite_invalid.html')
 
-# def create_invitation(household_id):
-#     household = Household.objects.get(id=household_id)
-    
-#     # 有効期限を24時間後に設定
-#     expires_at = timezone.now() + datetime.timedelta(hours=24)
-    
-#     # 招待の作成
-#     invitation = Invitation.objects.create(
-#         household=household,
-#         expires_at=expires_at,  # 有効期限を24時間後に設定
-#     )
-    
-#     # 招待URLを生成
-#     invite_url = f"http://example.com/join/{invitation.token}"
-    # return invite_url
 
 @login_required
 def create_invitation_view(request):
@@ -351,7 +357,7 @@ class DiaryCreateView(View):
     
 
 
-class DiaryListView(View):
+class DiaryListView(LoginRequiredMixin, View):
     template_name = 'diary_list.html'  # 一覧ページのテンプレート
 
     def get(self, request):
@@ -380,7 +386,8 @@ class DiaryListView(View):
         })
 
 
-class DiaryDetailView(View):
+class DiaryDetailView(LoginRequiredMixin, View):
+
     def get(self, request, pk):
         diary = get_object_or_404(Diary, pk=pk)
         comments = Comment.objects.filter(diary=diary).order_by('-created_at')
@@ -522,10 +529,7 @@ class ArtworkCreateView(LoginRequiredMixin, View):
 class ArtworkListView(LoginRequiredMixin, View):
     template_name = 'artwork_list.html'
 
-    # def get(self, request):
-    #     # ログインユーザーの作品を取得
-    #     artworks = Artwork.objects.filter(user=request.user)
-    #     return render(request, self.template_name, {'artworks': artworks})
+    
     def get(self, request):
         selected_child = request.GET.get('child')
         
@@ -596,7 +600,7 @@ class GrowthRecordCreateView(LoginRequiredMixin, View):
             return redirect('app:growth_record_list')  # 成功時に一覧画面にリダイレクト
         return render(request, self.template_name, {'form': form})
     
-class GrowthRecordListView(View):
+class GrowthRecordListView(LoginRequiredMixin, View):
     def get(self, request):
         selected_child = request.GET.get('child')
         
@@ -623,7 +627,7 @@ class GrowthRecordListView(View):
 
 
 
-class GrowthRecordUpdateView(View):
+class GrowthRecordUpdateView(LoginRequiredMixin, View):
     template_name = 'growth_record_update.html'
 
     def get(self, request, pk):
@@ -651,3 +655,64 @@ class GrowthRecordUpdateView(View):
 
         # バリデーションエラーがある場合、フォームを再表示
         return render(request, self.template_name, {'form': form, 'record': record})
+    
+    
+class HomeView(LoginRequiredMixin, View):
+    def get(self, request):
+        def ensure_datetime(dt):
+            
+            if isinstance(dt, date):
+                dt = datetime.combine(dt, datetime.min.time())
+            if timezone.is_naive(dt):
+                dt = timezone.make_aware(dt)
+            return dt
+        
+        diaries = [
+            {
+                'created_at': ensure_datetime(d.created_at),
+                'id': d.id,
+                'type': 'diary',
+                'content': d.content,  # 日記の内容
+                'template': d.template.text if d.template else '',  # 一言
+                'first_image': d.diarymedia_set.filter(media_type='image').first().media_file.url if d.diarymedia_set.filter(media_type='image').exists() else None,
+                'detail_url': reverse('app:diary_detail', args=[d.id]),  # 日記の詳細ページへのリンク
+            }
+            for d in Diary.objects.all()
+        ]
+        artworks = [
+            {
+                'created_at': ensure_datetime(a.created_at),
+                'id': a.id,
+                'type': 'artwork',
+                'child_name': a.child.child_name,
+                'title': a.title,  # 作品名
+                'image': a.image.url if a.image else None,  # 添付画像
+                'detail_url': reverse('app:artwork_detail', args=[a.id]),  # 制作物の詳細ページへのリンク
+            }
+            for a in Artwork.objects.all()
+        ]
+
+        
+        growth_records = [
+            {
+                'created_at': ensure_datetime(g.measurement_date),
+                'id': g.id,
+                'type': 'growth_record',
+                'child_name': g.child.child_name,
+                'height': g.height,
+                'weight': g.weight,
+                'memo': g.memo,
+                'list_url': reverse('app:growth_record_list'),  # 成長記録の一覧ページへのリンク
+            }
+            for g in GrowthRecord.objects.all()
+        ]
+
+        combined_list = sorted(
+            chain(diaries, artworks, growth_records),
+            key=lambda x: x['created_at'],
+            reverse=True
+        )
+
+        return render(request, "home.html", context={
+            "combined_list": combined_list
+        })

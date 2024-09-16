@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
-    {% block content %}
-    <h1>home</h1>
-    <a href="{% url 'app:login' %}">ログイン画面へ</a>
-    {% endblock %}
+
+{% block title %}
+ホーム画面
+{% endblock %}
+
+{% block content %}
+    <h1>ホーム画面</h1>
+    <ul>
+        {% for item in combined_list %}
+            <li>
+                {% if item.type == 'diary' %}
+                    <h2><a href="{{ item.detail_url }}">日記</a></h2>
+                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>内容: {{ item.content }}</p>
+                    <p>一言: {{ item.template }}</p>
+                    {% if item.first_image %}
+                        <img src="{{ item.first_image }}" alt="日記画像" style="max-width: 200px; height: auto;">
+                    {% endif %}
+                {% elif item.type == 'artwork' %}
+                    <h2><a href="{{ item.detail_url }}">制作物</a></h2>
+                    <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>子供の名前: {{ item.child_name }}</p>
+                    <p>作品名: {{ item.title }}</p>
+                    {% if item.image %}
+                        <img src="{{ item.image }}" alt="作品画像" style="max-width: 200px; height: auto;">
+                    {% endif %}
+                {% elif item.type == 'growth_record' %}
+                    <h2><a href="{{ item.list_url }}">成長記録</a></h2>
+                    <p>計測日: {{ item.created_at|date:"Y年m月d日" }}</p> <!-- 年月日のみ表示 -->
+                    <p>子供の名前: {{ item.child_name }}</p>
+                    <p>身長: {{ item.height }} cm</p>
+                    <p>体重: {{ item.weight }} kg</p>
+                    <p>メモ: {{ item.memo }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

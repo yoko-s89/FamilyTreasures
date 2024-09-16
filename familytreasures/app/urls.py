@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 from .views import (
     HomeView,SignupView,LoginView, ChildrenCreateView, ChildrenUpdateDeleteView,
@@ -55,5 +55,7 @@ urlpatterns = [
     path('growth_record/add/', GrowthRecordCreateView.as_view(), name='growth_record_add'),
     path('growth_records/', GrowthRecordListView.as_view(), name='growth_record_list'),
     path('growth_records/update/<int:pk>/', GrowthRecordUpdateView.as_view(), name='growth_record_update'),
+    # UUIDパターンを追加
+    re_path(r'^join/(?P<token>[0-9a-fA-F-]{36})/$', InviteSignupView.as_view(), name='signup_from_invitation'),
 ]
 

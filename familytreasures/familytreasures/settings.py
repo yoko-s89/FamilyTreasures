@@ -129,6 +129,8 @@ LOGOUT_REDIRECT_URL = '/app/login/'  # ログアウト後にリダイレクト�
 MEDIA_URL = '/media/'  # ブラウザからアクセスするURL
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 画像ファイルが保存されるディレクトリ
 
+LOGIN_URL = 'app:login'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
