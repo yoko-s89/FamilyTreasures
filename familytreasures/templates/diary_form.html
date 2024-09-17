@@ -4,7 +4,17 @@
     <!-- <h2>日記を投稿</h2> -->
     <form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}">
 
-    {% csrf_token %}
+        {% csrf_token %}
+        <!-- フォーム全体のエラーメッセージ -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         <!-- フォーム内容 -->
         <div class="form-group">
             <label for="child">子供の名前</label>

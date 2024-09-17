@@ -139,7 +139,6 @@ class Weather(models.Model):
 class Diary(models.Model):
     """日記を管理するモデル"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # settings.AUTH_USER_MODELを使用
-    # child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, blank=True)
     child = models.ForeignKey('Children', on_delete=models.SET_NULL, null=True, blank=True)
     template = models.ForeignKey('Template', on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey('Stamp', on_delete=models.SET_NULL, null=True, blank=True)
@@ -200,10 +199,10 @@ class Artwork(models.Model):
     image = models.ImageField(upload_to='artworks/')
     title = models.CharField(max_length=100)
     comment = models.TextField()
-    created_at = models.DateField()
-    posted_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
+    creation_date = models.DateField(default=timezone.now)# 作成日時
+    created_at = models.DateTimeField(auto_now_add=True)  # 投稿日時
+    updated_at = models.DateTimeField(auto_now=True)  # 更新日時
+    
     def __str__(self):
         return self.title
     

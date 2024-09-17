@@ -5,6 +5,7 @@
         <!-- <h1>{{ diary.child.name }}の日記詳細</h1> -->
         <p>投稿者: {{ diary.user.user_name }}</p>
         <p>投稿日: {{ diary.created_at }}</p>
+        <p>日付{{ diary.entry_date}}</p>
         <p>天気: {{ diary.weather }}  <!-- もし天気を追加するなら対応するフィールドを追加 --> </p>
         <p>気持ち: {{ diary.stamp.name }}</p>
         {% if diary.stamp.image %}

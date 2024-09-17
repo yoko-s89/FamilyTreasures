@@ -88,11 +88,12 @@ class DiaryForm(forms.ModelForm):
         fields = ['child', 'template', 'stamp', 'weather', 'content', 'entry_date']
 
     child = forms.ModelChoiceField(
-        queryset=Children.objects.all(),  # 子供のリストをプルダウンメニューに表示
-        required=False,  # 子供の選択を任意にする
-        empty_label="子供を選択してください",  # 初期値として表示するメッセージ
-        label="子供"  # フィールドのラベル
+        queryset=Children.objects.none(),  # 初期値を空にしておく
+        required=False,
+        empty_label="子供を選択してください",
+        label="子供"
     )
+
 
     weather = forms.ModelChoiceField(
         queryset=Weather.objects.all(),  # 天気のリストをプルダウンメニューに表示
@@ -156,14 +157,15 @@ class CommentForm(forms.ModelForm):
 class ArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork
-        fields = ['child', 'image', 'title', 'comment', 'created_at']
+        fields = ['child', 'image', 'title', 'comment', 'creation_date']
         widgets = {
-            'created_at': forms.SelectDateWidget(years=range(2010, 2040)),
+            'creation_date': forms.SelectDateWidget(years=range(2010, 2040)),
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  
         super().__init__(*args, **kwargs)
+        self.fields['creation_date'].initial = timezone.now().date()  # 現在の日付をデフォルトに設定
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
             

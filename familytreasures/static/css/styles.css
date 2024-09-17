@@ -1,0 +1,28 @@
+/* ナビゲーションバーの背景色 */
+.navbar {
+  background-color: #d7d2de !important;
+}
+
+/* ナビゲーションバーのリンクのスタイル */
+.navbar .nav-link {
+  font-weight: bold;
+  color: #000; /* ナビゲーションバーの通常リンクの文字色 */
+}
+
+/* プルダウンメニューのアイテム */
+.dropdown-menu {
+  background-color: #e6dff1; /* プルダウンの背景色 */
+  border: none; /* プルダウンメニューの境界線を削除してシンプルにする（必要に応じて） */
+}
+
+/* プルダウンメニューのアイテムのスタイル */
+.dropdown-item {
+  font-weight: bold; 
+  color: #000; /* プルダウンメニューの文字色を黒に設定して視認性を向上 */
+}
+
+/* プルダウンメニューのアイテムのホバー効果 */
+.dropdown-item:hover {
+  background-color: #d4c4e0; /* ホバー時の背景色 */
+  color: #000; /* ホバー時のテキストカラーを黒に */
+}

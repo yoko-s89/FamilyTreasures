@@ -23,9 +23,8 @@
         <!-- 子供の名前の表示 -->
         <h3>{% if diary.child %}{{ diary.child.child_name }}{% else %}みんな{% endif %}の日記</h3>
 
-        <!-- 年月と日付・曜日の表示 -->
-        <p>年月: {{ diary.created_at|date:"Y年 m月" }}</p>
-        <p>日付と曜日: {{ diary.created_at|date:"j日 (l)" }}</p>
+        <p>年月: {{ diary.entry_date|date:"Y年 m月" }}</p>
+        <p>日付と曜日: {{ diary.entry_date|date:"j日 (l)" }}</p>
 
         <!-- 日記の内容の表示をクリック可能にし、詳細ページに移動 -->
         <a href="{% url 'app:diary_detail' diary.pk %}">

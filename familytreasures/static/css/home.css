@@ -1,0 +1,64 @@
+/* ホーム画面のスタイル */
+
+/* ホーム画面専用のコンテナ */
+.home-container {
+  margin-top: 20px;
+}
+
+/* 子供選択のプルダウンメニュー */
+.home-container form {
+  margin-bottom: 20px;
+}
+
+.home-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 各アイテムのスタイル */
+.home-container ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+/* 各アイテムの左側部分 */
+.item-left {
+  flex: 1;
+}
+
+/* 各アイテムの右側部分（画像など） */
+.item-right {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+/* 日記の内容と定型文、スタンプを縦に表示 */
+.diary-details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 制作物の詳細を縦に表示 */
+.artwork-details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 成長記録の詳細を縦に表示 */
+.growth-record-details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画像のスタイル */
+.home-container ul li img {
+  max-width: 200px; /* 画像の最大幅を100pxに設定 */
+  height: auto; /* 高さを自動で調整 */
+  border-radius: 5px;
+  object-fit: cover; /* 画像が枠内に収まるようにする */
+}

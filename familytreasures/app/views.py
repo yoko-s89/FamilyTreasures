@@ -326,14 +326,14 @@ class ChildrenUpdateDeleteView(View):
 #日記投稿画面
 class DiaryCreateView(View):
     template_name = 'diary_form.html'
-    success_url = 'app:diary_list'  # 投稿後にリダイレクトするURL
-
+    success_url = reverse_lazy('app:diary_list')
+    
     def get(self, request):
         form = DiaryForm(user=request.user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = DiaryForm(request.POST, request.FILES)
+        form = DiaryForm(user=request.user, data=request.POST, files=request.FILES)  # ユーザーを渡す
         media_files = request.FILES.getlist('media_url')  # 画像や動画のファイルを取得
 
         if form.is_valid():
@@ -369,10 +369,10 @@ class DiaryListView(LoginRequiredMixin, View):
         # 日記を新しい順に取得
         if selected_child:
             # 選択された子供の日記をフィルタリング
-            diaries = Diary.objects.filter(child_id=selected_child).order_by('-created_at')
+            diaries = Diary.objects.filter(child_id=selected_child).order_by('-entry_date')
         else:
             # 全ての日記を取得
-            diaries = Diary.objects.all().order_by('-created_at')
+            diaries = Diary.objects.all().order_by('-entry_date')
 
         # 各日記に関連する最初の画像を取得
         for diary in diaries:
@@ -539,10 +539,11 @@ class ArtworkListView(LoginRequiredMixin, View):
         # 作品をフィルタリング
         if selected_child:
             # 特定の子供に絞り込み
-            artworks = Artwork.objects.filter(user=request.user, child_id=selected_child)
+            artworks = Artwork.objects.filter(user=request.user, child_id=selected_child).order_by('-creation_date')
+
         else:
             # 全ての投稿を表示
-            artworks = Artwork.objects.filter(user=request.user)
+            artworks = Artwork.objects.filter(user=request.user).order_by('-creation_date')
         
         return render(request, self.template_name, {
             'artworks': artworks,
@@ -660,7 +661,6 @@ class GrowthRecordUpdateView(LoginRequiredMixin, View):
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
         def ensure_datetime(dt):
-            # Check if the object is a datetime and make it timezone aware if needed
             if isinstance(dt, date):
                 dt = datetime.combine(dt, datetime.min.time())
             if timezone.is_naive(dt):
@@ -680,15 +680,15 @@ class HomeView(LoginRequiredMixin, View):
             artworks = Artwork.objects.filter(child=selected_child)
             growth_records = GrowthRecord.objects.filter(child=selected_child)
         else:
-            # 選択されていない場合はすべての投稿を取得
-            diaries = Diary.objects.filter(child__household=request.user.household)
+            # 修正: entry_date の降順でソート
+            diaries = Diary.objects.filter(child__household=request.user.household).order_by('-entry_date')
             artworks = Artwork.objects.filter(child__household=request.user.household)
             growth_records = GrowthRecord.objects.filter(child__household=request.user.household)
-
+        
         # 各リストを作成
         diaries_list = [
             {
-                'created_at': ensure_datetime(d.created_at),
+                'created_at': ensure_datetime(d.entry_date),
                 'id': d.id,
                 'type': 'diary',
                 'content': d.content,
@@ -701,7 +701,7 @@ class HomeView(LoginRequiredMixin, View):
 
         artworks_list = [
             {
-                'created_at': ensure_datetime(a.created_at),
+                'created_at': ensure_datetime(a.creation_date),
                 'id': a.id,
                 'type': 'artwork',
                 'child_name': a.child.child_name,

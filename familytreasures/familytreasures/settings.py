@@ -122,7 +122,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# 開発時に使用する静的ファイルのディレクトリ
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # プロジェクト直下の 'static/' ディレクトリ
+]
+
+# デプロイ時にすべての静的ファイルを集約するディレクトリ
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGOUT_REDIRECT_URL = '/app/login/'  # ログアウト後にリダイレクトするURL
 
