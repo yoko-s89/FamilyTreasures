@@ -361,18 +361,21 @@ class DiaryListView(LoginRequiredMixin, View):
     template_name = 'diary_list.html'  # 一覧ページのテンプレート
 
     def get(self, request):
-        selected_child = request.GET.get('child')  # プルダウンから選択された子供のIDを取得
+        selected_filter = request.GET.get('child')  # プルダウンから選択されたフィルタの値を取得
         
         # 子供の選択用プルダウンのために子供のリストを取得
-        children = Children.objects.all()
+        children = Children.objects.filter(household=request.user.household)
 
-        # 日記を新しい順に取得
-        if selected_child:
-            # 選択された子供の日記をフィルタリング
-            diaries = Diary.objects.filter(child_id=selected_child).order_by('-entry_date')
+        # デフォルトでは全ての投稿を新しい順に取得
+        if selected_filter == 'all' or not selected_filter:
+            diaries = Diary.objects.filter(child__household=request.user.household).order_by('-entry_date')
+        elif selected_filter == 'none':
+            # みんなの日記（子供が選択されていない日記）
+            diaries = Diary.objects.filter(child=None).order_by('-entry_date')
         else:
-            # 全ての日記を取得
-            diaries = Diary.objects.all().order_by('-entry_date')
+            # 特定の子供に絞り込んだ日記
+            child = get_object_or_404(Children, id=selected_filter, household=request.user.household)
+            diaries = Diary.objects.filter(child=child).order_by('-entry_date')
 
         # 各日記に関連する最初の画像を取得
         for diary in diaries:
@@ -382,9 +385,8 @@ class DiaryListView(LoginRequiredMixin, View):
         return render(request, self.template_name, {
             'diaries': diaries,
             'children': children,
-            'selected_child': selected_child,
+            'selected_filter': selected_filter,
         })
-
 
 class DiaryDetailView(LoginRequiredMixin, View):
 

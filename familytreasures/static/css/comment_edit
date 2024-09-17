@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- comment_form.css を読み込む -->
+    <!-- comment_edit.css を読み込む -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/comment_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/comment_edit.css' %}">
 
     <h2>コメント編集</h2>
     <form method="post" class="comment-form">

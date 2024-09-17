@@ -26,24 +26,27 @@
         <ul>
             {% for item in combined_list %}
                 <li>
-                    <div class="item-left">
+                    <!-- 日付部分 -->
+                    <div class="item-date">
+                        <p>{{ item.created_at|date:"Y年m月d日" }}</p>
+                    </div>
+
+                    <!-- 内容部分を日付の隣に寄せて表示 -->
+                    <div class="item-content">
                         {% if item.type == 'diary' %}
                             <h2><a href="{{ item.detail_url }}">日記</a></h2>
-                            <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p>
                             <div class="diary-details">
                                 <p>一言: {{ item.template }}</p>
                                 <p>内容: {{ item.content }}</p>
                             </div>
                         {% elif item.type == 'artwork' %}
                             <h2><a href="{{ item.detail_url }}">制作物</a></h2>
-                            <p>投稿日時: {{ item.created_at|date:"Y年m月d日" }}</p>
                             <div class="artwork-details">
                                 <p>子供の名前: {{ item.child_name }}</p>
                                 <p>作品名: {{ item.title }}</p>
                             </div>
                         {% elif item.type == 'growth_record' %}
                             <h2><a href="{{ item.list_url }}">成長記録</a></h2>
-                            <p>計測日: {{ item.created_at|date:"Y年m月d日" }}</p>
                             <div class="growth-record-details">
                                 <p>子供の名前: {{ item.child_name }}</p>
                                 <p>身長: {{ item.height }} cm</p>
@@ -52,6 +55,8 @@
                             </div>
                         {% endif %}
                     </div>
+
+                    <!-- 画像を右に表示 -->
                     <div class="item-right">
                         {% if item.first_image %}
                             <img src="{{ item.first_image }}" alt="画像">
@@ -65,4 +70,3 @@
 
     </div> <!-- ホーム画面のコンテナ終了 -->
 {% endblock %}
-

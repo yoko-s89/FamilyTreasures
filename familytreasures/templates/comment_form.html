@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
-    {% block content %}
-    <form method="post" action="{% url 'app:comment_create' diary.id %}">
-      {% csrf_token %}
-      {{ form.as_p }}  <!-- フォームのフィールドを自動で表示 -->
-      <button type="submit">コメント送信</button>
+{% block content %}
+    <!-- comment_form.css を読み込む -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/comment_form.css' %}">
+
+    <form method="post" action="{% url 'app:comment_create' diary.id %}" class="comment-form">
+        {% csrf_token %}
+        <!-- コメント入力欄を長方形にする -->
+        <div class="form-group">
+            {{ form.content }}  <!-- ここを修正 -->
+        </div>
+        <!-- 右下にコメント送信ボタンを配置 -->
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">コメント送信</button>
+        </div>
     </form>
-    {% endblock %}
+{% endblock %}

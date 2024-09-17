@@ -1,0 +1,150 @@
+/* 日記詳細画面のスタイル */
+
+/* ...既存のスタイル... */
+
+/* 上部のヘッダー部分（子供の名前と投稿者） */
+.diary-header {
+  display: flex;
+  justify-content: flex-start; /* 左揃え */
+  align-items: center;
+  gap: 30px; /* 子供の名前と投稿者の名前の間隔を縮める */
+  margin-bottom: 20px;
+}
+
+/* 子供の名前のスタイル */
+.diary-header h1 {
+  font-size: 40px; /* 必要に応じてサイズを調整 */
+  margin: 0; /* デフォルトのマージンを削除 */
+}
+
+/* 投稿者の名前のスタイル */
+.diary-header p {
+  font-size: 18px; /* 必要に応じてテキストサイズを調整 */
+  margin: 0; /* デフォルトのマージンを削除 */
+}
+
+/* 日付と詳細情報のコンテナ */
+.diary-meta {
+  display: flex;
+  flex-direction: column; /* 縦方向に並べる */
+  align-items: flex-start; /* 左揃え */
+  gap: 10px; /* 各要素間のスペース */
+  margin-bottom: 20px;
+}
+
+
+/* 日付部分 */
+.diary-date-info {
+  font-size: 18px; /* 必要に応じてサイズを調整 */
+  text-align: left; /* 左寄せ */
+}
+
+/* 天気と気持ちのスタンプを横に並べる */
+.diary-other-info {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 天気、スタンプ名、スタンプ画像の間隔 */
+}
+
+/* 天気と気持ちのスタンプのフォントサイズ */
+.diary-weather-info,
+.diary-stamp-info {
+    font-size: 18px; /* 必要に応じてサイズを調整 */
+    display: flex;
+    align-items: center; /* テキストと画像を中央揃え */
+}
+
+/* 気持ちのスタンプのスタイル */
+.diary-stamp-info img {
+  width: 40px; /* 必要に応じてサイズを調整 */
+  height: 40px; /* 必要に応じてサイズを調整 */
+  margin-left: 5px; /* テキストとスタンプの間隔を追加 */
+  vertical-align: middle; /* テキストとアイコンを中央揃え */
+}
+
+/* 日記の内容のスタイル */
+.diary-content-section p:last-of-type {
+  font-size: 25px; /* 日記の内容のフォントサイズを大きくする */
+  line-height: 1.6; /* 行間を調整 */
+}
+
+/* テキストとアイコンの配置 */
+.diary-weather-info,
+.diary-stamp-info {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* テキストとアイコンの間隔 */
+}
+
+.comments-section {
+  margin-top: 20px; /* セクションの上部にマージンを追加 */
+}
+
+/* コメントリストのスタイル */
+.comments-section ul {
+  list-style-type: none; /* リストマーカーを削除 */
+  padding: 0; /* パディングを削除 */
+}
+
+/* 各コメントのスタイル */
+.comments-section li {
+  font-size: 20px; /* コメントのフォントサイズ */
+  line-height: 1.6; /* 行間を調整して読みやすくする */
+  margin-bottom: 10px; /* 各コメントの間に余白を追加 */
+}
+
+/* コメントのユーザー名のスタイル */
+.comments-section li strong {
+  font-weight: bold; /* ユーザー名を太字にする */
+}
+
+/* 編集・削除リンクのスタイル */
+.comments-section a {
+  font-size: 18px; /* リンクのフォントサイズを調整 */
+  margin-left: 10px; /* リンクを少し離す */
+}
+
+/* アクションボタンのコンテナ */
+.actions-section {
+  display: flex;
+  justify-content: flex-end; /* ボタンを右側に揃える */
+  gap: 10px; /* ボタン間のスペース */
+  margin-top: 20px; /* 上部に余白を追加 */
+}
+
+/* ボタンの共通スタイル */
+.actions-section .btn {
+  display: inline-block;
+  padding: 10px 15px; /* ボタン内の余白 */
+  font-size: 16px; /* フォントサイズ */
+  color: #fff; /* テキストの色 */
+  background-color: #007bff; /* ボタンの背景色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸くする */
+  text-decoration: none; /* テキストの下線を削除 */
+  text-align: center;
+  cursor: pointer; /* カーソルをポインタに変更 */
+  transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+}
+
+/* ボタンのホバー効果 */
+.actions-section .btn:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* 追加スタイル（必要に応じて） */
+.actions-section .btn-danger {
+  background-color: #dc3545; /* 削除ボタンの背景色 */
+}
+
+.actions-section .btn-danger:hover {
+  background-color: #c82333; /* 削除ボタンのホバー色 */
+}
+
+.actions-section .btn-secondary {
+  background-color: #6c757d; /* 他のボタンの背景色 */
+}
+
+.actions-section .btn-secondary:hover {
+  background-color: #5a6268; /* 他のボタンのホバー色 */
+}

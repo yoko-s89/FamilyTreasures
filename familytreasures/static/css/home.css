@@ -18,46 +18,43 @@
 /* 各アイテムのスタイル */
 .home-container ul li {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start; /* 上揃え */
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 10px;
 }
 
-/* 各アイテムの左側部分 */
-.item-left {
-  flex: 1;
+/* 日付部分を固定幅で表示 */
+.item-date {
+  flex-shrink: 0; /* サイズを固定 */
+  width: 120px; /* 必要に応じて幅を調整 */
+  margin-right: 100px; /* 内容との間隔を調整 */
+  text-align: right; /* 日付を右寄せにする */
+}
+
+/* 内容部分を日付の隣に寄せて表示 */
+.item-content {
+  flex: 1; /* 内容部分が広がるように */
+  display: flex;
+  flex-direction: column; /* 縦方向に並べる */
 }
 
 /* 各アイテムの右側部分（画像など） */
 .item-right {
-  flex-shrink: 0;
+  flex-shrink: 0; /* 画像のサイズを固定 */
   margin-left: 20px;
 }
 
 /* 日記の内容と定型文、スタンプを縦に表示 */
-.diary-details {
-  display: flex;
-  flex-direction: column;
-}
-
-/* 制作物の詳細を縦に表示 */
-.artwork-details {
-  display: flex;
-  flex-direction: column;
-}
-
-/* 成長記録の詳細を縦に表示 */
-.growth-record-details {
+.diary-details, .artwork-details, .growth-record-details {
   display: flex;
   flex-direction: column;
 }
 
 /* 画像のスタイル */
 .home-container ul li img {
-  max-width: 200px; /* 画像の最大幅を100pxに設定 */
+  max-width: 300px; /* 画像の最大幅設定 */
   height: auto; /* 高さを自動で調整 */
   border-radius: 5px;
   object-fit: cover; /* 画像が枠内に収まるようにする */

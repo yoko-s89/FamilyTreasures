@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>コメント削除</h2>
-  <p>以下のコメントを削除してもよろしいですか？</p>
-  <blockquote>
-    {{ comment.content }}
-  </blockquote>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">削除</button>
-    <a href="{% url 'app:diary_detail' comment.diary.pk %}">キャンセル</a>
-  </form>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/comment_confirm_delete.css' %}">
+
+    <div class="delete-form">
+        <h2>コメント削除</h2>
+        <p>以下のコメントを削除してもよろしいですか？</p>
+        <blockquote>
+            {{ comment.content }}  <!-- 元のコメントの内容を表示 -->
+        </blockquote>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn-delete">削除</button>
+                <a href="{% url 'app:diary_detail' comment.diary.pk %}" class="btn-cancel">キャンセル</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}
+

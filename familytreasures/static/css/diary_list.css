@@ -1,0 +1,81 @@
+/* 日記一覧のスタイル */
+
+/* 日記一覧専用のコンテナ */
+.diary-list-container {
+  margin-top: 20px;
+}
+
+/* 子供選択のプルダウンメニュー */
+.diary-list-container form {
+  margin-bottom: 20px;
+}
+
+/* 各年のセクション */
+.year-section {
+  margin-bottom: 30px;
+}
+
+/* 各アイテムのリスト */
+.diary-list-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 各日記の項目 */
+.diary-list-container ul li {
+  position: relative;
+  display: flex;
+  align-items: flex-start; /* 上揃え */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+/* リンク全体をクリック可能にし、デフォルトのリンクスタイルを除去 */
+.diary-link {
+  display: flex;
+  align-items: flex-start; /* 上揃え */
+  width: 100%; /* リンクをリスト全体の幅にする */
+  text-decoration: none; /* デフォルトのリンクスタイルを除去 */
+  color: inherit; /* テキストの色を継承 */
+}
+
+.diary-link:hover {
+  background-color: #f0f0f0; /* ホバー時の背景色 */
+}
+
+/* 日付部分を固定幅で表示 */
+.diary-date {
+  flex-shrink: 0; /* サイズを固定 */
+  width: 100px; /* 必要に応じて幅を調整 */
+  margin-right: 100px; /* 内容との間隔 */
+  text-align: right; /* 日付を右寄せにする */
+}
+
+/* 日付部分で曜日と日付を縦に表示 */
+.diary-date p {
+  margin: 0;
+}
+
+/* 内容部分を日付の隣に寄せて表示 */
+.diary-content {
+  flex: 1; /* 内容部分が広がるように */
+  display: flex;
+  flex-direction: column; /* 縦方向に並べる */
+}
+
+/* 各アイテムの右側部分（画像など） */
+.diary-image {
+  flex-shrink: 0; /* 画像のサイズを固定 */
+  margin-left: 20px;
+}
+
+/* 画像のスタイル */
+.diary-list-container ul li img {
+  max-width: 300px; /* 画像の最大幅を100pxに設定 */
+  height: auto; /* 高さを自動で調整 */
+  border-radius: 5px;
+  object-fit: cover; /* 画像が枠内に収まるようにする */
+}
+
