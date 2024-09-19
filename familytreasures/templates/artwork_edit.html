@@ -1,29 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_edit.css' %}">
+
   <h2>作品を編集</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="child">子供の名前</label>
-      {{ form.child }}
-    </div>
-    <div class="form-group">
-      <label for="image">写真や動画</label>
-      {{ form.image }}
-    </div>
-    <div class="form-group">
-      <label for="creation_date">作成日</label>
-      {{ form.created_at }}
-    </div>
-    <div class="form-group">
-      <label for="title">作品名</label>
-      {{ form.title }}
-    </div>
-    <div class="form-group">
-      <label for="comment">コメント・感想</label>
-      {{ form.comment }}
-    </div>
-    <button type="submit" class="btn btn-primary">更新</button>
-  </form>
+  
+  <!-- 全体のコンテナ -->
+  <div class="artwork-edit-container">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="child">子供の名前</label>
+        {{ form.child }}
+      </div>
+      
+      <div class="form-group">
+        <label for="image">写真や動画</label>
+        {{ form.image }}
+        <!-- 現在の画像または動画を表示 -->
+        {% if artwork.image %}
+          <p>現在: {{ artwork.image.url }}</p>
+          <div class="current-media-preview">
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="form-group">
+        <label for="creation_date">作成日</label>
+        {{ form.creation_date }}
+      </div>
+      <div class="form-group">
+        <label for="title">作品名</label>
+        {{ form.title }}
+      </div>
+      <div class="form-group">
+        <label for="comment">コメント・感想</label>
+        {{ form.comment }}
+      </div>
+      <button type="submit" class="btn btn-primary">更新</button>
+    </form>
+  </div>
 {% endblock %}

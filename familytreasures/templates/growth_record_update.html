@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>成長記録の編集</h1>
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/growth_record_update.css' %}">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <!-- 保存ボタン -->
-    <button type="submit" name="save">保存</button>
-
-    <!-- 削除ボタン -->
-    <button type="submit" name="delete" onclick="return confirm('本当に削除しますか？');">削除</button>
-</form>
-
+    <!-- メインコンテナ -->
+    <div class="growth-record-update-container">
+        <h2>成長の記録を編集</h2>
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="button-group">
+            <button type="submit">保存</button>
+            <button type="submit" class="btn-delete">削除</button>
+        </div>
+        </form>
+        <a href="{% url 'app:growth_record_list' %}">成長記録一覧に戻る</a>
+    </div>
 {% endblock %}

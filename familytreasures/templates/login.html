@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Treasures</title>
-</head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 <body>
-    <h1>Family Treasures ログイン</h1>
-    <form method="post">
-        {% csrf_token %}
-        <div>
-            メールアドレス<input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
-            <!-- 個別のエラーメッセージ表示 -->
-            <div class="errors">{{ form.email.errors }}</div>
-        </div>
-        <div>
-            パスワード<input type="password" name="password">
-            <!-- 個別のエラーメッセージ表示 -->
-            <div class="errors">{{ form.password.errors }}</div>
-        </div>
-        <button type="submit">ログイン</button>
-    </form>
+    <div class="login-container">
+        <h1>Family Treasures ログイン</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label>メールアドレス</label>
+                <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
+                <!-- 個別のエラーメッセージ表示 -->
+                <div class="errors">{{ form.email.errors }}</div>
+            </div>
+            <div>
+                <label>パスワード</label>
+                <input type="password" name="password">
+                <!-- 個別のエラーメッセージ表示 -->
+                <div class="errors">{{ form.password.errors }}</div>
+            </div>
+            <button type="submit">ログイン</button>
+        </form>
 
-    <!-- 全体のエラーメッセージ表示 -->
-    <div class="errors">
-        {{ form.non_field_errors }}
+        <!-- 全体のエラーメッセージ表示 -->
+        <div class="errors">
+            {{ form.non_field_errors }}
+        </div>
+        <a href="{% url 'app:signup' %}">新規アカウント登録</a>
     </div>
-    <a href="{% url 'app:signup' %}">新規アカウント登録</a>
 </body>
 </html>

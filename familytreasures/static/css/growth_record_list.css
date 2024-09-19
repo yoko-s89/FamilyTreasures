@@ -1,0 +1,74 @@
+/* メインコンテナのスタイル*/
+.growth-record-list-container {
+  max-width: 900px; /* コンテンツの最大幅 */
+  margin: 40px auto; /* 中央に配置 */
+  padding: 20px;
+  background-color: #fff; /* 背景色 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+/* フィルタリングフォームのスタイル */
+.growth-record-list-container form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 左寄せ */
+  margin-bottom: 20px; /* 下部に余白 */
+}
+
+.growth-record-list-container label {
+  margin-right: 10px; /* ラベルの右側にスペースを追加 */
+  font-weight: bold; /* 太字 */
+}
+
+.growth-record-list-container select,
+.growth-record-list-container input[type="submit"] {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.growth-record-list-container input[type="submit"] {
+  background-color: #007BFF; /* 背景色 */
+  color: white; /* 文字色 */
+  cursor: pointer;
+  margin-left: 10px; /* 左側にスペースを追加 */
+}
+
+.growth-record-list-container input[type="submit"]:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* テーブルのスタイル */
+.growth-record-list-container table {
+  width: 100%;
+  border-collapse: collapse; /* ボーダーの重複をなくす */
+}
+
+.growth-record-list-container th,
+.growth-record-list-container td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center; /* 中央寄せ */
+}
+
+.growth-record-list-container th {
+  background-color: #f4f4f4; /* ヘッダーの背景色 */
+  font-weight: bold; /* 太字 */
+}
+
+.growth-record-list-container tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* 偶数行の背景色 */
+}
+
+.growth-record-list-container tbody tr:hover {
+  background-color: #f1f1f1; /* ホバー時の背景色 */
+}
+
+/* テキストのスタイル */
+.growth-record-list-container h1 {
+  text-align: center;
+  margin-bottom: 20px; /* 下部に余白 */
+}
+

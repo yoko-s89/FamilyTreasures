@@ -49,7 +49,7 @@
 .diary-date {
   flex-shrink: 0; /* サイズを固定 */
   width: 100px; /* 必要に応じて幅を調整 */
-  margin-right: 100px; /* 内容との間隔 */
+  margin-right: 20px; /* 内容との間隔 */
   text-align: right; /* 日付を右寄せにする */
 }
 
@@ -73,9 +73,25 @@
 
 /* 画像のスタイル */
 .diary-list-container ul li img {
-  max-width: 300px; /* 画像の最大幅を100pxに設定 */
+  max-width: 300px; /* 画像の最大幅を300pxに設定 */
   height: auto; /* 高さを自動で調整 */
   border-radius: 5px;
   object-fit: cover; /* 画像が枠内に収まるようにする */
 }
 
+/* ナビゲーションバーの下のプルダウンメニューのコンテナ */
+.filter-container {
+  margin-top: 20px; /* ナビゲーションバーからのスペース */
+  padding: 10px;
+  background-color: #f0f0f0; /* 背景色 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center; /* 中央揃え */
+}
+
+/* プルダウンメニューのスタイル */
+.filter-container select {
+  padding: 5px;
+  font-size: 16px;
+  margin-left: 10px;
+}

@@ -47,6 +47,10 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['user_name', 'email']
+        labels = {
+            'user_name': '名前/ニックネーム',
+            'email': 'メールアドレス',
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -68,11 +72,19 @@ class UserProfileForm(forms.ModelForm):
             'image_url': forms.FileInput(),  # ファイル入力を使って画像をアップロード
         }
 
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = User  # 使用するモデルを指定
+        fields = ['image_url']  # 画像フィールドを指定
 
 class ChildrenForm(forms.ModelForm):
     class Meta:
         model = Children
-        fields = [ 'child_name', 'birthdate']  
+        fields = [ 'child_name', 'birthdate']
+        labels = {
+            'child_name': '名前/ニックネーム',  # ラベルを日本語に変更
+            'birthdate': '誕生日',            # ラベルを日本語に変更
+        }  
         widgets = {
             'birthdate': forms.DateInput(attrs={'type': 'date'}),  # 日付入力用のウィジェット
         }
@@ -86,6 +98,12 @@ class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
         fields = ['child', 'template', 'stamp', 'weather', 'content', 'entry_date']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'placeholder': '内容',
+                'rows': 5,
+            }),
+        }
 
     child = forms.ModelChoiceField(
         queryset=Children.objects.none(),  # 初期値を空にしておく
@@ -94,45 +112,42 @@ class DiaryForm(forms.ModelForm):
         label="子供"
     )
 
+    # メディアの追加用フィールド
+    media_files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     weather = forms.ModelChoiceField(
-        queryset=Weather.objects.all(),  # 天気のリストをプルダウンメニューに表示
-        required=False,  # 選択を任意にする
+        queryset=Weather.objects.all(),
+        required=False,
         empty_label="天気を選択してください",
         label="天気"
     )
     
     stamp = forms.ModelChoiceField(
         queryset=Stamp.objects.all(),
-        required=False,  # 選択を任意にする
+        required=False,
         empty_label="気持ちを選択してください",
         label="気持ちのスタンプ",
-        widget=forms.Select(attrs={'class': 'stamp-select'})  # スタンプを選択するためのフィールド
+        widget=forms.Select(attrs={'class': 'stamp-select'})
     )
 
     template = forms.ModelChoiceField(
         queryset=Template.objects.all(),
-        required=False,  # 選択を任意にする
+        required=False,
         empty_label="定型文を選択してください",
         label="一言"
     )
     
     entry_date = forms.DateField(
-        initial=timezone.now,  # デフォルトで今日の日付を設定
+        initial=timezone.now,
         widget=forms.DateInput(attrs={'type': 'date'}),
         label="日記の日付"
     )
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)  # ユーザー情報を取得
-        super().__init__(*args, **kwargs)
-        
-        # 現在のユーザーに関連する子供のリストを表示
+        user = kwargs.pop('user', None)
+        super(DiaryForm, self).__init__(*args, **kwargs)
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
-        else:
-            self.fields['child'].queryset = Children.objects.none()  # デフォルトは空にする
-
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia
@@ -180,6 +195,18 @@ class GrowthRecordForm(forms.ModelForm):
         widgets = {
             'measurement_date': forms.SelectDateWidget(years=range(2010, 2040)),  # 年月日入力用のウィジェット
         }
+
+        labels = {
+            'child': '子供の名前',
+            'measurement_date': '計測日',
+            'height': '身長 (cm)',
+            'weight': '体重 (kg)',
+            'memo': 'メモ',
+        }
+        help_texts = {
+            'memo': 'その他のメモや詳細を記入してください。',
+        }
+
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  

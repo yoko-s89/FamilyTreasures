@@ -1,0 +1,74 @@
+/* メインコンテナのスタイル */
+.account-update-container {
+  max-width: 600px; /* コンテナの最大幅 */
+  margin: 40px auto; /* 上下左右の中央に配置 */
+  padding: 20px;
+  background-color: #fff; /* 背景色 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+/* フォームフィールドのスタイル */
+.account-update-container form {
+  display: flex;
+  flex-direction: column; /* フィールドを縦に並べる */
+}
+
+.account-update-container form .form-group {
+  margin-bottom: 20px; /* 下部の余白 */
+}
+
+.account-update-container label {
+  display: block; /* ブロック要素にして下に配置 */
+  margin-bottom: 5px; /* 下部の余白 */
+  font-weight: bold; /* 太字 */
+}
+
+.account-update-container input,
+.account-update-container select,
+.account-update-container textarea {
+  width: 100%; /* 幅を100%に */
+  padding: 10px; /* 内側の余白 */
+  margin-top: 5px; /* 上部の余白 */
+  box-sizing: border-box; /* ボックスのサイズを調整 */
+  font-size: 16px; /* 文字サイズ */
+  border: 1px solid #ccc; /* ボーダー */
+  border-radius: 4px; /* 角を丸くする */
+}
+
+/* ボタンのスタイル */
+.account-update-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007BFF; /* 背景色 */
+  color: white; /* 文字色 */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px; /* 上部に余白 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+}
+
+.account-update-container button:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* キャンセルリンクのスタイル */
+.account-update-container a {
+  display: block;
+  text-align: center;
+  margin-top: 20px; /* 上部に余白 */
+  color: #007BFF; /* リンクの色 */
+  text-decoration: none; /* 下線を消す */
+}
+
+.account-update-container a:hover {
+  text-decoration: underline; /* ホバー時の下線 */
+}
+
+/* 見出しのスタイル */
+.account-update-container h2 {
+  text-align: center; /* 中央に配置 */
+  margin-bottom: 20px; /* 下部に余白 */
+}

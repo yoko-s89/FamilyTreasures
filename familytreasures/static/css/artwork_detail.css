@@ -1,0 +1,45 @@
+/* 全体のコンテナを中央に配置 */
+.artwork-detail {
+  max-width: 800px; /* 最大幅を設定 */
+  margin: 0 auto; /* 左右のマージンを自動にして中央に配置 */
+  padding: 20px;
+  background-color: #f9f9f9; /* 背景色 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  text-align: center; /* テキストとコンテンツを中央揃え */
+}
+
+/* 画像のスタイル */
+.artwork-detail img {
+  max-width: 100%; /* 画像の最大幅を100%に設定 */
+  height: auto; /* 高さを自動調整 */
+  border-radius: 5px; /* 角を丸く */
+  margin-bottom: 20px; /* 下部にスペースを追加 */
+}
+
+/* ボタンのスタイル */
+.artwork-detail .btn {
+  display: inline-block;
+  padding: 10px 20px; /* ボタン内の余白 */
+  margin-top: 20px; /* 上部に余白を追加 */
+  font-size: 16px; /* フォントサイズ */
+  color: #fff; /* テキストの色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインタに変更 */
+  transition: background-color 0.3s; /* ホバー時のトランジション */
+}
+
+/* ボタンの個別スタイル */
+.artwork-detail .btn-secondary {
+  background-color: #6c757d; /* 背景色 */
+}
+
+.artwork-detail .btn-danger {
+  background-color: #dc3545; /* 背景色 */
+}
+
+/* ボタンのホバー時のスタイル */
+.artwork-detail .btn:hover {
+  opacity: 0.8; /* ホバー時の透明度を変更 */
+}

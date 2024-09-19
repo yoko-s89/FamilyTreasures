@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>制作物アルバム</h2>
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_list.css' %}">
+
+  <h2>作品アルバム</h2>
+  
+  <!-- 絞り込みフォーム -->
   <form method="get">
     <label for="child-filter">子供の名前で絞り込み</label>
     <select name="child" id="child-filter" onchange="this.form.submit();">
@@ -15,15 +21,16 @@
     </select>
   </form>
 
+  <!-- 制作物一覧 -->
   <div class="artwork-list">
     {% for artwork in artworks %}
       <div class="artwork-item">
         <a href="{% url 'app:artwork_detail' artwork.id %}">
           {% if artwork.image %}
-            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" style="max-width: 200px;">
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
           {% endif %}
-          <h3>{{ artwork.title }}</h3>
         </a>
+        <h3>{{ artwork.title }}</h3>
         <p>子供: {{ artwork.child.child_name }}</p>
         <p>作成日: {{ artwork.creation_date }}</p>
       </div>

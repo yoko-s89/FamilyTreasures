@@ -58,7 +58,7 @@
 
         <!-- メディアファイルの表示 -->
         <div class="diary-media-section">
-            {% for media in diary.diarymedia_set.all %}
+            {% for media in diary.medias.all %}
                 {% if media.media_type == 'image' %}
                     <img src="{{ media.media_file.url }}" alt="Image">
                 {% elif media.media_type == 'video' %}

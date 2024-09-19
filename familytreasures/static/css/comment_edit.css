@@ -1,0 +1,64 @@
+/* コメント編集フォームのスタイル */
+.comment-form {
+    width: 100%; /* フォーム全体の幅を調整 */
+    max-width: 800px; /* 必要に応じて最大幅を設定 */
+    margin: 40px auto; /* 上下のマージンを設定して中央に配置 */
+    padding: 20px; /* フォーム内の余白 */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 5px; /* 角を丸く */
+    background-color: #f9f9f9; /* 背景色 */
+}
+
+/* コメント入力欄 */
+.comment-form .form-group textarea {
+    width: 100%; /* 幅をフォームに合わせる */
+    height: 200px; /* 高さを大きくする */
+    padding: 10px; /* 内側の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 5px; /* 角を丸く */
+    resize: vertical; /* 垂直方向にリサイズを許可 */
+}
+
+/* ボタンを右下に配置 */
+.comment-form .form-actions {
+    text-align: right; /* ボタンを右揃え */
+    margin-top: 10px; /* 上に余白を追加 */
+}
+
+/* 保存ボタンのスタイル */
+.comment-form .btn-submit {
+    padding: 10px 20px; /* ボタン内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    color: #fff; /* テキストの色 */
+    background-color: #007bff; /* ボタンの背景色 */
+    border: none; /* 枠線を削除 */
+    border-radius: 5px; /* 角を丸く */
+    cursor: pointer; /* カーソルをポインタに変更 */
+    transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+    margin-right: 10px; /* キャンセルボタンとの間にスペース */
+}
+
+/* ボタンのホバー効果 */
+.comment-form .btn-submit:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* キャンセルボタンのスタイル */
+.comment-form .btn-cancel {
+    padding: 10px 20px; /* ボタン内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    color: #333; /* テキストの色 */
+    background-color: #f0f0f0; /* ボタンの背景色 */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 5px; /* 角を丸く */
+    text-decoration: none; /* 下線を削除 */
+    cursor: pointer; /* カーソルをポインタに変更 */
+    transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+}
+
+/* キャンセルボタンのホバー効果 */
+.comment-form .btn-cancel:hover {
+    background-color: #e0e0e0; /* ホバー時の背景色 */
+}
+

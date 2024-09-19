@@ -1,4 +1,4 @@
-from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm
+from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm, ImageUploadForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import update_session_auth_hash
@@ -11,15 +11,17 @@ User = get_user_model()
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
-from django.http import HttpResponseForbidden  
+# from django.http import HttpResponseForbidden, HttpResponseBadRequest  
 from django.utils import timezone
 import datetime
+from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from itertools import chain
 from datetime import datetime, date
 from django.utils import timezone
 from .forms import (ChildrenForm, DiaryForm, DiaryMediaForm, CommentForm, 
-                    InvitationSignupForm,  UserProfileForm, AccountUpdateForm
+                    InvitationSignupForm,  UserProfileForm, AccountUpdateForm,
+                    ImageUploadForm
 )
 from .models import(
     Children, Diary, DiaryMedia, Comment, Artwork, Invitation,
@@ -27,7 +29,7 @@ from .models import(
 )
 from uuid import UUID
 # Create your views here.
-
+from collections import defaultdict
 
 class SignupView(View):
     def get(self, request):
@@ -157,7 +159,7 @@ def create_invitation_view(request):
 
     if request.method == 'POST':
         # 招待URLを作成
-        expires_at = timezone.now() + datetime.timedelta(days=1)  # 有効期限を1日後に設定
+        expires_at = timezone.now() + timedelta(days=1)  # 有効期限を1日後に設定
         invitation = Invitation.objects.create(
             household=household,
             expires_at=expires_at
@@ -212,8 +214,9 @@ def my_page(request):
 # family_deleteビューの追加
 @login_required
 def family_delete(request, id):
-    # 家族メンバーを削除するロジックを実装
+    # 家族メンバーを取得
     member = get_object_or_404(User, id=id)
+
     # householdが現在のユーザーのものと一致する場合に削除を実行
     if member.household == request.user.household:
         member.household = None  # Householdから削除
@@ -221,7 +224,28 @@ def family_delete(request, id):
         messages.success(request, '家族メンバーを削除しました。')
     else:
         messages.error(request, 'この操作を実行する権限がありません。')
+
     return redirect('app:my_page')
+
+@login_required
+def family_delete_confirm(request, id):
+    # 家族メンバーを取得
+    member = get_object_or_404(User, id=id)
+
+    # 権限の確認: householdが現在のユーザーのものと一致するか確認
+    if member.household != request.user.household:
+        messages.error(request, 'この操作を実行する権限がありません。')
+        return redirect('app:my_page')
+
+    if request.method == 'POST':
+        # 削除を実行
+        member.household = None  # Householdから削除
+        member.save()
+        messages.success(request, '家族メンバーを削除しました。')
+        return redirect('app:my_page')
+
+    # GETリクエストの場合は確認ページを表示
+    return render(request, 'family_delete_confirm.html', {'member': member})
 
 @login_required
 def account_update(request):
@@ -247,7 +271,32 @@ def account_update(request):
 
     return render(request, 'account_update.html', {'form': form})
 
+def image_update(request):
+    # 現在のユーザーを取得
+    user = request.user
 
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('app:my_page')  # アップロード後にマイページにリダイレクト
+    else:
+        form = ImageUploadForm(instance=user)
+
+    return render(request, 'app/image_update.html', {'form': form})
+
+def image_delete(request):
+    # 現在のユーザーを取得
+    user = request.user
+
+    if request.method == 'POST':
+        # ユーザーの画像を削除
+        user.image_url.delete()  # 画像ファイルを削除
+        user.image_url = None
+        user.save()
+        return redirect('app:my_page')  # 削除後にマイページにリダイレクト
+
+    return render(request, 'app/image_delete_confirm.html')
 
 # 子供の情報作成
 class ChildrenCreateView(View):
@@ -271,7 +320,6 @@ class ChildrenCreateView(View):
         
         # フォームが無効な場合、エラーとともにフォームを再表示
         return render(request, "children_form.html", {"form": form, "errors": form.errors})    
-
 
 
 class ChildrenUpdateDeleteView(View):
@@ -355,8 +403,6 @@ class DiaryCreateView(View):
         # バリデーションエラーの場合、フォームを再表示
         return render(request, self.template_name, {'form': form})
     
-
-
 class DiaryListView(LoginRequiredMixin, View):
     template_name = 'diary_list.html'  # 一覧ページのテンプレート
 
@@ -368,9 +414,9 @@ class DiaryListView(LoginRequiredMixin, View):
 
         # デフォルトでは全ての投稿を新しい順に取得
         if selected_filter == 'all' or not selected_filter:
-            diaries = Diary.objects.filter(child__household=request.user.household).order_by('-entry_date')
-        elif selected_filter == 'none':
-            # みんなの日記（子供が選択されていない日記）
+            diaries = Diary.objects.filter(child__household=request.user.household) | Diary.objects.filter(child=None)
+            diaries = diaries.order_by('-entry_date')    
+        elif selected_filter == 'none':            # みんなの日記（子供が選択されていない日記）
             diaries = Diary.objects.filter(child=None).order_by('-entry_date')
         else:
             # 特定の子供に絞り込んだ日記
@@ -379,17 +425,24 @@ class DiaryListView(LoginRequiredMixin, View):
 
         # 各日記に関連する最初の画像を取得
         for diary in diaries:
-            first_image = diary.diarymedia_set.filter(media_type='image').first()
+            first_image = diary.medias.filter(media_type='image').first()
             diary.first_image = first_image  # テンプレートで使用できるように属性として設定
 
+        # 日記を西暦ごとにグループ化
+        grouped_diaries = defaultdict(list)
+        for diary in diaries:
+            grouped_diaries[diary.entry_date.year].append(diary)
+
+        # 辞書をテンプレートで使用できるようにリストに変換してソート
+        grouped_diaries = sorted(grouped_diaries.items(), key=lambda x: x[0], reverse=True)
+
         return render(request, self.template_name, {
-            'diaries': diaries,
+            'grouped_diaries': grouped_diaries,
             'children': children,
             'selected_filter': selected_filter,
         })
 
 class DiaryDetailView(LoginRequiredMixin, View):
-
     def get(self, request, pk):
         diary = get_object_or_404(Diary, pk=pk)
         comments = Comment.objects.filter(diary=diary).order_by('-created_at')
@@ -398,23 +451,30 @@ class DiaryDetailView(LoginRequiredMixin, View):
             "comments": comments
         })
         
-
-class DiaryEditView(View):
+class DiaryEditView(View): 
     template_name = 'diary_edit.html'  # 編集ページのテンプレート
 
     def get(self, request, pk):
         # 編集する日記を取得
         diary = get_object_or_404(Diary, pk=pk)
-        form = DiaryForm(instance=diary)  # 既存のインスタンスをフォームに渡す
+        form = DiaryForm(instance=diary, user=request.user) 
         return render(request, self.template_name, {'form': form, 'diary': diary})
 
     def post(self, request, pk):
         # 編集する日記を取得
         diary = get_object_or_404(Diary, pk=pk)
-        form = DiaryForm(request.POST, request.FILES, instance=diary)  # インスタンスをフォームに渡す
+        form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user) 
 
         if form.is_valid():
             form.save()  # データベースに保存
+            
+            # 新しいメディアを追加
+            media_files = request.FILES.getlist('media_files')
+            for media_file in media_files:
+                # メディアタイプを判断
+                media_type = 'image' if media_file.content_type.startswith('image') else 'video'
+                DiaryMedia.objects.create(diary=diary, media_file=media_file, media_type=media_type)
+
             # 編集した日記の詳細ページにリダイレクト
             return redirect(reverse('app:diary_detail', kwargs={'pk': diary.pk}))
 
@@ -436,6 +496,14 @@ class DiaryDeleteView(View):
         # 削除後に一覧ページにリダイレクト
         return redirect(reverse('app:diary_list'))
 
+
+class DeleteMediaView(View):
+    def post(self, request, pk, media_pk):
+        # メディアの削除処理
+        media = get_object_or_404(DiaryMedia, pk=media_pk, diary__pk=pk)
+        media.delete()
+        # 削除後、編集ページにリダイレクト
+        return redirect(reverse('app:diary_edit', kwargs={'pk': pk}))
 class CommentCreateView(View):
     def get(self, request, diary_id):
         form = CommentForm()
@@ -695,7 +763,7 @@ class HomeView(LoginRequiredMixin, View):
                 'type': 'diary',
                 'content': d.content,
                 'template': d.template.text if d.template else '',
-                'first_image': d.diarymedia_set.filter(media_type='image').first().media_file.url if d.diarymedia_set.filter(media_type='image').exists() else None,
+                'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
                 'detail_url': reverse('app:diary_detail', args=[d.id]),
             }
             for d in diaries

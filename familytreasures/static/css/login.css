@@ -1,0 +1,82 @@
+/* 画面全体を中央に配置 */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 画面全体の高さをカバー */
+  margin: 0;
+  font-family: Arial, sans-serif; /* フォントを指定 */
+  background-color: #f0f0f0; /* 背景色 */
+}
+
+/* フォームコンテナのスタイル */
+.login-container {
+  background-color: #fff; /* 背景色 */
+  padding: 20px; /* 内側の余白 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  max-width: 400px; /* 最大幅を指定 */
+  width: 100%; /* 幅を100%に */
+}
+
+/* フォームのスタイル */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 各入力要素のスタイル */
+form div {
+  margin-bottom: 15px; /* 下部の余白 */
+}
+
+/* ラベルと入力のスタイル */
+input[type="email"], input[type="password"] {
+  width: 100%; /* 幅を100%に */
+  padding: 8px; /* 内側の余白 */
+  margin-top: 5px; /* 上部の余白 */
+  box-sizing: border-box; /* ボックスのサイズを調整 */
+  font-size: 20px; /* 文字サイズ */
+}
+
+/* ボタンのスタイル */
+button {
+  padding: 10px; /* 内側の余白 */
+  font-size: 16px; /* 文字サイズ */
+  background-color: #d7d2de; /* 背景色 */
+  color: white; /* 文字色 */
+  border: none; /* 枠線をなくす */
+  border-radius: 4px; /* 角を丸くする */
+  cursor: pointer; /* カーソルの形状 */
+}
+
+/* ボタンのホバー時のスタイル */
+button:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+}
+
+/* エラーメッセージのスタイル */
+.errors {
+  color: red; /* エラーメッセージの文字色 */
+  font-size: 14px; /* 文字サイズ */
+}
+
+/* 見出しのスタイル */
+h1 {
+  text-align: center; /* 中央揃え */
+  font-size: 24px; /* 文字サイズ */
+  margin-bottom: 20px; /* 下部の余白 */
+}
+
+/* リンクのスタイル */
+a {
+  display: block; /* ブロック要素に */
+  text-align: center; /* 中央揃え */
+  margin-top: 15px; /* 上部の余白 */
+  color: #007BFF; /* リンクの色 */
+  text-decoration: none; /* 下線をなくす */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時に下線を追加 */
+}

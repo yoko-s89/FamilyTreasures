@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>アカウント情報変更</h2>
-    <form method="post">
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/account_update.css' %}">
+
+    <!-- メインコンテナ -->
+    <div class="account-update-container">
+        <h2>アカウント情報変更</h2>
+        <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-
         <button type="submit">変更を保存</button>
-    </form>
-    <a href="{% url 'app:home' %}">キャンセル</a>
-</div>
+        </form>
+        <a href="{% url 'app:home' %}">キャンセル</a>
+    </div>
 {% endblock %}

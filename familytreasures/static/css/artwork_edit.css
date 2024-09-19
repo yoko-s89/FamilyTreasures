@@ -1,0 +1,80 @@
+/* 全体のコンテナスタイル */
+.artwork-edit-container {
+  background-color: #fff; /* フォームの背景色 */
+  padding: 20px; /* 内側の余白 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  max-width: 800px; /* 最大幅を指定 */
+  margin: 20px auto; /* 上下の余白を設定して中央寄せ */
+}
+
+
+/* 新しい画像のプレビュー */
+.current-media-preview {
+  text-align: center; /* コンテンツを中央揃え */
+  margin-bottom: 20px; /* 下部にスペースを追加 */
+}
+
+.current-media-preview img {
+  max-width: 150px; /* 画像の最大幅を150pxに設定して小さく表示 */
+  height: auto;
+  border-radius: 5px; /* 角を丸く */
+  margin-top: 10px; /* 上部にスペースを追加 */
+}
+
+/* フォームフィールドのスタイル */
+.form-group {
+  margin-bottom: 20px; /* 下部の余白 */
+}
+
+label {
+  display: block; /* ブロック要素にして下に配置 */
+  margin-bottom: 5px; /* 下部の余白 */
+  font-weight: bold; /* 太字 */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+  width: 100%; /* 幅を100%に */
+  padding: 8px; /* 内側の余白 */
+  margin-top: 5px; /* 上部の余白 */
+  box-sizing: border-box; /* ボックスのサイズを調整 */
+  font-size: 16px; /* 文字サイズ */
+  border: 1px solid #ccc; /* ボーダー */
+  border-radius: 4px; /* 角を丸くする */
+}
+
+/* テキストエリアのスタイル */
+textarea {
+  resize: vertical; /* 垂直方向のリサイズを許可 */
+  min-height: 100px; /* 最低の高さ */
+}
+
+/* プレースホルダーのスタイル */
+textarea::placeholder {
+  color: #999; /* プレースホルダーの色 */
+}
+
+/* ボタンのスタイル */
+button {
+  display: block;
+  width: 100%; /* 幅を100%に */
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007BFF; /* 背景色 */
+  color: white; /* 文字色 */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px; /* 上部に余白 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+}
+
+/* ボタンのホバー時のスタイル */
+button:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}

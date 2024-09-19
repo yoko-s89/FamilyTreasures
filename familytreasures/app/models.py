@@ -162,7 +162,7 @@ class DiaryMedia(models.Model):
         ('video', '動画'),
     ]
 
-    diary = models.ForeignKey('Diary', on_delete=models.CASCADE)
+    diary = models.ForeignKey('Diary', related_name='medias', on_delete=models.CASCADE)
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPE_CHOICES)
     # media_url = models.TextField()  # メディアファイルのURLやパスをtext型に変更
     media_file = models.FileField(upload_to='diary_media/')  # メディアファイルのパスを保存

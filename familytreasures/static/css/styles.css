@@ -1,18 +1,36 @@
-/* ナビゲーションバーの背景色 */
+/* ナビゲーションバー全体のスタイル */
 .navbar {
   background-color: #d7d2de !important;
+  height: 50px; /* 高さを調整 */
+  padding: 5px 20px; /* パディングを減らして高さを縮小 */
+  margin-top: 0 !important; /* ナビゲーションバーの上の余白をリセット */
+  width: 100%; /* 幅を100%に設定 */
+  margin: 0; /* 左右の余白をリセット */
+  box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズ */
 }
 
 /* ナビゲーションバーのリンクのスタイル */
 .navbar .nav-link {
   font-weight: bold;
-  color: #000; /* ナビゲーションバーの通常リンクの文字色 */
+  color: #000; /* 通常リンクの文字色 */
+  font-size: 16px; /* フォントサイズを小さくする */
+  margin: 0 10px; /* リンク間のスペースを調整 */
+}
+
+/* ロゴやタイトルのスタイル */
+.navbar .navbar-brand {
+  font-size: 16px; /* ロゴやタイトルのフォントサイズを小さくする */
+}
+
+/* ナビゲーションバーのリンクのホバー効果 */
+.navbar .nav-link:hover {
+  text-decoration: underline; /* ホバー時に下線を追加 */
 }
 
 /* プルダウンメニューのアイテム */
 .dropdown-menu {
   background-color: #e6dff1; /* プルダウンの背景色 */
-  border: none; /* プルダウンメニューの境界線を削除してシンプルにする（必要に応じて） */
+  border: none; /* プルダウンメニューの境界線を削除してシンプルにする */
 }
 
 /* プルダウンメニューのアイテムのスタイル */
@@ -23,6 +41,22 @@
 
 /* プルダウンメニューのアイテムのホバー効果 */
 .dropdown-item:hover {
-  background-color: #d4c4e0; /* ホバー時の背景色 */
+  background-color: #c5a3cd; /* ホバー時の背景色 */
   color: #000; /* ホバー時のテキストカラーを黒に */
 }
+
+/* 追加されたスタイル（navタグ全体に適用） */
+nav {
+  background-color: #333; /* 背景色 */
+}
+
+/* navタグ内のリンクのスタイル */
+nav a {
+  color: white; /* リンクのテキスト色 */
+}
+
+/* navタグ内のリンクのホバー効果 */
+nav a:hover {
+  text-decoration: underline; /* ホバー時に下線を追加 */
+}
+

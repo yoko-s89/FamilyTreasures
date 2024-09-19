@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_detail.css' %}">
+
   <h2>{{ artwork.title }}</h2>
   <div class="artwork-detail">
     {% if artwork.image %}
-      <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" style="max-width: 400px;">
+      <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
     {% endif %}
     <p>子供の名前: {{ artwork.child.child_name }}</p>
     <p>作成日: {{ artwork.creation_date }}</p>

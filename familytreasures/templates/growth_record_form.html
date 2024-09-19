@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>成長の記録を入力</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">記録する</button>
-  </form>
-  <a href="{% url 'app:growth_record_list' %}">成長記録一覧に戻る</a>
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/growth_record_form.css' %}">
+
+  <!-- 全体のコンテナ -->
+  <div class="growth-record-form-container">
+    <h2>成長の記録を入力</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">記録する</button>
+    </form>
+    <a href="{% url 'app:growth_record_list' %}">成長記録一覧に戻る</a>
+  </div>
 {% endblock %}
