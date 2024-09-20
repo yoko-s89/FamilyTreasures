@@ -42,7 +42,7 @@ urlpatterns = [
     path('diaries/', DiaryListView.as_view(), name='diary_list'),  # 日記一覧画面
     path('diary/<int:pk>/', DiaryDetailView.as_view(), name='diary_detail'),  # 日記詳細ページ
     path('diary/<int:pk>/edit/', DiaryEditView.as_view(), name='diary_edit'),
-    path('diary/media/<int:media_pk>/delete/', DiaryEditView.as_view(), name='diary_media_delete'),  # メディア削除のためのURL
+    # path('diary/media/<int:media_pk>/delete/', DiaryEditView.as_view(), name='diary_media_delete'),  # メディア削除のためのURL
     path('diary/<int:pk>/media/<int:media_pk>/delete/', DeleteMediaView.as_view(), name='diary_media_delete'),
     path('diary/<int:pk>/delete/', DiaryDeleteView.as_view(), name='diary_delete'),
     #コメント

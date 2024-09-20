@@ -451,35 +451,41 @@ class DiaryDetailView(LoginRequiredMixin, View):
             "comments": comments
         })
         
-class DiaryEditView(View): 
-    template_name = 'diary_edit.html'  # 編集ページのテンプレート
+class DiaryEditView(View):
+    template_name = 'diary_edit.html'
 
     def get(self, request, pk):
         # 編集する日記を取得
         diary = get_object_or_404(Diary, pk=pk)
-        form = DiaryForm(instance=diary, user=request.user) 
-        return render(request, self.template_name, {'form': form, 'diary': diary})
+        form = DiaryForm(instance=diary, user=request.user)
+
+        # 日記に関連するメディアを取得
+        media_list = diary.medias.all()  # DiaryMedia からメディアを取得
+
+        return render(request, self.template_name, {
+            'form': form,
+            'diary': diary,
+            'media_list': media_list  # メディアをテンプレートに渡す
+        })
 
     def post(self, request, pk):
         # 編集する日記を取得
         diary = get_object_or_404(Diary, pk=pk)
-        form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user) 
+        form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user)
 
         if form.is_valid():
-            form.save()  # データベースに保存
-            
+            form.save()
+
             # 新しいメディアを追加
             media_files = request.FILES.getlist('media_files')
             for media_file in media_files:
-                # メディアタイプを判断
                 media_type = 'image' if media_file.content_type.startswith('image') else 'video'
                 DiaryMedia.objects.create(diary=diary, media_file=media_file, media_type=media_type)
 
-            # 編集した日記の詳細ページにリダイレクト
             return redirect(reverse('app:diary_detail', kwargs={'pk': diary.pk}))
 
-        # バリデーションエラーがある場合、フォームを再表示
-        return render(request, self.template_name, {'form': form, 'diary': diary})
+        media_list = diary.medias.all()  # Diary に関連するメディアを再取得
+        return render(request, self.template_name, {'form': form, 'diary': diary, 'media_list': media_list})
 
 class DiaryDeleteView(View):
     template_name = 'diary_confirm_delete.html'  # 削除確認ページのテンプレート

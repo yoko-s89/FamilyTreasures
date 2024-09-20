@@ -62,15 +62,26 @@
                     {{ form.content }}
                 </div>
 
-                <!-- 既存の写真を表示 -->
+                <!-- 既存の写真・動画を表示し、削除機能を追加 -->
                 <div class="existing-media">
                     <h3>既存の写真・動画</h3>
                     <ul>
-                        {% for media in diary.medias.all %}
-                        <li>
-                            <img src="{{ media.media_file.url }}" alt="メディア">
-                            <a href="{% url 'app:diary_media_delete' media.pk %}">削除</a>
-                        </li>
+                        {% for media in media_list %}
+                            <li>
+                                {% if media.media_type == 'image' %}
+                                    <img src="{{ media.media_file.url }}" alt="写真" width="200px">
+                                {% elif media.media_type == 'video' %}
+                                    <video width="200px" controls>
+                                        <source src="{{ media.media_file.url }}" type="video/mp4">
+                                    </video>
+                                {% endif %}
+                                
+                                <!-- メディア削除フォーム -->
+                                <form method="post" action="{% url 'app:diary_media_delete' pk=diary.pk media_pk=media.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">削除</button>
+                                </form>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -78,7 +89,6 @@
                 <!-- 編集と削除ボタンを右下に配置 -->
                 <div class="actions-section">
                     <button type="submit" name="edit" class="btn">編集</button>
-                    <button type="submit" name="delete" class="btn btn-danger">削除</button>
                 </div>
             </form>
         </div>
