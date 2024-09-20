@@ -138,7 +138,7 @@
   padding: 10px 15px; /* ボタン内の余白 */
   font-size: 16px; /* フォントサイズ */
   color: #fff; /* テキストの色 */
-  background-color: #007bff; /* ボタンの背景色 */
+  background-color: #dda0dd; /* ボタンの背景色 */
   border: none; /* 枠線を削除 */
   border-radius: 5px; /* 角を丸くする */
   text-decoration: none; /* テキストの下線を削除 */
@@ -149,7 +149,7 @@
 
 /* ボタンのホバー効果 */
 .actions-section .btn:hover {
-  background-color: #0056b3; /* ホバー時の背景色 */
+  background-color: #c5a3cd; /* ホバー時の背景色 */
 }
 
 .actions-section .btn-danger {

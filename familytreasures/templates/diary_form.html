@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+日記投稿-Family Treasures
+{% endblock %}
+
 {% block content %}
 <!-- CSSファイルの読み込み -->
 {% load static %}
@@ -69,7 +73,7 @@
     <div id="media-preview"></div>
 
     <!-- 投稿ボタン -->
-    <button type="submit" class="btn btn-primary">投稿する</button>
+    <button type="submit" class="submit-button">投稿する</button>
 </form>
 
 {% endblock %}

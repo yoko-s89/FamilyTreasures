@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+成長記録編集・削除-Family Treasures
+{% endblock %}
+
 {% block content %}
     <!-- CSSファイルの読み込み -->
     {% load static %}
@@ -12,8 +16,10 @@
         {% csrf_token %}
         {{ form.as_p }}
         <div class="button-group">
-            <button type="submit">保存</button>
-            <button type="submit" class="btn-delete">削除</button>
+            <!-- 保存ボタンにname="save"を追加 -->
+            <button type="submit" name="save">保存</button>
+            <!-- 削除ボタンにname="delete"を追加 -->
+            <button type="submit" name="delete" class="btn-delete">削除</button>
         </div>
         </form>
         <a href="{% url 'app:growth_record_list' %}">成長記録一覧に戻る</a>

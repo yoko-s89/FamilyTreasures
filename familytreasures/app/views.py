@@ -593,7 +593,8 @@ class ArtworkCreateView(LoginRequiredMixin, View):
             artwork.user = request.user  # ログインユーザーを作品に関連付ける
             artwork.save()
             return redirect('app:artwork_list')  # 作品一覧ページにリダイレクト
-        return render(request, self.template_name, {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class ArtworkListView(LoginRequiredMixin, View):

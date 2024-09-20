@@ -30,14 +30,14 @@
 }
 
 .growth-record-list-container input[type="submit"] {
-  background-color: #007BFF; /* 背景色 */
+  background-color: #dda0dd; /* 背景色 */
   color: white; /* 文字色 */
   cursor: pointer;
   margin-left: 10px; /* 左側にスペースを追加 */
 }
 
 .growth-record-list-container input[type="submit"]:hover {
-  background-color: #0056b3; /* ホバー時の背景色 */
+  background-color: #c5a3ed; /* ホバー時の背景色 */
 }
 
 /* テーブルのスタイル */

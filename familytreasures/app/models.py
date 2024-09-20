@@ -164,7 +164,6 @@ class DiaryMedia(models.Model):
 
     diary = models.ForeignKey('Diary', related_name='medias', on_delete=models.CASCADE)
     media_type = models.CharField(max_length=10, choices=MEDIA_TYPE_CHOICES)
-    # media_url = models.TextField()  # メディアファイルのURLやパスをtext型に変更
     media_file = models.FileField(upload_to='diary_media/')  # メディアファイルのパスを保存
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
