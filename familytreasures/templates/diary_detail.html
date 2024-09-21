@@ -65,10 +65,12 @@
             {% for media in diary.medias.all %}
                 {% if media.media_type == 'image' %}
                     <img src="{{ media.media_file.url }}" alt="Image">
-                {% elif media.media_type == 'video' %}
-                    <video controls>
-                        <source src="{{ media.media_file.url }}" type="video/mp4">
-                    </video>
+                {% else %}
+                    {% if media.media_type == 'video' %}
+                        <video controls>
+                            <source src="{{ media.media_file.url }}" type="video/mp4">
+                        </video>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

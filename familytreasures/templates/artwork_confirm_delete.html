@@ -10,6 +10,6 @@
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">削除</button>
-    <a href="{% url 'app:artwork_detail' artwork.id %}" class="btn btn-secondary">キャンセル</a>
+    <a href="{% url 'app:artwork_detail' artwork.pk %}" class="btn btn-secondary">キャンセル</a>
   </form>
 {% endblock %}

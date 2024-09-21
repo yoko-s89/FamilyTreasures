@@ -33,35 +33,50 @@
 
                     <!-- 内容部分を日付の隣に寄せて表示 -->
                     <div class="item-content">
+                        <!-- アイテムの種類に基づく条件分岐 -->
                         {% if item.type == 'diary' %}
-                            <h2><a href="{{ item.detail_url }}">日記</a></h2>
+                            <h2>
+                                <a href="{{ item.detail_url }}"> <!-- 日記タイトルをリンクに変更 -->
+                                    {% if item.child_name %}
+                                        {{ item.child_name }}の日記
+                                    {% else %}
+                                        みんなの日記
+                                    {% endif %}
+                                </a>
+                            </h2>
                             <div class="diary-details">
                                 <p>一言: {{ item.template }}</p>
                                 <p>内容: {{ item.content }}</p>
                             </div>
-                        {% elif item.type == 'artwork' %}
-                            <h2><a href="{{ item.detail_url }}">作品</a></h2>
-                            <div class="artwork-details">
-                                <p>子供の名前: {{ item.child_name }}</p>
-                                <p>作品名: {{ item.title }}</p>
-                            </div>
-                        {% elif item.type == 'growth_record' %}
-                            <h2><a href="{{ item.list_url }}">成長記録</a></h2>
-                            <div class="growth-record-details">
-                                <p>子供の名前: {{ item.child_name }}</p>
-                                <p>身長: {{ item.height }} cm</p>
-                                <p>体重: {{ item.weight }} kg</p>
-                                <p>メモ: {{ item.memo }}</p>
-                            </div>
+                        {% else %}
+                            {% if item.type == 'artwork' %}
+                                <h2><a href="{{ item.detail_url }}">作品</a></h2>
+                                <div class="artwork-details">
+                                    <p>子供の名前: {{ item.child_name }}</p>
+                                    <p>作品名: {{ item.title }}</p>
+                                </div>
+                            {% else %}
+                                {% if item.type == 'growth_record' %}
+                                    <h2><a href="{{ item.list_url }}">成長記録</a></h2>
+                                    <div class="growth-record-details">
+                                        <p>子供の名前: {{ item.child_name }}</p>
+                                        <p>身長: {{ item.height }} cm</p>
+                                        <p>体重: {{ item.weight }} kg</p>
+                                        <p>メモ: {{ item.memo }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     </div>
-
+                    
                     <!-- 画像を右に表示 -->
                     <div class="item-right">
                         {% if item.first_image %}
                             <img src="{{ item.first_image }}" alt="画像">
-                        {% elif item.image %}
-                            <img src="{{ item.image }}" alt="画像">
+                        {% else %}
+                            {% if item.image %}
+                                <img src="{{ item.image }}" alt="画像">
+                            {% endif %}
                         {% endif %}
                     </div>
                 </li>

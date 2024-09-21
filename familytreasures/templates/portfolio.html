@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品No.1 Family Treasures</title>
+
+    <!-- 必要なCSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+</head>
+<body>
+
+    <!-- ポートフォリオのメインコンテナ -->
+    <div class="portfolio-container">
+
+        <!-- 作品タイトル -->
+        <h1>作品No.1 Family Treasures</h1>
+
+        <!-- 添付画像 -->
+        <div class="portfolio-image">
+            <img src="{% static 'images/app_screenshot.jpg' %}" alt="Family Treasures" width="600px">
+        </div>
+
+        <!-- 説明文 -->
+        <div class="portfolio-description">
+            <p>
+                夫婦や家族が子供の成長を日々記し、保育園等の制作物などを写真や動画にてアップロードできる交換日記アプリケーションです。<br>
+                家族で気軽に日々の子供の成長の記録を残せ、大切な瞬間をいつでもどこでも振り返ることが出来ます。
+            </p>
+        </div>
+
+        <!-- PDFへのリンクセクション -->
+        <div class="portfolio-links">
+            <h3>資料リンク</h3>
+            <ul>
+                <li><a href="{% static 'pdf/plan_design.pdf' %}" target="_blank">企画書・画面設計図</a></li>
+                <li><a href="{% static 'pdf/screen_flow.pdf' %}" target="_blank">画面遷移図（PDF）</a></li>
+                <li><a href="{% static 'pdf/ER_diagram.pdf' %}" target="_blank">ER図（PDF）</a></li>
+            </ul>
+        </div>
+
+        <a href="{% url 'app:login' %}">
+          <button>アプリにアクセス</button>
+        </a>
+
+    </div> <!-- ポートフォリオコンテナ終了 -->
+
+</body>
+</html>

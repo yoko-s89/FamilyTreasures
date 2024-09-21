@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-アルバム-Family Treasures
+アルバム - Family Treasures
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
       <option value="">全ての子供</option>
       {% for child in children %}
         <!-- 選択された子供を保持 -->
-        <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child %}selected{% endif %}>
+        <option value="{{ child.id }}" {% if child.id == selected_child %}selected{% endif %}>
           {{ child.child_name }}
         </option>
       {% endfor %}

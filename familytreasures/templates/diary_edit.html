@@ -19,7 +19,7 @@
 
                 <!-- 子供の名前（プルダウン） -->
                 <div class="form-group">
-                    <label for="child">子供の名前</label>
+                    <label for="{{ form.child.id_for_label }}">子供の名前</label>
                     {{ form.child }}
                 </div>
 
@@ -70,27 +70,40 @@
                             <li>
                                 {% if media.media_type == 'image' %}
                                     <img src="{{ media.media_file.url }}" alt="写真" width="200px">
-                                {% elif media.media_type == 'video' %}
-                                    <video width="200px" controls>
-                                        <source src="{{ media.media_file.url }}" type="video/mp4">
-                                    </video>
+                                {% else %}
+                                    {% if media.media_type == 'video' %}
+                                        <video width="200px" controls>
+                                            <source src="{{ media.media_file.url }}" type="video/mp4">
+                                        </video>
+                                    {% endif %}
                                 {% endif %}
-                                
-                                <!-- メディア削除フォーム -->
-                                <form method="post" action="{% url 'app:diary_media_delete' pk=diary.pk media_pk=media.pk %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">削除</button>
-                                </form>
+
+                                <!-- メディア削除用のチェックボックス -->
+                                <label>
+                                    <input type="checkbox" name="delete_media" value="{{ media.id }}"> 削除
+                                </label>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                <!-- 編集と削除ボタンを右下に配置 -->
+                <!-- 編集ボタン -->
                 <div class="actions-section">
-                    <button type="submit" name="edit" class="btn">編集</button>
+                    <button type="submit" class="btn">編集</button>
                 </div>
+
+                <!-- エラーメッセージ表示 -->
+                {% if errors %}
+                    <div class="error-list">
+                        {% for field, error_list in errors.items %}
+                            <strong>{{ field }}:</strong>
+                            <ul>
+                                {% for error in error_list %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </form>
-        </div>
-    </div>
 {% endblock %}

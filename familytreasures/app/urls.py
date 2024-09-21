@@ -13,6 +13,7 @@ from . import views
 app_name = 'app'
 
 urlpatterns = [
+    path('',  views.PortfolioView.as_view(), name='portfolio'),
     #ホームページ
     path('home/', HomeView.as_view(), name='home'),
     #ユーザー認証
@@ -28,7 +29,6 @@ urlpatterns = [
     #家族招待
     path('create_invitation/', create_invitation_view, name='create_invitation'),
     path('join/<uuid:token>/', use_invitation, name='use_invitation'),  # 招待URLのパターン
-    # path('join/<str:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),
 
     #家族削除
     path('family_delete/<int:id>/', family_delete, name='family_delete'),  
@@ -42,7 +42,6 @@ urlpatterns = [
     path('diaries/', DiaryListView.as_view(), name='diary_list'),  # 日記一覧画面
     path('diary/<int:pk>/', DiaryDetailView.as_view(), name='diary_detail'),  # 日記詳細ページ
     path('diary/<int:pk>/edit/', DiaryEditView.as_view(), name='diary_edit'),
-    # path('diary/media/<int:media_pk>/delete/', DiaryEditView.as_view(), name='diary_media_delete'),  # メディア削除のためのURL
     path('diary/<int:pk>/media/<int:media_pk>/delete/', DeleteMediaView.as_view(), name='diary_media_delete'),
     path('diary/<int:pk>/delete/', DiaryDeleteView.as_view(), name='diary_delete'),
     #コメント

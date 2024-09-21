@@ -1,17 +1,17 @@
 from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm, ImageUploadForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.views.generic import TemplateView
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
-from django.contrib.auth import get_user_model  # get_user_modelを使用
+from django.contrib.auth import get_user_model   
 User = get_user_model()
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
-# from django.http import HttpResponseForbidden, HttpResponseBadRequest  
 from django.utils import timezone
 import datetime
 from datetime import timedelta
@@ -30,6 +30,10 @@ from .models import(
 from uuid import UUID
 # Create your views here.
 from collections import defaultdict
+from django.http import Http404 
+
+class PortfolioView(TemplateView):
+    template_name = 'portfolio.html'
 
 class SignupView(View):
     def get(self, request):
@@ -72,11 +76,11 @@ class InviteSignupView(View):
         return invitation
 
     def get(self, request, token=None):
-        print(f"Token received: {token}")  # ログ出力
+        print(f"Token received: {token}")  # ログ
         # 招待トークンを検証
         invitation = self.get_invitation(token)
         if not invitation:
-            print("Invitation not found or invalid.")  # ログ出力
+            print("Invitation not found or invalid.")  # ログ
             return render(request, 'invite_invalid.html')  # 無効な招待の場合
         form = InvitationSignupForm()
         return render(request, "signup_from_invitation.html", context={
@@ -113,7 +117,6 @@ class LoginView(View):
         return render(request, "login.html", {"form": form})
 
     def post(self, request):
-        # print(request.POST)
         form = LoginForm(request.POST)
         if form.is_valid():
             login(request, form.get_user())
@@ -265,7 +268,7 @@ def account_update(request):
                 # パスワードを変更した後にセッションを更新
                 update_session_auth_hash(request, user)
                 messages.success(request, 'アカウント情報が更新されました。')
-                return redirect('app:login')  # ログイン画面へリダイレクト
+                return redirect('app:login')  # ログイン画面へ
     else:
         form = AccountUpdateForm(instance=user)
 
@@ -279,7 +282,7 @@ def image_update(request):
         form = ImageUploadForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('app:my_page')  # アップロード後にマイページにリダイレクト
+            return redirect('app:my_page')  # アップロード後にマイページへ
     else:
         form = ImageUploadForm(instance=user)
 
@@ -294,19 +297,17 @@ def image_delete(request):
         user.image_url.delete()  # 画像ファイルを削除
         user.image_url = None
         user.save()
-        return redirect('app:my_page')  # 削除後にマイページにリダイレクト
+        return redirect('app:my_page')  # 削除後にマイページへ
 
     return render(request, 'app/image_delete_confirm.html')
 
 # 子供の情報作成
 class ChildrenCreateView(View):
     def get(self, request):
-        # 空のフォームを生成してテンプレートに渡す
         form = ChildrenForm()
         return render(request, "children_form.html",{"form": form})
 
     def post(self, request):
-        # POSTデータでフォームを生成
         form = ChildrenForm(request.POST)
         if form.is_valid():
             child = form.save(commit=False)
@@ -318,7 +319,6 @@ class ChildrenCreateView(View):
             child.save()  # householdがなくても保存
             return redirect("app:my_page")  # 成功時にリダイレクト
         
-        # フォームが無効な場合、エラーとともにフォームを再表示
         return render(request, "children_form.html", {"form": form, "errors": form.errors})    
 
 
@@ -344,11 +344,11 @@ class ChildrenUpdateDeleteView(View):
         # 存在する場合の更新・削除処理
         child = get_object_or_404(Children, pk=pk)
 
-        if '保存' in request.POST:  # ボタンの name 属性に合わせて条件分岐を変更
+        if '保存' in request.POST:  
             form = ChildrenForm(request.POST, instance=child)
             if form.is_valid():
                 form.save()
-                # 編集後にマイページにリダイレクト
+                # 編集後にマイページへ
                 return redirect('app:my_page')
             else:
                 # フォームが無効な場合、エラーメッセージとともに表示
@@ -357,9 +357,9 @@ class ChildrenUpdateDeleteView(View):
                     "child": child
                 })
 
-        elif '削除' in request.POST:  # ボタンの name 属性に合わせて条件分岐を変更
+        elif '削除' in request.POST:  
             child.delete()
-            # 削除後にマイページにリダイレクト
+            # 削除後にマイページへ
             return redirect('app:my_page')
 
         # どちらの条件も満たさない場合、フォームを再表示
@@ -381,12 +381,12 @@ class DiaryCreateView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = DiaryForm(user=request.user, data=request.POST, files=request.FILES)  # ユーザーを渡す
-        media_files = request.FILES.getlist('media_url')  # 画像や動画のファイルを取得
+        form = DiaryForm(user=request.user, data=request.POST, files=request.FILES)  
+        media_files = request.FILES.getlist('media_url')  
 
         if form.is_valid():
             diary = form.save(commit=False)
-            diary.user = request.user  # ログインユーザーを日記に関連付ける
+            diary.user = request.user  
             diary.save()
 
             # メディアファイルの保存
@@ -397,17 +397,17 @@ class DiaryCreateView(View):
                     media_type = 'image' if media_file.content_type.startswith('image') else 'video'
                 )
                 media.save()
-            # 投稿後に一覧画面にリダイレクト
+            # 投稿後に一覧画面へ
             return redirect(self.success_url)
 
         # バリデーションエラーの場合、フォームを再表示
         return render(request, self.template_name, {'form': form})
     
 class DiaryListView(LoginRequiredMixin, View):
-    template_name = 'diary_list.html'  # 一覧ページのテンプレート
+    template_name = 'diary_list.html'  
 
     def get(self, request):
-        selected_filter = request.GET.get('child')  # プルダウンから選択されたフィルタの値を取得
+        selected_filter = request.GET.get('child')  
         
         # 子供の選択用プルダウンのために子供のリストを取得
         children = Children.objects.filter(household=request.user.household)
@@ -433,7 +433,6 @@ class DiaryListView(LoginRequiredMixin, View):
         for diary in diaries:
             grouped_diaries[diary.entry_date.year].append(diary)
 
-        # 辞書をテンプレートで使用できるようにリストに変換してソート
         grouped_diaries = sorted(grouped_diaries.items(), key=lambda x: x[0], reverse=True)
 
         return render(request, self.template_name, {
@@ -444,36 +443,52 @@ class DiaryListView(LoginRequiredMixin, View):
 
 class DiaryDetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        diary = get_object_or_404(Diary, pk=pk)
+        diary = Diary.objects.filter(
+            Q(pk=pk) & (Q(child__household=request.user.household) | Q(child=None))
+        ).first()
+
+        if not diary:
+            raise Http404("Diary not found")
+
         comments = Comment.objects.filter(diary=diary).order_by('-created_at')
         return render(request, "diary_detail.html", context={
             "diary": diary,
             "comments": comments
-        })
-        
+        })  
 class DiaryEditView(View):
     template_name = 'diary_edit.html'
 
     def get(self, request, pk):
-        # 編集する日記を取得
-        diary = get_object_or_404(Diary, pk=pk)
+        # childがNoneの場合も考慮して日記を取得
+        if Diary.objects.filter(pk=pk, child__isnull=False).exists():
+            diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household)
+        else:
+            diary = get_object_or_404(Diary, pk=pk, child=None)
+        
         form = DiaryForm(instance=diary, user=request.user)
-
-        # 日記に関連するメディアを取得
-        media_list = diary.medias.all()  # DiaryMedia からメディアを取得
+        media_list = diary.medias.all()  # 日記に関連するメディアを取得
 
         return render(request, self.template_name, {
             'form': form,
             'diary': diary,
-            'media_list': media_list  # メディアをテンプレートに渡す
+            'media_list': media_list  # メディアリストをテンプレートに渡す
         })
 
     def post(self, request, pk):
-        # 編集する日記を取得
-        diary = get_object_or_404(Diary, pk=pk)
+        # childがNoneの場合も考慮して日記を取得
+        if Diary.objects.filter(pk=pk, child__isnull=False).exists():
+            diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household)
+        else:
+            diary = get_object_or_404(Diary, pk=pk, child=None)
+
         form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user)
 
+        print("POST request data:", request.POST)
+        print("FILES request data:", request.FILES)
+
         if form.is_valid():
+            print("Form is valid.")  # フォームが有効ならデバッグ出力
+
             form.save()
 
             # 新しいメディアを追加
@@ -482,24 +497,41 @@ class DiaryEditView(View):
                 media_type = 'image' if media_file.content_type.startswith('image') else 'video'
                 DiaryMedia.objects.create(diary=diary, media_file=media_file, media_type=media_type)
 
+            # 削除するメディアのIDを取得
+            delete_media_ids = request.POST.getlist('delete_media')
+            print("Delete media IDs:", delete_media_ids)  # 削除対象のメディアIDをデバッグ出力
+
+            if delete_media_ids:
+                DiaryMedia.objects.filter(id__in=delete_media_ids, diary=diary).delete()
+                print("Deleted media with IDs:", delete_media_ids)  # 削除完了の確認
+
+            # 編集後、詳細ページにリダイレクト
             return redirect(reverse('app:diary_detail', kwargs={'pk': diary.pk}))
+        else:
+            print("Form is invalid.")  # フォームが無効ならデバッグ出力
+            print(form.errors)  # エラーメッセージを出力
 
-        media_list = diary.medias.all()  # Diary に関連するメディアを再取得
-        return render(request, self.template_name, {'form': form, 'diary': diary, 'media_list': media_list})
-
+        # バリデーション失敗時にメディアリストを再取得
+        media_list = diary.medias.all()
+        return render(request, self.template_name, {
+            'form': form,
+            'diary': diary,
+            'media_list': media_list,
+            'errors': form.errors  # エラーメッセージをテンプレートに渡す
+        })
 class DiaryDeleteView(View):
-    template_name = 'diary_confirm_delete.html'  # 削除確認ページのテンプレート
+    template_name = 'diary_confirm_delete.html'  
 
     def get(self, request, pk):
-        # 削除する日記を取得
-        diary = get_object_or_404(Diary, pk=pk)
+        # childがNoneの場合も考慮して、削除する日記を取得
+        diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household) if Diary.objects.filter(pk=pk, child__isnull=False).exists() else get_object_or_404(Diary, pk=pk, child=None)
         return render(request, self.template_name, {'diary': diary})
 
     def post(self, request, pk):
-        # 削除する日記を取得
-        diary = get_object_or_404(Diary, pk=pk)
+        # childがNoneの場合も考慮して、削除する日記を取得
+        diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household) if Diary.objects.filter(pk=pk, child__isnull=False).exists() else get_object_or_404(Diary, pk=pk, child=None)
         diary.delete()  # 日記を削除
-        # 削除後に一覧ページにリダイレクト
+        # 削除後に一覧ページへ
         return redirect(reverse('app:diary_list'))
 
 
@@ -508,7 +540,7 @@ class DeleteMediaView(View):
         # メディアの削除処理
         media = get_object_or_404(DiaryMedia, pk=media_pk, diary__pk=pk)
         media.delete()
-        # 削除後、編集ページにリダイレクト
+        # 削除後、編集ページへ
         return redirect(reverse('app:diary_edit', kwargs={'pk': pk}))
 class CommentCreateView(View):
     def get(self, request, diary_id):
@@ -592,13 +624,12 @@ class ArtworkCreateView(LoginRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        # POSTデータとユーザー情報を渡してフォームを初期化
         form = ArtworkForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             artwork = form.save(commit=False)
-            artwork.user = request.user  # ログインユーザーを作品に関連付ける
+            artwork.user = request.user  
             artwork.save()
-            return redirect('app:artwork_list')  # 作品一覧ページにリダイレクト
+            return redirect('app:artwork_list')  # 作品一覧ページへ
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -606,22 +637,25 @@ class ArtworkCreateView(LoginRequiredMixin, View):
 class ArtworkListView(LoginRequiredMixin, View):
     template_name = 'artwork_list.html'
 
-    
     def get(self, request):
         selected_child = request.GET.get('child')
-        
-        # 全ての子供のリストを取得
+
+        # 全ての子供のリストを取得（ログインユーザーの家族に属する子供）
         children = Children.objects.filter(household=request.user.household)
-        
+
         # 作品をフィルタリング
         if selected_child:
-            # 特定の子供に絞り込み
-            artworks = Artwork.objects.filter(user=request.user, child_id=selected_child).order_by('-creation_date')
-
+            try:
+                # 特定の子供に絞り込み
+                selected_child = int(selected_child)  
+                artworks = Artwork.objects.filter(child_id=selected_child, user__household=request.user.household).order_by('-creation_date')
+            except ValueError:
+                # フィルタが無効な場合、すべての作品を表示
+                artworks = Artwork.objects.filter(user__household=request.user.household).order_by('-creation_date')
         else:
-            # 全ての投稿を表示
-            artworks = Artwork.objects.filter(user=request.user).order_by('-creation_date')
-        
+            # 同じ家族の全ての作品を表示
+            artworks = Artwork.objects.filter(user__household=request.user.household).order_by('-creation_date')
+
         return render(request, self.template_name, {
             'artworks': artworks,
             'children': children,
@@ -632,20 +666,42 @@ class ArtworkDetailView(LoginRequiredMixin, View):
     template_name = 'artwork_detail.html'
 
     def get(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user=request.user)  # ログインユーザーの作品のみ取得
-        return render(request, self.template_name, {'artwork': artwork})
-    
+        artwork = get_object_or_404(Artwork, pk=pk,user__household=request.user.household)  
+        # 子供の誕生日から作成日までの年齢を計算
+        def calculate_age(birthdate, creation_date):
+            age = relativedelta(creation_date, birthdate)
+            return age.years, age.months
+
+        # 誕生日と作成日を使って年齢を計算
+        birthdate = artwork.child.birthdate
+        creation_date = artwork.creation_date
+        age_years, age_months = calculate_age(birthdate, creation_date)
+
+        context = {
+            'artwork': artwork,
+            'age_years': age_years,
+            'age_months': age_months,
+        }
+        return render(request, self.template_name, context)    
 class ArtworkEditView(LoginRequiredMixin, View):
     template_name = 'artwork_edit.html'
 
     def get(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user=request.user)  # ログインユーザーの作品のみ取得
+        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household) 
         form = ArtworkForm(instance=artwork, user=request.user)
         return render(request, self.template_name, {'form': form, 'artwork': artwork})
 
     def post(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user=request.user)
+        # デバッグ: 現在のユーザーと指定されたpkの確認
+        print(f"Logged in user: {request.user}")
+        print(f"Requested artwork ID: {pk}")
+        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household)
         form = ArtworkForm(request.POST, request.FILES, instance=artwork, user=request.user)
+        return render(request, self.template_name, {'form': form, 'artwork': artwork})
+        
+    def post(self, request, pk):
+        artwork = get_object_or_404(Artwork, pk=pk,user__household=request.user.household)
+        form = ArtworkForm(request.POST, request.FILES, instance=artwork, user=request.user)    
         if form.is_valid():
             form.save()
             return redirect('app:artwork_detail', pk=artwork.pk)
@@ -655,13 +711,13 @@ class ArtworkDeleteView(LoginRequiredMixin, View):
     template_name = 'artwork_confirm_delete.html'
 
     def get(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user=request.user)  # ログインユーザーの作品のみ取得
+        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household) 
         return render(request, self.template_name, {'artwork': artwork})
 
     def post(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user=request.user)
+        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household)
         artwork.delete()
-        
+        return redirect(reverse('app:artwork_list'))  
 class GrowthRecordCreateView(LoginRequiredMixin, View):
     template_name = 'growth_record_form.html'
 
@@ -673,9 +729,9 @@ class GrowthRecordCreateView(LoginRequiredMixin, View):
         form = GrowthRecordForm(request.POST, user=request.user)
         if form.is_valid():
             growth_record = form.save(commit=False)
-            growth_record.user = request.user  # ログインユーザーを記録に関連付ける
+            growth_record.user = request.user  
             growth_record.save()
-            return redirect('app:growth_record_list')  # 成功時に一覧画面にリダイレクト
+            return redirect('app:growth_record_list')  # 成功時に一覧画面へ
         return render(request, self.template_name, {'form': form})
     
 class GrowthRecordListView(LoginRequiredMixin, View):
@@ -689,7 +745,7 @@ class GrowthRecordListView(LoginRequiredMixin, View):
         if selected_child:
             growth_records = GrowthRecord.objects.filter(child_id=selected_child).order_by('-measurement_date')
         else:
-            growth_records = GrowthRecord.objects.all().order_by('-measurement_date')
+            growth_records = GrowthRecord.objects.filter(child__household=request.user.household).order_by('-measurement_date')
         
         # 年齢の計算
         for record in growth_records:
@@ -710,25 +766,25 @@ class GrowthRecordUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         # 編集対象の成長記録を取得
-        record = get_object_or_404(GrowthRecord, pk=pk)
+        record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
         form = GrowthRecordForm(instance=record)
         return render(request, self.template_name, {'form': form, 'record': record})
 
     def post(self, request, pk):
         # 編集対象の成長記録を取得
-        record = get_object_or_404(GrowthRecord, pk=pk)
+        record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
         form = GrowthRecordForm(request.POST, instance=record)
 
         # 「保存」ボタンが押された場合
         if 'save' in request.POST and form.is_valid():
             form.save()
-            # 成功時に詳細画面にリダイレクト
+            # 成功時に詳細画面へ
             return redirect('app:growth_record_list')
 
         # 「削除」ボタンが押された場合
         elif 'delete' in request.POST:
             record.delete()
-            # 削除後に一覧画面にリダイレクト
+            # 削除後に一覧画面へ
             return redirect('app:growth_record_list')
 
         # バリデーションエラーがある場合、フォームを再表示
@@ -757,17 +813,20 @@ class HomeView(LoginRequiredMixin, View):
             artworks = Artwork.objects.filter(child=selected_child)
             growth_records = GrowthRecord.objects.filter(child=selected_child)
         else:
-            # 修正: entry_date の降順でソート
-            diaries = Diary.objects.filter(child__household=request.user.household).order_by('-entry_date')
+            # 「みんなの日記」も含む（child=None の日記も取得）
+            diaries = Diary.objects.filter(
+                (Q(child__household=request.user.household) | Q(child=None))
+            ).order_by('-entry_date')
             artworks = Artwork.objects.filter(child__household=request.user.household)
             growth_records = GrowthRecord.objects.filter(child__household=request.user.household)
-        
+
         # 各リストを作成
         diaries_list = [
             {
                 'created_at': ensure_datetime(d.entry_date),
                 'id': d.id,
                 'type': 'diary',
+                'child_name': d.child.child_name if d.child else None,  
                 'content': d.content,
                 'template': d.template.text if d.template else '',
                 'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
@@ -781,7 +840,7 @@ class HomeView(LoginRequiredMixin, View):
                 'created_at': ensure_datetime(a.creation_date),
                 'id': a.id,
                 'type': 'artwork',
-                'child_name': a.child.child_name,
+                'child_name': a.child.child_name if a.child else None,
                 'title': a.title,
                 'image': a.image.url if a.image else None,
                 'detail_url': reverse('app:artwork_detail', args=[a.id]),

@@ -9,8 +9,7 @@ urlpatterns = [
     path('app/', include('app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('join/<str:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),  
-    # path('', portfolio, name='portfolio')ポートフォリオ作成時に使用
 ]
 
-if settings.DEBUG:  # DEBUGがTrueのときだけ適用
+if settings.DEBUG:  
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

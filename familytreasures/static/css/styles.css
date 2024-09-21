@@ -1,6 +1,7 @@
 /* ナビゲーションバー全体のスタイル */
 .navbar {
-  background-color: #dda0dd;
+  background-color: #dda0dd !important; /* ナビゲーションバーの上の余白をリセット */
+  width: 100%; /* 幅を100%;
   height: 50px; /* 高さを調整 */
   padding: 5px 20px; /* パディングを減らして高さを縮小 */
   margin-top: 0 !important; /* ナビゲーションバーの上の余白をリセット */

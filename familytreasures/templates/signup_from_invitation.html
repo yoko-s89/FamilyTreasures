@@ -1,17 +1,24 @@
-{% extends 'base.html' %}
-
-{% block title %}
-家族招待新規アカウント登録-Family Treasures
-{% endblock %}
-
-{% block content %}
-<h2>家族招待からの新規アカウント登録</h2>
-<form method="post">
-    {% csrf_token %}
-    <!-- トークンを隠しフィールドとして追加 -->
-    <input type="hidden" name="token" value="{{ token }}">
-    
-    {{ form.as_p }}
-    <button type="submit">登録</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家族招待新規アカウント登録-Family Treasures
+    </title>
+    <link rel="stylesheet" href="{% static 'css/signup_from_invitation.css' %}">
+</head>
+<body>
+    <div class="container">  <!-- コンテナを追加 -->
+        <h2>家族招待からの新規アカウント登録</h2>
+        <form method="post">
+            {% csrf_token %}
+            <!-- トークンを隠しフィールドとして追加 -->
+            <input type="hidden" name="token" value="{{ token }}">
+            
+            {{ form.as_p }}
+            <button type="submit">登録</button>
+        </form>
+    </div>
+</body>
+</html>

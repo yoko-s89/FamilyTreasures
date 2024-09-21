@@ -1,11 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate
-# from app.models import User
-from django.contrib.auth import get_user_model  # get_user_modelをインポート
+from django.contrib.auth import get_user_model  
 from .models import Children, Diary, DiaryMedia, Comment, Weather, Stamp, Template, Artwork, GrowthRecord
 from .models import User
-User = get_user_model()  # 動的にカスタムユーザーモデルを取得
+User = get_user_model() 
 from django.utils import timezone
 
 class SignupForm(UserCreationForm):
@@ -69,30 +68,34 @@ class UserProfileForm(forms.ModelForm):
         model = User
         fields = ['user_name', 'image_url']  
         widgets = {
-            'image_url': forms.FileInput(),  # ファイル入力を使って画像をアップロード
+            'image_url': forms.FileInput(),  
         }
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
-        model = User  # 使用するモデルを指定
-        fields = ['image_url']  # 画像フィールドを指定
+        model = User  
+        fields = ['image_url']  
 
 class ChildrenForm(forms.ModelForm):
     class Meta:
         model = Children
         fields = [ 'child_name', 'birthdate']
         labels = {
-            'child_name': '名前/ニックネーム',  # ラベルを日本語に変更
-            'birthdate': '誕生日',            # ラベルを日本語に変更
+            'child_name': '名前/ニックネーム',   
+            'birthdate': '誕生日',          
         }  
         widgets = {
-            'birthdate': forms.DateInput(attrs={'type': 'date'}),  # 日付入力用のウィジェット
+            'birthdate': forms.DateInput(attrs={'type': 'date'}), 
         }
 
 class InvitationSignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['user_name', 'email', 'password1', 'password2'] 
+        labels = {
+            'user_name': '名前/ニックネーム',
+            'email': 'メールアドレス',
+        }
 
 class DiaryForm(forms.ModelForm):
     class Meta:
@@ -106,7 +109,7 @@ class DiaryForm(forms.ModelForm):
         }
 
     child = forms.ModelChoiceField(
-        queryset=Children.objects.none(),  # 初期値を空にしておく
+        queryset=Children.objects.none(),  
         required=False,
         empty_label="子供を選択してください",
         label="子供"
@@ -151,7 +154,6 @@ class DiaryForm(forms.ModelForm):
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia
-        # fields = ['media_type', 'media_url']
         fields = ['media_file']
         widgets = {
             'media_file': forms.ClearableFileInput(attrs={'multiple': True}),  # 複数ファイル選択を許可
@@ -184,7 +186,7 @@ class ArtworkForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  
         super().__init__(*args, **kwargs)
-        self.fields['creation_date'].initial = timezone.now().date()  # 現在の日付をデフォルトに設定
+        self.fields['creation_date'].initial = timezone.now().date() 
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
             
@@ -212,5 +214,4 @@ class GrowthRecordForm(forms.ModelForm):
         user = kwargs.pop('user', None)  
         super().__init__(*args, **kwargs)
         if user:
-            # ログインユーザーに関連付けられた子供のリストをプルダウンに表示
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
