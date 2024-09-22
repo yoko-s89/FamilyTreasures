@@ -20,7 +20,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'), 
     #アカウント情報更新
-    path('account/update//', views.account_update, name='account_update'),
+    path('account/update/', views.account_update, name='account_update'),
     #マイページ
     path('my_page/', views.my_page, name='my_page'),
     path('image_update/', views.image_update, name='image_update'),
