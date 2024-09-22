@@ -13,7 +13,6 @@ from . import views
 app_name = 'app'
 
 urlpatterns = [
-    path('',  views.PortfolioView.as_view(), name='portfolio'),
     #ホームページ
     path('home/', HomeView.as_view(), name='home'),
     #ユーザー認証
