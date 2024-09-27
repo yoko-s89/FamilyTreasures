@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import Household, Children, Diary, Template, Stamp, DiaryMedia, Weather
+from .models import Household, Children, Diary, Template, Stamp, DiaryMedia, Weather, Household
 
 User = get_user_model()
 
@@ -26,6 +26,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('user_name', 'email', 'password1', 'password2', 'is_staff', 'is_active'),
         }),
     )
+
 
 # その他のモデル
 admin.site.register(Household)

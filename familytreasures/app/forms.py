@@ -152,6 +152,7 @@ class InvitationSignupForm(UserCreationForm):
 #             'email': 'メールアドレス',
 #         }
 
+
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
@@ -161,6 +162,7 @@ class DiaryForm(forms.ModelForm):
                 'placeholder': '内容',
                 'rows': 5,
             }),
+            'entry_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
     child = forms.ModelChoiceField(
@@ -169,9 +171,6 @@ class DiaryForm(forms.ModelForm):
         empty_label="子供を選択してください",
         label="子供"
     )
-
-    # メディアの追加用フィールド
-    media_files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     weather = forms.ModelChoiceField(
         queryset=Weather.objects.all(),
@@ -206,12 +205,80 @@ class DiaryForm(forms.ModelForm):
         super(DiaryForm, self).__init__(*args, **kwargs)
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
+
+    # ファイルのバリデーションはビュー側で実施
+    
+# class DiaryForm(forms.ModelForm):
+#     class Meta:
+#         model = Diary
+#         fields = ['child', 'template', 'stamp', 'weather', 'content', 'entry_date']
+#         widgets = {
+#             'content': forms.Textarea(attrs={
+#                 'placeholder': '内容',
+#                 'rows': 5,
+#             }),
+#         }
+
+#     child = forms.ModelChoiceField(
+#         queryset=Children.objects.none(),  
+#         required=False,
+#         empty_label="子供を選択してください",
+#         label="子供"
+#     )
+
+#     # メディアの追加用フィールド
+#     # media_files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+#     media_files = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False)
+
+
+#     weather = forms.ModelChoiceField(
+#         queryset=Weather.objects.all(),
+#         required=False,
+#         empty_label="天気を選択してください",
+#         label="天気"
+#     )
+    
+#     stamp = forms.ModelChoiceField(
+#         queryset=Stamp.objects.all(),
+#         required=False,
+#         empty_label="気持ちを選択してください",
+#         label="気持ちのスタンプ",
+#         widget=forms.Select(attrs={'class': 'stamp-select'})
+#     )
+
+#     template = forms.ModelChoiceField(
+#         queryset=Template.objects.all(),
+#         required=False,
+#         empty_label="定型文を選択してください",
+#         label="一言"
+#     )
+    
+#     entry_date = forms.DateField(
+#         initial=timezone.now,
+#         widget=forms.DateInput(attrs={'type': 'date'}),
+#         label="日記の日付"
+#     )
+
+#     def __init__(self, *args, **kwargs):
+#         user = kwargs.pop('user', None)
+#         super(DiaryForm, self).__init__(*args, **kwargs)
+#         if user:
+#             self.fields['child'].queryset = Children.objects.filter(household=user.household)
+
+
+# class DiaryMediaForm(forms.ModelForm):
+#     class Meta:
+#         model = DiaryMedia
+#         fields = ['media_file']
+#         widgets = {
+#             'media_file': forms.FileInput(),  # multiple 属性を削除
+#         }
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia
         fields = ['media_file']
         widgets = {
-            'media_file': forms.ClearableFileInput(attrs={'multiple': True}),  # 複数ファイル選択を許可
+            'media_file': forms.FileInput(),  # `multiple=True` を削除
         }
 
 

@@ -5,12 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<!-- CSSファイルの読み込み -->
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/diary_form.css' %}">
-
-<!-- フォーム全体のコンテナ -->
-<form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}">
+<!-- フォーム全体のコンテナに特定のクラスを追加 -->
+<form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}" class="diary-form">
     {% csrf_token %}
 
     <!-- フォーム全体のエラーメッセージ -->
@@ -26,7 +22,7 @@
 
     <!-- 子供の名前（プルダウン） -->
     <div class="form-group">
-        <label for="child">子供の名前</label>
+        <label for="{{ form.child.id_for_label }}">子供の名前</label>
         {{ form.child }}
     </div>
 
@@ -34,38 +30,38 @@
     <div class="flex-container">
         <!-- 日記の日付 -->
         <div class="form-group">
-            <label for="entry_date">日記の日付:</label>
+            <label for="{{ form.entry_date.id_for_label }}">日記の日付:</label>
             {{ form.entry_date }}
         </div>
 
         <!-- 天気 -->
         <div class="form-group">
-            <label for="weather">天気:</label>
+            <label for="{{ form.weather.id_for_label }}">天気:</label>
             {{ form.weather }}
         </div>
 
         <!-- 気持ちのスタンプ -->
         <div class="form-group">
-            <label for="stamp">気持ちのスタンプ:</label>
+            <label for="{{ form.stamp.id_for_label }}">気持ちのスタンプ:</label>
             {{ form.stamp }}
         </div>
 
         <!-- 写真・動画のアップロード -->
         <div class="form-group">
             <label for="media">写真・動画追加</label>
-            <input type="file" name="media_url" id="media" multiple>
+            <input type="file" name="media_files" id="media" multiple>
         </div>
     </div>
 
     <!-- 一言（定型文のプルダウン） -->
     <div class="form-group">
-        <label for="template">一言:</label>
+        <label for="{{ form.template.id_for_label }}">一言:</label>
         {{ form.template }}
     </div>
 
     <!-- 日記の内容 -->
     <div class="form-group">
-        <label for="content">日記の内容</label>
+        <label for="{{ form.content.id_for_label }}">日記の内容</label>
         {{ form.content }}
     </div>
 
@@ -75,29 +71,29 @@
     <!-- 投稿ボタン -->
     <button type="submit" class="submit-button">投稿する</button>
 </form>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
     document.getElementById("media").addEventListener("change", function () {
-        var previewContainer = document.getElementById("media-preview");
-        var files = this.files;
+        const previewContainer = document.getElementById("media-preview");
+        const files = this.files;
 
         // プレビューをクリア
         previewContainer.innerHTML = "";
 
         // 選択されたファイルを1つずつ処理
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
+        for (let i = 0; i < files.length; i++) {  // var から let に変更
+            let file = files[i];  // var から let に変更
 
             // 画像ファイルの場合
             if (file.type.startsWith('image/')) {
-                var img = document.createElement('img');
+                let img = document.createElement('img');  // var から let に変更
                 img.style.maxWidth = '200px'; // プレビュー画像の最大幅
                 img.style.margin = '10px';
+                img.alt = `Image preview ${i + 1}`;
 
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function(e) {
                     img.src = e.target.result;
                 };
@@ -108,12 +104,13 @@
 
             // 動画ファイルの場合
             if (file.type.startsWith('video/')) {
-                var video = document.createElement('video');
+                let video = document.createElement('video');  // var から let に変更
                 video.style.maxWidth = '200px'; // プレビュー動画の最大幅
                 video.style.margin = '10px';
                 video.controls = true;
+                video.alt = `Video preview ${i + 1}`;
 
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function(e) {
                     video.src = e.target.result;
                 };
