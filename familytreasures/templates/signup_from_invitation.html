@@ -1,24 +1,80 @@
+<!-- templates/signup_from_invitation.html -->
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家族招待新規アカウント登録-Family Treasures
-    </title>
+    <title>家族招待新規アカウント登録 - Family Treasures</title>
+    <!-- BootstrapのCSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- カスタムCSS -->
     <link rel="stylesheet" href="{% static 'css/signup_from_invitation.css' %}">
 </head>
 <body>
-    <div class="container">  <!-- コンテナを追加 -->
+    <div class="container mt-5">
         <h2>家族招待からの新規アカウント登録</h2>
-        <form method="post">
+        
+        <!-- フラッシュメッセージの表示部分 -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
             <!-- トークンを隠しフィールドとして追加 -->
             <input type="hidden" name="token" value="{{ token }}">
             
-            {{ form.as_p }}
-            <button type="submit">登録</button>
+            <div class="mb-3">
+                <label for="{{ form.user_name.id_for_label }}" class="form-label">{{ form.user_name.label }}</label>
+                {{ form.user_name }}
+                {% if form.user_name.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.user_name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.password1.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.password2.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">登録</button>
         </form>
     </div>
+
+    <!-- BootstrapのJavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

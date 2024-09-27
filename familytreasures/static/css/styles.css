@@ -1,13 +1,15 @@
 /* ナビゲーションバー全体のスタイル */
 .navbar {
-  background-color: #dda0dd !important; /* ナビゲーションバーの上の余白をリセット */
-  width: 100%; /* 幅を100%;
+  background-color: #dda0dd !important; /* ナビゲーションバーの背景色 */
+  width: 100%; /* 幅を100%に設定 */
   height: 50px; /* 高さを調整 */
   padding: 5px 20px; /* パディングを減らして高さを縮小 */
   margin-top: 0 !important; /* ナビゲーションバーの上の余白をリセット */
-  width: 100%; /* 幅を100%に設定 */
   margin: 0; /* 左右の余白をリセット */
   box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズ */
+  display: flex; /* 横並びにするためのflexbox */
+  align-items: center; /* 垂直方向の要素を中央揃えにする */
+  justify-content: space-between; /* 左右の要素を端に揃える */
 }
 
 /* ナビゲーションバーのリンクのスタイル */
@@ -16,6 +18,11 @@
   color: #000; /* 通常リンクの文字色 */
   font-size: 16px; /* フォントサイズを小さくする */
   margin: 0 10px; /* リンク間のスペースを調整 */
+  padding: 5px 10px; /* 上下のパディングを調整 */
+  display: inline-block; /* リンクをインラインブロックにする */
+  text-decoration: none; /* 下線をなくす */
+  line-height: 1.5; /* リンク内のテキストの高さを調整 */
+  vertical-align: middle; /* 垂直方向の中央揃え */
 }
 
 /* ロゴやタイトルのスタイル */
@@ -61,3 +68,33 @@ nav a:hover {
   text-decoration: underline; /* ホバー時に下線を追加 */
 }
 
+/* ログアウトフォームのスタイル調整 */
+.navbar .nav-item form {
+  display: inline-block; /* 他のリンクと揃えるためにインラインブロック */
+  margin: 0;
+  padding: 0;
+  line-height: 1.5; /* フォームの高さをリンクと揃える */
+  vertical-align: middle; /* 垂直方向に中央揃え */
+}
+
+/* ログアウトボタンのスタイルを他のリンクと揃える */
+.navbar .nav-item form .nav-link {
+  font-weight: bold;
+  color: #000; /* 通常リンクの文字色 */
+  font-size: 16px; /* フォントサイズを他のリンクと揃える */
+  margin: 0 10px; /* リンク間のスペースを調整 */
+  padding: 5px 10px; /* 他のリンクと同様のパディング */
+  display: inline-block; /* 他のリンクと同様にインラインブロック */
+  text-decoration: none; /* ボタンのテキストにリンク風の下線を除外 */
+  background: none; /* 背景をなくす */
+  border: none; /* 枠線をなくす */
+  line-height: 1.5; /* ボタンの高さをリンクと揃える */
+  vertical-align: middle; /* 垂直方向に中央揃え */
+  position: relative; /* 要素の相対的な位置を調整 */
+  transform: translateY(3px); /* 3px下に移動 */
+}
+
+/* ログアウトボタンのホバー時の装飾 */
+.navbar .nav-item form .nav-link:hover {
+  text-decoration: underline; /* ホバー時に下線を追加 */
+}

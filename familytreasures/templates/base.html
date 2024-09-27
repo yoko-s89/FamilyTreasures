@@ -63,16 +63,19 @@
 
                     <!-- ログイン・ログアウトリンク -->
                     {% if request.user.is_authenticated %}
-                        <!-- ログアウトリンク -->
+                        <!-- ログアウトフォーム -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'app:logout' %}">ログアウト</a>
+                            <form method="post" action="{% url 'app:logout' %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link" style="display: inline; padding: 0; margin: 0; border: none; background: none;">ログアウト</button>
+                            </form>
                         </li>
                     {% else %}
                         <!-- ログインリンク -->
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'app:login' %}">ログイン</a>
                         </li>
-                    {% endif %}            
+                    {% endif %}          
                 </ul>
             </div>
         </div>
