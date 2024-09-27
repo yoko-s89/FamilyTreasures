@@ -1,5 +1,3 @@
-<!-- my_page.html -->
-
 {% extends 'base.html' %}
 
 {% block title %}
@@ -106,7 +104,7 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('imageModal')">&times;</span>
         <h2>画像登録・編集</h2>
-        <form method="post" enctype="multipart/form-data" action="{% url 'app:my_page' %}">  <!-- アクションURLを 'app:my_page' に変更 -->
+        <form method="post" enctype="multipart/form-data" action="{% url 'app:my_page' %}">
             {% csrf_token %}
             
             <!-- フォーム全体のエラーメッセージ表示 -->
@@ -125,15 +123,6 @@
                 </div>
             {% endif %}
             
-            <div class="form-group">
-                <label for="{{ form.user_name.id_for_label }}">{{ form.user_name.label }}</label>
-                {{ form.user_name }}
-                {% if form.user_name.errors %}
-                    <div class="text-danger">
-                        {{ form.user_name.errors }}
-                    </div>
-                {% endif %}
-            </div>
             <div class="form-group">
                 <label for="{{ form.image_url.id_for_label }}">{{ form.image_url.label }}</label>
                 {{ form.image_url }}
@@ -160,4 +149,3 @@ function closeModal(id) {
 </script>
 
 {% endblock %}
-

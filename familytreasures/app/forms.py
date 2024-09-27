@@ -65,11 +65,19 @@ class AccountUpdateForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['user_name', 'image_url']  
+        fields = ['image_url']  
         widgets = {
-            'image_url': forms.FileInput(),  
-            'user_name': forms.TextInput(attrs={'placeholder': 'ユーザ名'}),
+            'image_url': forms.FileInput(),
         }
+    
+# class UserProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['user_name', 'image_url']  
+#         widgets = {
+#             'image_url': forms.FileInput(),  
+#             'user_name': forms.TextInput(attrs={'placeholder': 'ユーザ名'}),
+#         }
 
     def clean_user_name(self):
         user_name = self.cleaned_data.get('user_name')
