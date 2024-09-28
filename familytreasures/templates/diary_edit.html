@@ -27,38 +27,39 @@
                 <div class="diary-meta">
                     <!-- 日付 -->
                     <div class="diary-date-info">
-                        <label for="id_entry_date">日付:</label>
+                        <label for="{{ form.entry_date.id_for_label }}">日付:</label>
                         {{ form.entry_date }}
                     </div>
 
                     <!-- 天気 -->
                     <div class="diary-weather-info">
-                        <label for="id_weather">天気:</label>
+                        <label for="{{ form.weather.id_for_label }}">天気:</label>
                         {{ form.weather }}
                     </div>
 
                     <!-- 気持ちスタンプ -->
                     <div class="diary-stamp-info">
-                        <label for="id_stamp">気持ちのスタンプ:</label>
+                        <label for="{{ form.stamp.id_for_label }}">気持ちのスタンプ:</label>
                         {{ form.stamp }}
                     </div>
 
                     <!-- 写真動画を気持ちスタンプの横に配置 -->
                     <div class="diary-media-info">
                         <label for="id_media_files">写真・動画の追加:</label>
-                        {{ form.media_files }}
+                        <input type="file" name="media_files" id="id_media_files" multiple>
+                        <div id="file-preview"></div>
                     </div>
                 </div>
 
                 <!-- 定型文 -->
                 <div class="diary-template">
-                    <label for="id_template">定型文:</label>
+                    <label for="{{ form.template.id_for_label }}">定型文:</label>
                     {{ form.template }}
                 </div>
 
                 <!-- 日記の内容 -->
                 <div class="diary-content-section">
-                    <label for="id_content">内容:</label>
+                    <label for="{{ form.content.id_for_label }}">内容:</label>
                     {{ form.content }}
                 </div>
 
@@ -70,12 +71,11 @@
                             <li>
                                 {% if media.media_type == 'image' %}
                                     <img src="{{ media.media_file.url }}" alt="写真" width="200px">
-                                {% else %}
-                                    {% if media.media_type == 'video' %}
-                                        <video width="200px" controls>
-                                            <source src="{{ media.media_file.url }}" type="video/mp4">
-                                        </video>
-                                    {% endif %}
+                                {% elif media.media_type == 'video' %}
+                                    <video width="200px" controls>
+                                        <source src="{{ media.media_file.url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                 {% endif %}
 
                                 <!-- メディア削除用のチェックボックス -->
@@ -106,4 +106,36 @@
                     </div>
                 {% endif %}
             </form>
+        </div>
+    </div>
+
+    <!-- JavaScript でファイルプレビューを追加 -->
+    <script>
+        const fileInput = document.getElementById('id_media_files');
+        const previewContainer = document.getElementById('file-preview');
+
+        fileInput.addEventListener('change', function(event) {
+            previewContainer.innerHTML = '';  // 既存のプレビューをクリア
+            const files = event.target.files;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.width = 100;
+                        previewContainer.appendChild(img);
+                    } else if (file.type.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.width = 200;
+                        video.controls = true;
+                        previewContainer.appendChild(video);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
 {% endblock %}

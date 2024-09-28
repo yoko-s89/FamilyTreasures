@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     image_url = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "user_name" #このテーブルのレコードを一意に識別
     EMAIL_FIELD = "email"
@@ -66,8 +66,18 @@ class Household(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) 
     updated_at = models.DateTimeField(auto_now=True) 
 
+    def __str__(self):
+        return f"Household {self.id}"
+
     class Meta:
-        db_table = 'households'  
+        db_table = 'households'
+
+# class Household(models.Model):
+#     created_at = models.DateTimeField(auto_now_add=True) 
+#     updated_at = models.DateTimeField(auto_now=True) 
+
+#     class Meta:
+#         db_table = 'households'  
 
 class Invitation(models.Model):
     household = models.ForeignKey('Household', on_delete=models.CASCADE)  
@@ -138,6 +148,7 @@ class Weather(models.Model):
 class Diary(models.Model):
     """日記を管理するモデル"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  
+    household = models.ForeignKey('Household', on_delete=models.CASCADE)  
     child = models.ForeignKey('Children', on_delete=models.SET_NULL, null=True, blank=True)
     template = models.ForeignKey('Template', on_delete=models.SET_NULL, null=True, blank=True)
     stamp = models.ForeignKey('Stamp', on_delete=models.SET_NULL, null=True, blank=True)
@@ -213,7 +224,7 @@ class GrowthRecord(models.Model):
     child = models.ForeignKey('Children', on_delete=models.CASCADE)  
     height = models.FloatField()  # 身長（cm）
     weight = models.FloatField()  # 体重（kg）
-    measurement_date = models.DateField()  # 計測日
+    measurement_date = models.DateField(default=timezone.now)  # 計測日
     memo = models.TextField(blank=True, null=True)  
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)  

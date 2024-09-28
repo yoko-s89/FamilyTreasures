@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
     HomeView,SignupView,LoginView, ChildrenCreateView, ChildrenUpdateDeleteView,
@@ -6,7 +6,7 @@ from .views import (
     CommentDeleteView, DiaryEditView, DiaryDeleteView, ArtworkCreateView, ArtworkListView, 
     ArtworkDetailView, ArtworkEditView, ArtworkDeleteView, GrowthRecordListView, 
     GrowthRecordCreateView, GrowthRecordUpdateView,  my_page, family_delete, create_invitation_view,
-    use_invitation, use_invitation, InviteSignupView, family_delete_confirm, DeleteMediaView
+    InviteSignupView, family_delete_confirm, DeleteMediaView
 )
 from . import views
 
@@ -27,8 +27,9 @@ urlpatterns = [
     path('image_delete/', views.image_delete, name='image_delete'),
     #家族招待
     path('create_invitation/', create_invitation_view, name='create_invitation'),
-    path('join/<uuid:token>/', use_invitation, name='use_invitation'),  # 招待URLのパターン
-
+    # path('join/<uuid:token>/', use_invitation, name='use_invitation'),  # 招待URLのパターン
+    # path('join/<uuid:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),
+    path('join/<str:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),
     #家族削除
     path('family_delete/<int:id>/', family_delete, name='family_delete'),  
     path('family_delete_confirm/<int:id>/', family_delete_confirm, name='family_delete_confirm'),
@@ -58,6 +59,6 @@ urlpatterns = [
     path('growth_records/', GrowthRecordListView.as_view(), name='growth_record_list'),
     path('growth_records/update/<int:pk>/', GrowthRecordUpdateView.as_view(), name='growth_record_update'),
     # UUIDパターンを追加
-    re_path(r'^join/(?P<token>[0-9a-fA-F-]{36})/$', InviteSignupView.as_view(), name='signup_from_invitation'),
+    # re_path(r'^join/(?P<token>[0-9a-fA-F-]{36})/$', InviteSignupView.as_view(), name='signup_from_invitation'),
 ]
 

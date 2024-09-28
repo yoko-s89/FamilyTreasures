@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-マイページ-Family Treasures
+マイページ - Family Treasures
 {% endblock %}
 
 {% block content %}
@@ -104,10 +104,35 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('imageModal')">&times;</span>
         <h2>画像登録・編集</h2>
-        <form method="post" enctype="multipart/form-data" action="{% url 'app:image_update' %}">
+        <form method="post" enctype="multipart/form-data" action="{% url 'app:my_page' %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">アップロード</button>
+            
+            <!-- フォーム全体のエラーメッセージ表示 -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.image_url.id_for_label }}">{{ form.image_url.label }}</label>
+                {{ form.image_url }}
+                {% if form.image_url.errors %}
+                    <div class="text-danger">
+                        {{ form.image_url.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">更新</button>
         </form>
     </div>
 </div>

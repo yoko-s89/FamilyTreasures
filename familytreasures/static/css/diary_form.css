@@ -1,14 +1,13 @@
 /* 全体のスタイル */
-body {
+body { 
   font-family: Arial, sans-serif; /* フォントを指定 */
   background-color: #f0f0f0; /* 背景色 */
   margin: 0;
-  padding-top: 20px; /* ナビゲーションバーとの間の余白 */
-  padding:0;
+  padding: 20px 0 0 0; /* ナビゲーションバーとの間の余白 */
 }
 
-/* フォームコンテナ */
-form {
+/* フォームコンテナ（特定のクラスに限定） */
+form.diary-form {
   background-color: #fff; /* フォームの背景色 */
   padding: 20px; /* 内側の余白 */
   border-radius: 8px; /* 角を丸くする */
@@ -17,19 +16,17 @@ form {
   margin: 20px auto; /* 上下の余白を設定して中央寄せ */
 }
 
-/* 各入力フィールドのスタイル */
+/* 以下、他のスタイルはそのまま */
 .form-group {
   margin-bottom: 20px; /* 下部の余白 */
 }
 
-/* ラベルのスタイル */
 label {
   display: block; /* ブロック要素にして下に配置 */
   margin-bottom: 5px; /* 下部の余白 */
   font-weight: bold; /* 太字 */
 }
 
-/* プルダウンと入力フィールドのスタイル */
 input[type="text"],
 input[type="date"],
 select {
@@ -40,19 +37,16 @@ select {
   font-size: 16px; /* 文字サイズ */
 }
 
-/* 横並びに配置するエリアのスタイル */
 .flex-container {
   display: flex;
   justify-content: space-between; /* 要素間のスペースを均等に配置 */
   gap: 10px; /* 要素間のスペース */
 }
 
-/* 各入力フィールドの幅を調整 */
 .flex-container > .form-group {
   flex: 1; /* フレックスボックスで均等に幅を配分 */
 }
 
-/* 日記の内容のテキストエリア */
 textarea {
   width: 100%;
   padding: 10px;
@@ -63,12 +57,10 @@ textarea {
   min-height: 100px; /* 最低の高さ */
 }
 
-/* プレースホルダーのスタイル */
 textarea::placeholder {
   color: #999; /* プレースホルダーの色 */
 }
 
-/* 投稿ボタンのスタイル */
 .submit-button {
   padding: 10px 20px;
   font-size: 16px;
@@ -83,26 +75,22 @@ textarea::placeholder {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
 }
 
-/* ボタンのホバー時のスタイル */
 .submit-button:hover {
   background-color: #c5a3cd; /* ホバー時の背景色 */
 }
 
-/* エラーメッセージのスタイル */
 .alert-danger {
   color: red; /* エラーメッセージの文字色 */
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-/* ファイルリストのスタイル */
 #file-list {
   list-style: none; /* リストマーカーを消す */
   padding-left: 0;
   margin-top: 10px;
 }
 
-/* プレビューのスタイル */
 #media-preview img,
 #media-preview video {
   max-width: 100%; /* プレビューの最大幅 */
@@ -110,9 +98,4 @@ textarea::placeholder {
   border: 1px solid #ddd; /* 枠線を追加 */
   border-radius: 5px; /* 角を丸くする */
   margin-top: 10px; /* 上部にスペースを追加 */
-}
-
-/* ページ固有の余白をリセット */
-.navbar {
-  margin-top: 0 !important; /* ナビゲーションバーの上の余白をリセット */
 }
