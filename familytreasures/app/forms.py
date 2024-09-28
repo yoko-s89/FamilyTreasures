@@ -21,23 +21,54 @@ class SignupForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
-    password = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)  
+        super().__init__(*args, **kwargs)
+
     def clean(self):
-        print("ログインフォームのクリーンが呼び出された")
         email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get("password")
-        print(email, password)
-        if email is None:
+        password = self.cleaned_data.get('password')
+
+        if not email:
             raise forms.ValidationError("emailは必須です")
-        if password is None:
+        if not password:
             raise forms.ValidationError("passwordは必須です")
-        self.user = authenticate(email=email, password=password)
+        
+        self.user = authenticate(request=self.request, email=email, password=password)
+
         if self.user is None:
             raise forms.ValidationError("認証に失敗しました")
+        
+        
+        if not hasattr(self.user, 'backend'):
+            self.user.backend = 'django.contrib.auth.backends.ModelBackend'  
+
         return self.cleaned_data
     
     def get_user(self):
         return self.user
+
+# class LoginForm(forms.Form):
+#     email = forms.EmailField()
+#     password = forms.CharField()
+#     def clean(self):
+#         print("ログインフォームのクリーンが呼び出された")
+#         email = self.cleaned_data.get('email')
+#         password = self.cleaned_data.get("password")
+#         print(email, password)
+#         if email is None:
+#             raise forms.ValidationError("emailは必須です")
+#         if password is None:
+#             raise forms.ValidationError("passwordは必須です")
+#         self.user = authenticate(email=email, password=password)
+#         if self.user is None:
+#             raise forms.ValidationError("認証に失敗しました")
+#         return self.cleaned_data
+    
+#     def get_user(self):
+#         return self.user
     
 class AccountUpdateForm(forms.ModelForm):
     current_password = forms.CharField(widget=forms.PasswordInput, label="現在のパスワード")

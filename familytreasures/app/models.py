@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     household = models.ForeignKey('Household', on_delete=models.SET_NULL, null=True, blank=True)
     user_name = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     image_url = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -161,11 +161,32 @@ class LoginView(View):
         return render(request, "login.html", {"form": form})
 
     def post(self, request):
-        form = LoginForm(request.POST)
+        # フォームに request を渡す
+        form = LoginForm(request.POST, request=request)  # requestを渡す
         if form.is_valid():
-            login(request, form.get_user())
+            user = form.get_user()
+            
+            # 認証されたユーザーに対して backend がない場合、設定する
+            if not hasattr(user, 'backend'):
+                user.backend = 'django.contrib.auth.backends.ModelBackend'  # デフォルトのバックエンド、必要に応じて変更
+                
+            # ログイン処理
+            login(request, user)
             return redirect("app:home")
-        return render(request, "login.html", {"form": form}) 
+        return render(request, "login.html", {"form": form})
+
+# class LoginView(View):
+#     def get(self, request):
+#         form = LoginForm()
+#         return render(request, "login.html", {"form": form})
+
+#     def post(self, request):
+#         form = LoginForm(request.POST)
+#         if form.is_valid():
+#             login(request, form.get_user())
+#             return redirect("app:home")
+#         return render(request, "login.html", {"form": form}) 
+    
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "home.html")
