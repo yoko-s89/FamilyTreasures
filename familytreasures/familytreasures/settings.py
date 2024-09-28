@@ -23,9 +23,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'django-insecure-r(l+ibf6uz7y_q^myt$n&ppcd80fd6o)fu*2@#83rr_a#kqnr)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yokosuzuki.pythonanywhere.com']
 
 
 # Application definition
@@ -96,7 +96,7 @@ AUTH_USER_MODEL = "app.User"
 AUTHENTICATION_BACKENDS = [
     "app.backends.UserAuthBackend",
     'app.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',  
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Password validation
