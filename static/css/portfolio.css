@@ -1,0 +1,43 @@
+.portfolio-container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.portfolio-image img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.portfolio-links ul {
+  list-style-type: none;  /* 箇条書きの点を削除 */
+  padding: 0;
+}
+
+.portfolio-links ul li {
+  display: inline-block;  /* 横並びにする */
+  margin-right: 15px;  /* 各リンクの間にスペースを追加 */
+}
+
+/* ボタンのスタイル */
+button {
+  padding: 10px; /* 内側の余白 */
+  font-size: 16px; /* 文字サイズ */
+  background-color: #dda0dd; /* 背景色 */
+  color: white; /* 文字色 */
+  border: none; /* 枠線をなくす */
+  border-radius: 4px; /* 角を丸くする */
+  cursor: pointer; /* カーソルの形状 */
+}
+
+/* ボタンのホバー時のスタイル */
+button:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+}
+
+
+.portfolio-image img {
+  width: 1500px;  /* 幅を800pxに設定 */
+  height: auto;  /* 高さは自動調整 */
+}

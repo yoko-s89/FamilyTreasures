@@ -1,0 +1,38 @@
+[
+  {
+      "model": "app.weather",  
+      "pk": 1,
+      "fields": {
+          "name": "晴れ",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.weather",
+      "pk": 2,
+      "fields": {
+          "name": "曇り",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.weather",
+      "pk": 3,
+      "fields": {
+          "name": "雨",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.weather",
+      "pk": 4,
+      "fields": {
+          "name": "雪",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  }
+]

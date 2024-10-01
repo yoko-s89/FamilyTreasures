@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>こどもの情報がありません</h1>
+<p>現在、こどもの情報がありません。新しいこどもの情報を追加してください。</p>
+<a href="{% url 'app:children_add' %}">Add New Child</a>
+{% endblock %}

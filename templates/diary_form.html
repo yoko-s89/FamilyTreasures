@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}
+日記投稿-Family Treasures
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/diary_form.css' %}">
+
+<!-- フォーム全体のコンテナに特定のクラスを追加 -->
+<form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}" class="diary-form">
+    {% csrf_token %}
+    <h2>日記投稿画面</h2>
+
+    <!-- フォーム全体のエラーメッセージ -->
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li>{{ field }}: {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- 子供の名前（プルダウン） -->
+    <div class="form-group">
+        <label for="{{ form.child.id_for_label }}">子供の名前</label>
+        {{ form.child }}
+    </div>
+
+    <!-- 日付、天気、気持ちスタンプ、添付ファイルを横並びに配置 -->
+    <div class="flex-container">
+        <!-- 日記の日付 -->
+        <div class="form-group">
+            <label for="{{ form.entry_date.id_for_label }}">日記の日付:</label>
+            {{ form.entry_date }}
+        </div>
+
+        <!-- 天気 -->
+        <div class="form-group">
+            <label for="{{ form.weather.id_for_label }}">天気:</label>
+            {{ form.weather }}
+        </div>
+
+        <!-- 気持ちのスタンプ -->
+        <div class="form-group">
+            <label for="{{ form.stamp.id_for_label }}">気持ちのスタンプ:</label>
+            {{ form.stamp }}
+        </div>
+
+        <!-- 写真・動画のアップロード -->
+        <div class="form-group file-upload">
+            <label for="media">写真・動画追加</label>
+            <input type="file" name="media_files" id="media" multiple>
+        </div>
+    </div>
+
+    <!-- 一言（定型文のプルダウン） -->
+    <div class="form-group">
+        <label for="{{ form.template.id_for_label }}">一言:</label>
+        {{ form.template }}
+    </div>
+
+    <!-- 日記の内容 -->
+    <div class="form-group">
+        <label for="{{ form.content.id_for_label }}">日記の内容</label>
+        {{ form.content }}
+    </div>
+
+    <!-- 選択されたファイルのプレビューを表示するためのエリア -->
+    <div id="media-preview"></div>
+
+    <!-- 投稿ボタン -->
+    <div class="form-actions">
+        <button type="submit" class="submit-button">投稿</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById("media").addEventListener("change", function () {
+        const previewContainer = document.getElementById("media-preview");
+        const files = this.files;
+
+        // プレビューをクリア
+        previewContainer.innerHTML = "";
+
+        // 選択されたファイルを1つずつ処理
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+
+            // 画像ファイルの場合
+            if (file.type.startsWith('image/')) {
+                let img = document.createElement('img');
+                img.style.maxWidth = '200px'; // プレビュー画像の最大幅
+                img.style.margin = '10px';
+                img.alt = `Image preview ${i + 1}`;
+
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                previewContainer.appendChild(img);
+            }
+
+            // 動画ファイルの場合
+            if (file.type.startsWith('video/')) {
+                let video = document.createElement('video');
+                video.style.maxWidth = '200px'; // プレビュー動画の最大幅
+                video.style.margin = '10px';
+                video.controls = true;
+                video.alt = `Video preview ${i + 1}`;
+
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    video.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                previewContainer.appendChild(video);
+            }
+        }
+    });
+</script>
+{% endblock %}

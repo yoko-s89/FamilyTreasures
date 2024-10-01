@@ -1,0 +1,42 @@
+[
+  {
+      "model": "app.stamp", 
+      "pk": 1,
+      "fields": {
+          "name": "嬉しい",
+          "image": "stamps/happy.png", 
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.stamp",
+      "pk": 2,
+      "fields": {
+          "name": "悲しい",
+          "image": "stamps/sad.png",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.stamp",
+      "pk": 3,
+      "fields": {
+          "name": "怒る",
+          "image": "stamps/angry.png",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.stamp",
+      "pk": 4,
+      "fields": {
+          "name": "普通",
+          "image": "stamps/normal.png",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  }
+]

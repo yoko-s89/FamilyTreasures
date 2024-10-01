@@ -1,0 +1,92 @@
+/* 成長記録編集ページの全体コンテナスタイル */
+.growth-record-edit-container {
+  background-color: #fff; /* 背景色を白に設定 */
+  padding: 20px; /* 内側の余白を追加 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  max-width: 500px; /* 最大幅を指定 */
+  margin: 40px auto; /* 上下の余白を設定し中央寄せ */
+}
+
+/* フォームフィールドのスタイル */
+.growth-record-edit-container form {
+  display: flex;
+  flex-direction: column; /* フォームを縦に並べる */
+}
+
+/* 各フィールドの余白 */
+.growth-record-edit-container form .form-group {
+  margin-bottom: 20px; /* 下部の余白 */
+}
+
+/* ラベルと入力フィールドのスタイル */
+.growth-record-edit-container label {
+  display: block; /* ブロック要素にして下に配置 */
+  margin-bottom: 5px; /* ラベルの下に余白を追加 */
+  font-weight: bold; /* ラベルを太字に */
+}
+
+.growth-record-edit-container input,
+.growth-record-edit-container textarea,
+.growth-record-edit-container select {
+  width: 100%; /* 幅を100%に */
+  padding: 10px; /* 内側の余白 */
+  margin-top: 5px; /* 上部の余白 */
+  box-sizing: border-box; /* ボックスサイズを調整 */
+  font-size: 16px; /* 文字サイズ */
+  border: 1px solid #ccc; /* 枠線 */
+  border-radius: 4px; /* 角を丸く */
+}
+
+/* テキストエリアのスタイル */
+.growth-record-edit-container textarea {
+  resize: vertical; /* 縦方向のリサイズを許可 */
+  min-height: 100px; /* 最低の高さ */
+}
+
+/* ボタンのスタイル */
+.growth-record-edit-container .button-group {
+  display: flex;
+  justify-content: space-between; /* ボタンを均等に配置 */
+  margin-top: 20px; /* 上部に余白 */
+  gap: 10px; /* ボタン間にスペースを追加 */
+}
+
+/* 各ボタンのスタイルを統一 */
+.growth-record-edit-container .btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px; /* 角を丸く */
+  cursor: pointer;
+  flex: 1; /* ボタンを均等に配置 */
+  transition: background-color 0.3s;
+}
+
+/* 保存ボタンのスタイルのみ変更 */
+.growth-record-edit-container .btn-save {
+  background-color: #dda0dd; /* 背景色 */
+  color: #fff; /* 文字色 */
+}
+
+.growth-record-edit-container .btn-save:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+}
+
+/* 削除ボタンとキャンセルボタンは元のままのスタイル */
+.growth-record-edit-container .btn-delete {
+  background-color: #dc3545; /* 削除ボタンの背景色 */
+  color: #fff; /* 文字色 */
+}
+
+.growth-record-edit-container .btn-delete:hover {
+  background-color: #c82333; /* 削除ボタンのホバー時の背景色 */
+}
+
+.growth-record-edit-container .btn-cancel {
+  background-color: #6c757d; /* グレーの背景色 */
+  color: #fff; /* 文字色 */
+}
+
+.growth-record-edit-container .btn-cancel:hover {
+  background-color: #5a6268; /* キャンセルボタンのホバー時の背景色 */
+}

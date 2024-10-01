@@ -1,0 +1,74 @@
+/* ホーム画面のスタイル */
+
+/* ホーム画面専用のコンテナ */
+.home-container {
+  margin-top: 20px;
+}
+
+/* 子供選択のプルダウンメニュー */
+.home-container form {
+  margin-bottom: 20px;
+}
+
+.home-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 各アイテムのスタイル */
+.home-container ul li {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+/* リンク全体をクリック可能にし、デフォルトのリンクスタイルを除去 */
+.item-link {
+  display: flex;
+  align-items: flex-start;
+  width: 100%; /* リンクをリスト全体の幅にする */
+  text-decoration: none; /* デフォルトのリンクスタイルを除去 */
+  color: inherit; /* テキストの色を継承 */
+}
+
+.item-link:hover {
+  background-color: #f0f0f0; /* ホバー時の背景色 */
+}
+
+/* 日付部分を固定幅で表示 */
+.item-date {
+  flex-shrink: 0; /* サイズを固定 */
+  width: 120px; /* 必要に応じて幅を調整 */
+  margin-right: 20px; /* 内容との間隔を調整 */
+  text-align: right; /* 日付を右寄せにする */
+}
+
+/* 内容部分を日付の隣に寄せて表示 */
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 各アイテムの右側部分（画像など） */
+.item-right {
+  flex-shrink: 0; /* 画像のサイズを固定 */
+  margin-left: 20px;
+}
+
+/* 日記の内容と定型文、スタンプを縦に表示 */
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画像のスタイル */
+.home-container ul li img {
+  max-width: 300px; /* 画像の最大幅設定 */
+  height: auto; /* 高さを自動で調整 */
+  border-radius: 5px;
+  object-fit: cover; /* 画像が枠内に収まるようにする */
+}

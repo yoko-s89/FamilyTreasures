@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+こども追加-Family Treasures
+{% endblock %}
+
+{% block content %}
+
+<!-- CSSファイルの読み込み -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/children_form.css' %}">
+
+<!-- フォーム全体を中央に配置するためのコンテナ -->
+<div class="form-container">
+    <h2>こども追加</h2>
+
+    <!-- フォームを表示 -->
+    <form method="post">
+        {% csrf_token %}
+        <!-- 名前/ニックネームの入力フィールド -->
+        <label for="id_child_name">名前/ニックネーム:</label>
+        {{ form.child_name.errors }}  <!-- エラーメッセージを表示 -->
+        {{ form.child_name }}
+
+        <!-- 誕生日の入力フィールド -->
+        <label for="id_birthdate">誕生日:</label>
+        {{ form.birthdate.errors }}  <!-- エラーメッセージを表示 -->
+        {{ form.birthdate }}
+
+        <!-- 追加ボタン -->
+        <button type="submit">追加</button>
+    </form>
+
+    <!-- 戻るリンク
+    <a href="{% url 'app:my_page' %}">マイページに戻る</a> -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+作品編集・削除-Family Treasures
+{% endblock %}
+
+{% block content %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_detail.css' %}">
+
+  <h2>制作物詳細画面</h2>
+  <div class="artwork-detail">
+    {% if artwork.image %}
+      <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
+      <p>{{ age_years }}歳{{ age_months }}カ月</p>  <!-- 年齢を表示 -->
+    {% endif %}
+    <p>投稿者： {{ artwork.user.user_name }}</p>
+    <p>子供の名前: {{ artwork.child.child_name }}</p>
+    <p>作成日: {{ artwork.creation_date }}</p>
+    <p>コメント・感想:</p>
+    <p>{{ artwork.comment|linebreaksbr }}</p>
+    
+    <a href="{% url 'app:artwork_edit' artwork.id %}" class="btn btn-secondary">作品の編集</a>
+    
+    <form id="delete-form" action="{% url 'app:artwork_delete' artwork.id %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <a href="{% url 'app:artwork_delete' artwork.id %}" class="btn btn-danger">作品の削除</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}
+制作物投稿画面-Family Treasures
+{% endblock %}
+
+{% block content %}
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_form.css' %}">
+
+  
+  
+  <!-- 全体のコンテナ -->
+  <div class="artwork-form-container">
+    <h2>制作物投稿画面</h2>
+    <!-- フォームの開始 -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-inner-container"> <!-- 内部コンテナを追加して左右分割を確実に -->
+          
+          <!-- 左側のメディアセクション -->
+          <div class="media-section">
+            <label for="{{ form.image.id_for_label }}">写真や動画を添付</label>
+            {{ form.image }}
+            <div id="media-preview"></div> <!-- ここに画像・動画のプレビューが表示される -->
+          </div>
+
+          <!-- 右側のフォームセクション -->
+          <div class="form-section">
+            <div class="form-group">
+              <label for="{{ form.child.id_for_label }}">子供の名前</label>
+              {{ form.child }}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.creation_date.id_for_label }}">作成日</label>
+              {{ form.creation_date }}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.title.id_for_label }}">作品名</label>
+              {{ form.title }}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ form.comment.id_for_label }}">コメント・感想</label>
+              {{ form.comment }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 投稿ボタン -->
+        <button type="submit" class="submit-button">投稿</button>
+    </form> <!-- フォームの終了 -->
+  </div>
+
+  <!-- JavaScriptを使って画像・動画プレビューを表示 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var imageInput = document.getElementById("id_image");
+        
+        if (imageInput) {
+            imageInput.addEventListener("change", function () {
+                var previewContainer = document.getElementById("media-preview");
+                var files = this.files;
+
+                // プレビューをクリア
+                previewContainer.innerHTML = "";
+
+                if (files.length === 0) {
+                    return;  // ファイルが選択されていない場合は処理を終了
+                }
+
+                // 選択されたファイルを1つずつ処理
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+
+                    // 画像ファイルの場合
+                    if (file.type.startsWith('image/')) {
+                        var img = document.createElement('img');
+                        img.style.maxWidth = '200px'; // プレビュー画像の最大幅
+                        img.style.margin = '10px';
+
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            img.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                        previewContainer.appendChild(img);
+                    }
+
+                    // 動画ファイルの場合
+                    else if (file.type.startsWith('video/')) {
+                        var video = document.createElement('video');
+                        video.style.maxWidth = '200px'; // プレビュー動画の最大幅
+                        video.style.margin = '10px';
+                        video.controls = true;
+
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            video.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                        previewContainer.appendChild(video);
+                    } else {
+                        // サポートされていないファイル形式の場合
+                        var errorMsg = document.createElement('p');
+                        errorMsg.textContent = 'サポートされていないファイル形式です。';
+                        errorMsg.style.color = 'red';
+                        previewContainer.appendChild(errorMsg);
+                    }
+                }
+            });
+        }
+    });
+  </script>
+{% endblock %}

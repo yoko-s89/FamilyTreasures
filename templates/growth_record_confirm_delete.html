@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+成長記録削除確認-Family Treasures
+{% endblock %}
+
+{% block content %}
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/growth_record_confirm_delete.css' %}">
+
+    <div class="delete-form">
+        <h2>成長記録削除確認</h2>
+        <p>本当にこの成長記録を削除してもよろしいですか？</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn-delete">削除</button>
+                <a href="{% url 'app:growth_record_list' %}" class="btn-cancel">キャンセル</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+家族招待-Family Treasures
+{% endblock %}
+
+{% block content %}
+<!-- CSSファイルの読み込み -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/create_invitation.css' %}">
+
+<div class="container">
+    <h1>家族招待URL作成画面</h1>
+
+    <!-- 招待URL作成フォーム -->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">家族招待URLを作成する</button>
+    </form>
+
+    {% if created %}
+        <p>{{ message }}</p>
+        <p>招待URL:</p>
+        <a href="{{ invite_url }}">{{ invite_url }}</a>
+    {% endif %}
+
+    <!-- 利用方法を左寄せにする -->
+    <div class="left-align">
+        <p>利用方法：</p>
+        <ul>
+            <li>「家族招待URLを作成する」をクリックし、リンク先URLを表示</li>
+            <li>招待したい家族にリンク先を共有しアカウントを登録してもらう</li>
+            <li>※発行されたURLは一度利用すると失効します。</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

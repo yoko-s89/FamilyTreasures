@@ -1,0 +1,88 @@
+/* コメント削除フォームのスタイル */
+.delete-form {
+  position: relative; /* ボタンを絶対位置で配置するために必要 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 150px auto;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* 削除確認メッセージのスタイル */
+.delete-form h2 {
+  text-align: center;
+  font-size: 40px !important; /* タイトルのフォントサイズ */
+  margin-bottom: 20px;
+}
+
+.delete-form p {
+  text-align: center;
+  font-size: 20px !important; /* 説明文のフォントサイズ */
+  margin-bottom: 20px;
+}
+
+/* コメントの内容を中央寄せし、長方形で囲む */
+.delete-form blockquote {
+  text-align: center;
+  font-size: 30px !important; /* コメントのフォントサイズ */
+  font-style: italic;
+  margin: 20px auto;
+  max-width: 800px; /* 最大幅を設定して幅が広がりすぎないようにする */
+  padding: 40px; /* 内側の余白を設定 */
+  border: 2px solid #ccc; /* 枠線のスタイル */
+  border-radius: 5px; /* 角を丸くする場合 */
+  background-color: #f9f9f9; /* 背景色 */
+}
+
+/* ボタンを削除確認メッセージの右下に配置 */
+.delete-form .form-actions {
+  position: absolute; /* 絶対位置指定 */
+  bottom: -50px; /* 下からの位置を小さくしてボタンを下にずらす */
+  right: 20px; /* 右からの位置 */
+  display: flex; /* フレックスボックスで配置 */
+  gap: 10px; /* ボタン間のスペース */
+}
+
+/* 削除ボタンのスタイル */
+.delete-form .btn-delete {
+  padding: 10px 20px;
+  font-size: 16px !important; /* ボタンの文字サイズ */
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* 削除ボタンのホバー効果 */
+.delete-form .btn-delete:hover {
+  background-color: #c82333;
+}
+
+
+/* キャンセルボタンのスタイル */
+.delete-form .btn-cancel {
+  padding: 10px 20px;
+  font-size: 16px; /* ボタンの文字サイズ */
+  color: #fff; /* 文字色を白に設定 */
+  background-color: #6c757d; /* グレーの背景色 */
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* 背景色の変化をスムーズに */
+}
+
+/* キャンセルボタンのホバー効果 */
+.delete-form .btn-cancel:hover {
+  background-color: #5a6268; /* ホバー時の背景色 */
+}
+

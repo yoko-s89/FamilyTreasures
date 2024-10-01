@@ -1,0 +1,83 @@
+[
+  {
+      "model": "app.template",  
+      "pk": 1,
+      "fields": {
+          "text": "楽しい！",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 2,
+      "fields": {
+          "text": "嬉しい",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 3,
+      "fields": {
+          "text": "悲しい",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 4,
+      "fields": {
+          "text": "新しいことに挑戦",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 5,
+      "fields": {
+          "text": "今日はおでかけ",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 6,
+      "fields": {
+          "text": "新しい発見！！！",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 7,
+      "fields": {
+          "text": "思い通りにいかなかった（涙）",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 8,
+      "fields": {
+          "text": "イヤイヤ",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  },
+  {
+      "model": "app.template",
+      "pk": 9,
+      "fields": {
+          "text": "怒ったぞ！",
+          "created_at": "2024-01-01T00:00:00Z",
+          "updated_at": "2024-01-01T00:00:00Z"
+      }
+  }
+]

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+制作物一覧画面- Family Treasures
+{% endblock %}
+
+{% block content %}
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/artwork_list.css' %}">
+
+  <h2>制作物一覧画面</h2>
+  
+  <!-- 絞り込みフォーム -->
+  <form method="get">
+    <label for="child-filter">子供の名前で絞り込み</label>
+    <select name="child" id="child-filter" onchange="this.form.submit();">
+      <option value="">全ての子供</option>
+      {% for child in children %}
+        <!-- 選択された子供を保持 -->
+        <option value="{{ child.id }}" {% if child.id == selected_child %}selected{% endif %}>
+          {{ child.child_name }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <!-- 制作物一覧 -->
+  <div class="artwork-list">
+    {% for artwork in artworks %}
+      <div class="artwork-item">
+        <a href="{% url 'app:artwork_detail' artwork.id %}">
+          {% if artwork.image %}
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
+          {% endif %}
+        </a>
+        <h3>{{ artwork.title }}</h3>
+        <p>子供: {{ artwork.child.child_name }}</p>
+        <p>作成日: {{ artwork.creation_date }}</p>
+      </div>
+    {% empty %}
+      <p>投稿された作品がありません。</p>
+    {% endfor %}
+  </div>
+{% endblock %}

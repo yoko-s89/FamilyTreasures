@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}
+日記編集-Family Treasures
+{% endblock %}
+
+{% block content %}
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/diary_edit.css' %}">
+
+    <div class="diary-edit-wrapper">
+        <h2>日記の編集</h2>
+
+        <!-- 編集フォームを左側に配置 -->
+        <div class="diary-edit-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- 子供の名前（プルダウン） -->
+                <div class="form-group">
+                    <label for="{{ form.child.id_for_label }}">子供の名前</label>
+                    {{ form.child }}
+                </div>
+
+                <!-- 日付、天気、気持ちスタンプ、写真動画を横並びに表示 -->
+                <div class="diary-meta">
+                    <!-- 日付 -->
+                    <div class="diary-date-info">
+                        <label for="{{ form.entry_date.id_for_label }}">日付:</label>
+                        {{ form.entry_date }}
+                    </div>
+
+                    <!-- 天気 -->
+                    <div class="diary-weather-info">
+                        <label for="{{ form.weather.id_for_label }}">天気:</label>
+                        {{ form.weather }}
+                    </div>
+
+                    <!-- 気持ちスタンプ -->
+                    <div class="diary-stamp-info">
+                        <label for="{{ form.stamp.id_for_label }}">気持ちのスタンプ:</label>
+                        {{ form.stamp }}
+                    </div>
+
+                    <!-- 写真動画を気持ちスタンプの横に配置 -->
+                    <div class="diary-media-info">
+                        <label for="id_media_files">写真・動画の追加:</label>
+                        <input type="file" name="media_files" id="id_media_files" multiple>
+                        <div id="file-preview"></div>
+                    </div>
+                </div>
+
+                <!-- 定型文 -->
+                <div class="diary-template">
+                    <label for="{{ form.template.id_for_label }}">定型文:</label>
+                    {{ form.template }}
+                </div>
+
+                <!-- 日記の内容 -->
+                <div class="diary-content-section">
+                    <label for="{{ form.content.id_for_label }}">内容:</label>
+                    {{ form.content }}
+                </div>
+
+                <!-- 既存の写真・動画を表示し、削除機能を追加 -->
+                <div class="existing-media">
+                    <h3>既存の写真・動画</h3>
+                    <ul>
+                        {% for media in media_list %}
+                            <li>
+                                {% if media.media_type == 'image' %}
+                                    <img src="{{ media.media_file.url }}" alt="写真" width="200px">
+                                {% elif media.media_type == 'video' %}
+                                    <video width="200px" controls>
+                                        <source src="{{ media.media_file.url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% endif %}
+
+                                <!-- メディア削除用のチェックボックス -->
+                                <label>
+                                    <input type="checkbox" name="delete_media" value="{{ media.id }}"> 削除
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- 編集ボタン -->
+                <div class="actions-section">
+                    <button type="submit" class="btn">保存</button>
+                </div>
+
+                <!-- エラーメッセージ表示 -->
+                {% if errors %}
+                    <div class="error-list">
+                        {% for field, error_list in errors.items %}
+                            <strong>{{ field }}:</strong>
+                            <ul>
+                                {% for error in error_list %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript でファイルプレビューを追加 -->
+    <script>
+        const fileInput = document.getElementById('id_media_files');
+        const previewContainer = document.getElementById('file-preview');
+
+        fileInput.addEventListener('change', function(event) {
+            previewContainer.innerHTML = '';  // 既存のプレビューをクリア
+            const files = event.target.files;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.width = 100;
+                        previewContainer.appendChild(img);
+                    } else if (file.type.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.width = 200;
+                        video.controls = true;
+                        previewContainer.appendChild(video);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+{% endblock %}

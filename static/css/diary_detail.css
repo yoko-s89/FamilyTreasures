@@ -1,0 +1,173 @@
+/* 日記詳細画面のスタイル */
+
+/* コンテナのスタイル */
+.diary-detail-container {
+  max-width: 800px;
+  margin: 0 auto; /* 中央に配置 */
+  padding: 20px;
+  background-color: #f9f9f9; /* 背景色 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+h2 {
+  margin-left: 250px; /* 50px分右に寄せる */
+}
+
+/* 上部のヘッダー部分（子供の名前と投稿者） */
+.diary-header {
+  display: flex;
+  justify-content: space-between; /* 両端に配置 */
+  align-items: center;
+  padding: 10px;
+  background-color: #e3e3e3; /* 背景色 */
+  border-radius: 5px;
+  margin-bottom: 20px; /* 下のコンテンツとの間隔 */
+}
+
+/* 子供の名前のスタイル */
+.diary-header h1 {
+  font-size: 32px; /* 必要に応じてサイズを調整 */
+  margin: 0; /* デフォルトのマージンを削除 */
+}
+
+/* 投稿者の名前のスタイル */
+.diary-header p {
+  font-size: 16px; /* 必要に応じてテキストサイズを調整 */
+  margin: 0; /* デフォルトのマージンを削除 */
+  color: #555; /* 色を少し薄く */
+}
+
+/* 日付と詳細情報のコンテナ */
+.diary-meta {
+  padding: 15px;
+  background-color: #ffffff; /* 背景色 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* 日付部分 */
+.diary-date-info {
+  font-size: 16px; /* 必要に応じてサイズを調整 */
+  color: #555; /* 色を薄く */
+  margin-bottom: 10px;
+}
+
+/* 天気と気持ちのスタンプを横に並べる */
+.diary-other-info {
+  display: flex;
+  gap: 20px; /* 天気、スタンプ名、スタンプ画像の間隔 */
+}
+
+/* 天気と気持ちのスタンプのフォントサイズ */
+.diary-weather-info,
+.diary-stamp-info {
+  font-size: 16px; /* 必要に応じてサイズを調整 */
+  display: flex;
+  align-items: center; /* テキストと画像を中央揃え */
+}
+
+/* 気持ちのスタンプのスタイル */
+.diary-stamp-info img {
+  width: 40px; /* 必要に応じてサイズを調整 */
+  height: 40px; /* 必要に応じてサイズを調整 */
+  margin-left: 5px; /* テキストとスタンプの間隔を追加 */
+  vertical-align: middle; /* テキストとアイコンを中央揃え */
+}
+
+/* 定型文と日記の内容のスタイル */
+.diary-content-section {
+  padding: 15px;
+  background-color: #ffffff; /* 背景色 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  line-height: 1.6; /* 行間を調整 */
+  font-size: 20px;
+}
+
+/* メディアファイルの表示 */
+.diary-media-section {
+  display: flex;
+  flex-wrap: wrap; /* 複数のメディアを横並びにする */
+  gap: 10px; /* メディア間のスペース */
+  margin-bottom: 20px;
+}
+
+.diary-media-section img,
+.diary-media-section video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* コメントセクションのスタイル */
+.comments-section {
+  padding: 15px;
+  background-color: #ffffff; /* 背景色 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.comments-section ul {
+  list-style-type: none; /* リストマーカーを削除 */
+  padding: 0; /* パディングを削除 */
+}
+
+.comments-section li {
+  font-size: 20px; /* コメントのフォントサイズ */
+  line-height: 1.6; /* 行間を調整して読みやすくする */
+  margin-bottom: 10px; /* 各コメントの間に余白を追加 */
+}
+
+.comments-section a {
+  font-size: 14px; /* リンクのフォントサイズを調整 */
+  margin-left: 10px; /* リンクを少し離す */
+}
+
+/* アクションボタンのコンテナ */
+.actions-section {
+  display: flex;
+  justify-content: flex-end; /* ボタンを右側に揃える */
+  gap: 10px; /* ボタン間のスペース */
+  margin-top: 20px; /* 上部に余白を追加 */
+}
+
+/* ボタンの共通スタイル */
+.actions-section .btn {
+  display: inline-block;
+  padding: 10px 15px; /* ボタン内の余白 */
+  font-size: 16px; /* フォントサイズ */
+  color: #fff; /* テキストの色 */
+  background-color: #dda0dd; /* ボタンの背景色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸くする */
+  text-decoration: none; /* テキストの下線を削除 */
+  text-align: center;
+  cursor: pointer; /* カーソルをポインタに変更 */
+  transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+}
+
+/* ボタンのホバー効果 */
+.actions-section .btn:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+}
+
+.actions-section .btn-danger {
+  background-color: #dc3545; /* 削除ボタンの背景色 */
+}
+
+.actions-section .btn-danger:hover {
+  background-color: #c82333; /* 削除ボタンのホバー色 */
+}
+
+.actions-section .btn-secondary {
+  background-color: #6c757d; /* 他のボタンの背景色 */
+}
+
+.actions-section .btn-secondary:hover {
+  background-color: #5a6268; /* 他のボタンのホバー色 */
+}

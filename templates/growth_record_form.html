@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+成長記録-Family Treasures
+{% endblock %}
+
+{% block content %}
+  <!-- CSSファイルの読み込み -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/growth_record_form.css' %}">
+
+  <!-- 全体のコンテナ -->
+  <div class="growth-record-form-container">
+    <h2>成長記録入力画面</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">記録する</button>
+    </form>
+    <!-- <a href="{% url 'app:growth_record_list' %}">成長記録一覧に戻る</a> -->
+  </div>
+{% endblock %}

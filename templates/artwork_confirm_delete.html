@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+作品削除-Family Treasures
+{% endblock %}
+
+{% block content %}
+<!-- CSSファイルの読み込み -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/artwork_confirm_delete.css' %}">
+  <div class="artwork-confirm-delete-container"> <!-- クラス名を適用 -->
+    <h2>作品を削除</h2>
+    <p>本当にこの作品「{{ artwork.title }}」を削除しますか？</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">削除</button>
+      <a href="{% url 'app:artwork_detail' artwork.pk %}" class="btn btn-secondary">キャンセル</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+日記一覧-Family Treasures
+{% endblock %}
+
+{% block content %}
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/diary_list.css' %}">
+    <h2>日記一覧画面</h2>
+    <!-- プルダウンメニューをナビゲーションバーの下に配置 -->
+    <div class="filter-container">
+        <!-- 子供選択のプルダウンメニュー -->
+        <form method="get" action="">
+            <label for="child_select">表示する日記を選択:</label>
+            <select name="child" id="child_select" onchange="this.form.submit()">
+                <option value="all" {% if selected_filter == 'all' or not selected_filter %}selected{% endif %}>全ての投稿</option>
+                <option value="none" {% if selected_filter == 'none' %}selected{% endif %}>みんなの日記</option>
+                {% for child in children %}
+                    <option value="{{ child.id }}" {% if selected_filter == child.id|stringformat:"s" %}selected{% endif %}>{{ child.child_name }}の日記</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <!-- 日記一覧のコンテナ開始 -->
+    <div class="diary-list-container">
+        {% for year, year_diaries in grouped_diaries %}
+            <!-- 年のセクション -->
+            <div class="year-section">
+                <h3>{{ year }}年</h3>
+                <ul>
+                    {% for diary in year_diaries %}
+                        <li>
+                            <!-- リンク全体をクリック可能にする -->
+                            <a href="{% url 'app:diary_detail' diary.pk %}" class="diary-link">
+                                <!-- 日付部分 -->
+                                <div class="diary-date">
+                                    <p>{{ diary.entry_date|date:"n月j日" }}</p> <!-- 月と日を表示 -->
+                                    <p>{{ diary.entry_date|date:"(D)" }}</p> <!-- 曜日 -->
+                                </div>
+
+                                <!-- 内容部分を日付の隣に寄せて表示 -->
+                                <div class="diary-content">
+                                    <h2>
+                                        {% if diary.child %}
+                                            {{ diary.child.child_name }}の日記
+                                        {% else %}
+                                            みんなの日記
+                                        {% endif %}
+                                    </h2>
+                                    {% if diary.content %}
+                                        <!-- <p>内容: {{ diary.content }}</p> -->
+                                        <p>内容: {{ diary.content|linebreaks }}</p> 
+                                    {% endif %}
+                                    {% if diary.template %}
+                                        <p>一言: {{ diary.template.text }}</p>
+                                    {% endif %}
+                                </div>
+
+                                <!-- 画像を右に表示 -->
+                                <div class="diary-image">
+                                    {% if diary.first_image %}
+                                        <img src="{{ diary.first_image.media_file.url }}" alt="画像">
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div> <!-- 日記一覧のコンテナ終了 -->
+{% endblock %}

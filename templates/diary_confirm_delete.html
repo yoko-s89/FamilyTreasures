@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+日記削除-Family Treasures
+{% endblock %}
+
+{% block content %}
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/diary_delete.css' %}">
+
+    <!-- 削除ページのコンテナ -->
+    <div class="diary-delete-container">
+        <h2>日記を削除</h2>
+        <p>本当にこの日記を削除しますか？</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">削除する</button>
+            <a href="{% url 'app:diary_list' %}" class="btn btn-secondary">キャンセル</a>
+        </form>
+    </div>
+{% endblock %}

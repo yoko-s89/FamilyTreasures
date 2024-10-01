@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+こども情報編集・削除-Family Treasures
+{% endblock %}
+
+{% block content %}
+
+<!-- CSSファイルの読み込み -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/children_form_delete.css' %}">
+
+<!-- フォーム全体を中央に配置するためのコンテナ -->
+<div class="form-container">
+    <h2>こども情報編集・削除</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!-- 更新ボタン -->
+        <button type="submit" name="保存">保存</button>
+
+        <!-- 削除ボタン -->
+        <button type="submit" name="削除" class="btn-danger" onclick="return confirm('本当に削除してもよろしいですか?');">
+            削除
+        </button>
+    </form>
+</div>
+{% endblock %}

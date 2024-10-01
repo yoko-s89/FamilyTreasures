@@ -1,0 +1,63 @@
+/* ナビゲーションバー全体のスタイル */
+.navbar {
+  background-color: #dda0dd !important; /* ナビゲーションバーの背景色 */
+  padding: 10px 20px; /* 内側余白の調整 */
+  margin: 0; /* 左右の余白をなくす */
+}
+
+/* ナビゲーションリンクのスタイル */
+.navbar .nav-link {
+  font-weight: bold;
+  color: #000 !important; /* リンクの文字色 */
+  font-size: 16px; /* フォントサイズ */
+  margin: 0 10px; /* リンク間のスペース */
+  padding: 5px 10px; /* 内側のパディング */
+  text-decoration: none; /* 下線を削除 */
+  line-height: 1.5; /* 高さの調整 */
+  vertical-align: middle; /* 垂直方向の中央揃え */
+  display: inline-block; /* リンクをインラインブロックに設定 */
+}
+
+/* ログアウトフォームのスタイル */
+.navbar .logout-form {
+  display: inline-block; /* リンクと揃えてインラインブロックに設定 */
+  margin: 0;
+  padding: 0;
+  line-height: 1.5; /* 高さの調整 */
+  vertical-align: middle; /* 中央揃え */
+}
+
+/* ログアウトボタンのスタイル */
+.navbar .logout-button {
+  font-weight: bold;
+  color: #000 !important; /* リンクと同じ色に設定 */
+  background: none; /* 背景を削除 */
+  border: none; /* 枠線を削除 */
+  padding: 5px 10px; /* 内側のパディング */
+  cursor: pointer; /* カーソルをポインタに */
+  display: inline-block; /* インラインブロックに設定 */
+  text-decoration: none; /* 下線を削除 */
+  font-size: 16px; /* フォントサイズ */
+}
+
+/* ログアウトボタンのホバー時の効果 */
+.navbar .logout-button:hover {
+  text-decoration: underline; /* 下線を追加 */
+  color: #000; /* 色を維持 */
+}
+
+/* ドロップダウンメニューのスタイル */
+.dropdown-menu {
+  background-color: #e6dff1; /* 背景色 */
+  border: none; /* 境界線を削除 */
+}
+
+.dropdown-item {
+  font-weight: bold;
+  color: #000; /* ドロップダウンメニューの文字色 */
+}
+
+.dropdown-item:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+  color: #000; /* ホバー時の文字色 */
+}

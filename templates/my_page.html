@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}
+マイページ - Family Treasures
+{% endblock %}
+
+{% block content %}
+<!-- CSSファイルの読み込み -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/my_page.css' %}">
+
+<div class="my-page-container">
+    <!-- 左側のユーザー情報 -->
+    <div class="user-info">
+        <h1>マイページ</h1>
+        <!-- ユーザーの写真表示 -->
+        {% if user.image_url %}
+            <img src="{{ user.image_url.url }}" alt="ユーザーの写真">
+        {% else %}
+            <p>写真が設定されていません。</p>
+        {% endif %}
+
+        <!-- 名前/ニックネームの表示 -->
+        <h2>{{ user.user_name }}</h2>
+
+        <!-- 画像登録・編集ボタン（モーダルを開く） -->
+        <button class="btn" onclick="openModal('imageModal')">画像登録・編集</button>
+
+        <!-- 画像削除ボタン（画像が存在する場合のみ表示） -->
+        {% if user.image_url %}
+            <form action="{% url 'app:image_delete' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn">画像削除</button>
+            </form>
+        {% endif %}
+
+        <!-- アカウント情報変更画面へのリンク -->
+        <a href="{% url 'app:account_update' %}" class="btn">アカウント情報変更</a>
+    </div>
+
+    <!-- 右側の家族リストとこどもリスト -->
+    <div class="family-children-container">
+        <!-- 家族リスト -->
+        <div class="family-list">
+            <h2>家族リスト</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>名前/ニックネーム</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in family_members %}
+                    <tr>
+                        <td>{{ member.user_name }}</td>
+                        <td>
+                            <!-- 家族削除確認ページへのリンク -->
+                            <form action="{% url 'app:family_delete_confirm' member.id %}" method="get" style="display: inline;">
+                                <button type="submit" class="btn">削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- 家族招待URLの作成ボタン -->
+            <a href="{% url 'app:create_invitation' %}" class="btn">家族招待URLの作成</a>
+        </div>
+
+        <!-- こどもリスト -->
+        <div class="children-list">
+            <h2>こどもリスト</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>名前/ニックネーム</th>
+                        <th>誕生日</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for child in children_list %}
+                    <tr>
+                        <td>{{ child.child_name }}</td>
+                        <td>{{ child.birthdate }}</td>
+                        <td>
+                            <form action="{% url 'app:children_update_delete' pk=child.id %}" method="get" style="display: inline;">
+                                <button type="submit" class="btn">編集/削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- 子供追加画面へのボタン -->
+            <a href="{% url 'app:children_add' %}" class="btn">子供追加</a>
+        </div>
+    </div>
+</div>
+
+<!-- モーダルウィンドウの定義 -->
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('imageModal')">&times;</span>
+        <h2>画像登録・編集</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'app:my_page' %}">
+            {% csrf_token %}
+            
+            <!-- フォーム全体のエラーメッセージ表示 -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.image_url.id_for_label }}">{{ form.image_url.label }}</label>
+                {{ form.image_url }}
+                {% if form.image_url.errors %}
+                    <div class="text-danger">
+                        {{ form.image_url.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">更新</button>
+        </form>
+    </div>
+</div>
+
+<!-- モーダルを開閉するためのスクリプト -->
+<script>
+function openModal(id) {
+    document.getElementById(id).style.display = 'flex';
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+</script>
+
+{% endblock %}

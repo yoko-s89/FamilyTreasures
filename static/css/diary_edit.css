@@ -1,0 +1,91 @@
+/* 日記編集画面全体のスタイル */
+.diary-edit-wrapper {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* フォーム全体のスタイル */
+.diary-edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* フォーム内の各要素 */
+.form-group,
+.diary-meta,
+.diary-template,
+.diary-content-section,
+.existing-media {
+  margin-bottom: 20px;
+}
+
+/* 各フィールドラベルとフィールドを整列 */
+.form-group label,
+.diary-meta label,
+.diary-template label,
+.diary-content-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* 日記のメタ情報（日時、天気、スタンプ）を横並びにする */
+.diary-meta {
+  display: flex;
+  gap: 20px;
+}
+
+/* 日記のメタ情報内の各フィールドを縦に並べる */
+.diary-meta > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 既存の写真・動画の表示 */
+.existing-media ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.existing-media li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 画像と動画のスタイル */
+.existing-media img,
+.existing-media video {
+  max-width: 200px;
+  border-radius: 5px;
+}
+
+/* 編集ボタンのスタイル（右下に固定） */
+.actions-section .btn {
+  position: fixed; /* 固定位置に設定 */
+  bottom: 20px; /* 画面下からの距離 */
+  right: 20px; /* 画面右からの距離 */
+  padding: 10px 20px; /* ボタン内の余白 */
+  font-size: 16px; /* フォントサイズ */
+  color: white; /* テキストの色 */
+  background-color: #dda0dd; /* 背景色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインタに変更 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  transition: background-color 0.3s ease; /* ホバー時のトランジション */
+}
+
+/* ボタンのホバー時のスタイル */
+.actions-section .btn:hover {
+  background-color: #c5a3cd; /* ホバー時の背景色 */
+}

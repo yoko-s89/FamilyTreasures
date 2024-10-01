@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ホーム画面-Family Treasures
+{% endblock %}
+
+{% block content %}
+    <!-- CSSファイルの読み込み -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <!-- ホーム画面のコンテナ開始 -->
+    <div class="home-container">
+
+        <!-- 子供選択のプルダウンメニュー -->
+        <form method="get" action="">
+            <label for="child_select">子供を選択:</label>
+            <select name="child_id" id="child_select" onchange="this.form.submit()">
+                <option value="">すべての投稿</option>
+                {% for child in children_list %}
+                    <option value="{{ child.id }}" {% if child.id|stringformat:"s" == selected_child_id %}selected{% endif %}>{{ child.child_name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <ul>
+            {% for item in combined_list %}
+                <li>
+                    <!-- リンク全体をクリック可能にする -->
+                    <a href="{{ item.detail_url }}" class="item-link">
+                        <!-- 日付部分 -->
+                        <div class="item-date">
+                            <p>{{ item.created_at|date:"Y年m月d日 (D)" }}</p>
+                        </div>
+
+                        <!-- 内容部分を日付の隣に寄せて表示 -->
+                        <div class="item-content">
+                            <!-- アイテムの種類に基づく条件分岐 -->
+                            <h2>
+                                {% if item.type == 'diary' %}
+                                    {% if item.child_name %}
+                                        {{ item.child_name }}の日記
+                                    {% else %}
+                                        みんなの日記
+                                    {% endif %}
+                                {% elif item.type == 'artwork' %}
+                                    作品
+                                {% elif item.type == 'growth_record' %}
+                                    成長記録
+                                {% endif %}
+                            </h2>
+                            <div class="details">
+                                {% if item.type == 'diary' %}
+                                    <p>一言: {{ item.template }}</p>
+                                    <p>内容: {{ item.content|linebreaksbr }}</p>
+                                {% elif item.type == 'artwork' %}
+                                    <p>作品名: {{ item.title }}</p>
+                                {% elif item.type == 'growth_record' %}
+                                    <p>身長: {{ item.height }} cm</p>
+                                    <p>体重: {{ item.weight }} kg</p>
+                                    <p>メモ: {{ item.memo }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- 画像を右に表示 -->
+                        <div class="item-right">
+                            {% if item.first_image %}
+                                <img src="{{ item.first_image }}" alt="画像">
+                            {% elif item.image %}
+                                <img src="{{ item.image }}" alt="画像">
+                            {% endif %}
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div> <!-- ホーム画面のコンテナ終了 -->
+{% endblock %}
