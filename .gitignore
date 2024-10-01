@@ -6,3 +6,5 @@ media/*
 # stampsフォルダだけは無視しない
 !media/stamps/
 !media/stamps/*
+
+
