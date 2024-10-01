@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-作品投稿-Family Treasures
+制作物投稿画面-Family Treasures
 {% endblock %}
 
 {% block content %}
@@ -9,11 +9,11 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/artwork_form.css' %}">
 
-  <h2>作品を投稿</h2>
+  
   
   <!-- 全体のコンテナ -->
   <div class="artwork-form-container">
-    
+    <h2>制作物投稿画面</h2>
     <!-- フォームの開始 -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

@@ -5,9 +5,13 @@
 {% endblock %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/diary_form.css' %}">
+
 <!-- フォーム全体のコンテナに特定のクラスを追加 -->
 <form method="post" enctype="multipart/form-data" action="{% url 'app:diary_new' %}" class="diary-form">
     {% csrf_token %}
+    <h2>日記投稿画面</h2>
 
     <!-- フォーム全体のエラーメッセージ -->
     {% if form.errors %}
@@ -26,7 +30,7 @@
         {{ form.child }}
     </div>
 
-    <!-- 横並びの入力エリア -->
+    <!-- 日付、天気、気持ちスタンプ、添付ファイルを横並びに配置 -->
     <div class="flex-container">
         <!-- 日記の日付 -->
         <div class="form-group">
@@ -47,7 +51,7 @@
         </div>
 
         <!-- 写真・動画のアップロード -->
-        <div class="form-group">
+        <div class="form-group file-upload">
             <label for="media">写真・動画追加</label>
             <input type="file" name="media_files" id="media" multiple>
         </div>
@@ -69,7 +73,9 @@
     <div id="media-preview"></div>
 
     <!-- 投稿ボタン -->
-    <button type="submit" class="submit-button">投稿する</button>
+    <div class="form-actions">
+        <button type="submit" class="submit-button">投稿</button>
+    </div>
 </form>
 {% endblock %}
 
@@ -83,12 +89,12 @@
         previewContainer.innerHTML = "";
 
         // 選択されたファイルを1つずつ処理
-        for (let i = 0; i < files.length; i++) {  // var から let に変更
-            let file = files[i];  // var から let に変更
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
 
             // 画像ファイルの場合
             if (file.type.startsWith('image/')) {
-                let img = document.createElement('img');  // var から let に変更
+                let img = document.createElement('img');
                 img.style.maxWidth = '200px'; // プレビュー画像の最大幅
                 img.style.margin = '10px';
                 img.alt = `Image preview ${i + 1}`;
@@ -104,7 +110,7 @@
 
             // 動画ファイルの場合
             if (file.type.startsWith('video/')) {
-                let video = document.createElement('video');  // var から let に変更
+                let video = document.createElement('video');
                 video.style.maxWidth = '200px'; // プレビュー動画の最大幅
                 video.style.margin = '10px';
                 video.controls = true;

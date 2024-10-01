@@ -69,20 +69,23 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box; /* パディングとボーダーを含む */
+  background-color: #f9f9f9; /* フィールドの背景色をコンテナと統一 */
 }
 
 /* 投稿ボタンのスタイル */
 .submit-button {
-  display: block;
-  width: 100%; /* ボタンの幅を100%に設定 */
-  padding: 10px 0;
-  background-color: #dda0dd; /* 背景色 */
+  position: fixed; /* 画面の右下に固定 */
+  bottom: 20px; /* 下から20pxの位置に配置 */
+  right: 20px; /* 右から20pxの位置に配置 */
+  width: auto; /* 必要に応じて自動調整 */
+  padding: 10px 20px; /* ボタン内の余白を設定 */
+  background-color: #dda0dd; /* ボタンの背景色 */
   color: #fff; /* テキストの色 */
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer; /* ポインタを表示 */
-  transition: background-color 0.3s; /* ホバー時の効果 */
+  border: none; /* 枠線を消す */
+  border-radius: 5px; /* 角を丸くする */
+  font-size: 16px; /* 文字の大きさ */
+  cursor: pointer; /* マウスカーソルをポインタに */
+  transition: background-color 0.3s; /* ホバー時のエフェクト */
 }
 
 /* 投稿ボタンのホバー時の効果 */
@@ -98,5 +101,14 @@
 
   .media-section {
     margin-bottom: 20px; /* 下にスペース */
+  }
+
+  /* ボタンの位置を調整 */
+  .submit-button {
+    width: 100%; /* 小さい画面ではボタンを幅100%にする */
+    position: relative; /* 固定を解除して通常のレイアウトに */
+    bottom: auto;
+    right: auto;
+    margin-top: 20px; /* 上にスペースを追加 */
   }
 }

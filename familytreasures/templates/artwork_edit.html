@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-作品編集-Family Treasures
+制作物編集-Family Treasures
 {% endblock %}
 
 {% block content %}
@@ -9,10 +9,9 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/artwork_edit.css' %}">
 
-  <h2>作品を編集</h2>
-  
   <!-- 全体のコンテナ -->
   <div class="artwork-edit-container">
+    <h2>制作物編集画面</h2>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-group">
@@ -44,7 +43,8 @@
         <label for="comment">コメント・感想</label>
         {{ form.comment }}
       </div>
-      <button type="submit" class="btn btn-primary">更新</button>
+      <!-- クラスを削除して独自のスタイルを適用 -->
+      <button type="submit" class="submit-button">保存</button>
     </form>
   </div>
 {% endblock %}

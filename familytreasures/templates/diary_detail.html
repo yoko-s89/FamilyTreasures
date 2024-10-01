@@ -8,7 +8,7 @@
     <!-- CSSファイルの読み込み -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/diary_detail.css' %}">
-
+    <h2>日記詳細画面</h2>
     <!-- 日記詳細のコンテナ -->
     <div class="diary-detail-container">
         
@@ -57,7 +57,8 @@
 
         <!-- 日記の内容 -->
         <div class="diary-content-section">
-            <p>内容: {{ diary.content }}</p>
+            <!-- <p>内容: {{ diary.content }}</p> -->
+            <p>内容: {{ diary.content|linebreaks }}</p> 
         </div>
 
         <!-- メディアファイルの表示 -->

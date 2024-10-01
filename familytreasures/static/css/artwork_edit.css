@@ -8,20 +8,6 @@
   margin: 20px auto; /* 上下の余白を設定して中央寄せ */
 }
 
-
-/* 新しい画像のプレビュー */
-.current-media-preview {
-  text-align: center; /* コンテンツを中央揃え */
-  margin-bottom: 20px; /* 下部にスペースを追加 */
-}
-
-.current-media-preview img {
-  max-width: 150px; /* 画像の最大幅を150pxに設定して小さく表示 */
-  height: auto;
-  border-radius: 5px; /* 角を丸く */
-  margin-top: 10px; /* 上部にスペースを追加 */
-}
-
 /* フォームフィールドのスタイル */
 .form-group {
   margin-bottom: 20px; /* 下部の余白 */
@@ -58,10 +44,23 @@ textarea::placeholder {
   color: #999; /* プレースホルダーの色 */
 }
 
+/* 新しい画像のプレビュー */
+.current-media-preview {
+  text-align: center; /* コンテンツを中央揃え */
+  margin-bottom: 20px; /* 下部にスペースを追加 */
+}
+
+.current-media-preview img {
+  max-width: 150px; /* 画像の最大幅を150pxに設定して小さく表示 */
+  height: auto;
+  border-radius: 5px; /* 角を丸く */
+  margin-top: 10px; /* 上部にスペースを追加 */
+}
+
 /* ボタンのスタイル */
-button {
+.submit-button {
   display: block;
-  width: 100%; /* 幅を100%に */
+  width: 5%; /* 幅を100%に */
   padding: 10px 20px;
   font-size: 16px;
   background-color: #dda0dd; /* 背景色 */
@@ -75,6 +74,42 @@ button {
 }
 
 /* ボタンのホバー時のスタイル */
-button:hover {
+.submit-button:hover {
   background-color: #c5a3ed; /* ホバー時の背景色 */
+}
+
+
+/* 既存のメディアのプレビュー */
+.existing-media-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.existing-media-preview img,
+.existing-media-preview video {
+  max-width: 200px; /* 既存のメディアファイルの最大幅 */
+  border-radius: 5px;
+}
+
+.existing-media-preview li {
+  list-style: none;
+}
+
+/* ラベルと削除チェックボックスの整列 */
+.existing-media-preview label {
+  display: block;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* エラーメッセージリスト */
+.error-list {
+  color: red;
+  margin-top: 20px;
+}
+
+.error-list ul {
+  list-style: none;
+  padding: 0;
 }

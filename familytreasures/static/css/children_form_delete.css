@@ -60,8 +60,22 @@ button:hover {
 }
 
 /* 見出しのスタイル */
-h1 {
+h2{
   text-align: center; /* 中央揃え */
   font-size: 24px; /* 文字サイズ */
   margin-bottom: 20px; /* 下部の余白 */
+}
+
+/* 削除ボタンのスタイル */
+.btn-danger {
+  background-color: #dc3545; /* 赤色 */
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* ホバー時の色 */
 }

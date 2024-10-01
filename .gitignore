@@ -1,2 +1,8 @@
 __pycache__
 db.sqlite3db.sqlite3
+# mediaフォルダ内のすべてを無視
+media/*
+
+# stampsフォルダだけは無視しない
+!media/stamps/
+!media/stamps/*

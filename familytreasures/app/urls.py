@@ -6,7 +6,7 @@ from .views import (
     CommentDeleteView, DiaryEditView, DiaryDeleteView, ArtworkCreateView, ArtworkListView, 
     ArtworkDetailView, ArtworkEditView, ArtworkDeleteView, GrowthRecordListView, 
     GrowthRecordCreateView, GrowthRecordUpdateView,  my_page, family_delete, create_invitation_view,
-    InviteSignupView, family_delete_confirm, DeleteMediaView
+    InviteSignupView, family_delete_confirm, DeleteMediaView, GrowthRecordDeleteView
 )
 from . import views
 
@@ -58,6 +58,7 @@ urlpatterns = [
     path('growth_record/add/', GrowthRecordCreateView.as_view(), name='growth_record_add'),
     path('growth_records/', GrowthRecordListView.as_view(), name='growth_record_list'),
     path('growth_records/update/<int:pk>/', GrowthRecordUpdateView.as_view(), name='growth_record_update'),
+    path('growth-record/<int:pk>/delete/', GrowthRecordDeleteView.as_view(), name='growth_record_confirm_delete'),
     # UUIDパターンを追加
     # re_path(r'^join/(?P<token>[0-9a-fA-F-]{36})/$', InviteSignupView.as_view(), name='signup_from_invitation'),
 ]

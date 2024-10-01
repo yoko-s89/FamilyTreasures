@@ -1,115 +1,91 @@
-/* 全体の配置設定 */
+/* 日記編集画面全体のスタイル */
 .diary-edit-wrapper {
-  display: flex;
-  justify-content: flex-start; /* 左寄せ */
-  align-items: flex-start; /* 上寄せ */
-  min-height: 80vh; /* 画面の高さを80%に設定 */
+  margin: 0 auto;
+  max-width: 800px;
   padding: 20px;
-}
-
-/* 編集フォームのコンテナ */
-.diary-edit-container {
-  background-color: #fff;
-  padding: 30px;
+  background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px; /* コンテナの最大幅を広げる */
-  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* フォームのスタイル */
-form {
+/* フォーム全体のスタイル */
+.diary-edit-container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 各要素の間にスペースを追加 */
+  gap: 15px;
 }
 
-/* フォームグループのスタイル */
+/* フォーム内の各要素 */
 .form-group,
 .diary-meta,
 .diary-template,
-.diary-content-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* 左揃え */
-  width: 100%;
+.diary-content-section,
+.existing-media {
+  margin-bottom: 20px;
 }
 
-/* メタ情報を横並びに */
-.diary-meta {
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 20px; /* 天気、気持ちスタンプなどの間隔を調整 */
-  padding: 20px; /* 周りの余白を追加 */
-  border: 1px solid #ddd; /* 枠線を追加 */
-  border-radius: 8px; /* 角を丸くする */
-}
-
-/* 各フィールドのラベル */
-form label {
+/* 各フィールドラベルとフィールドを整列 */
+.form-group label,
+.diary-meta label,
+.diary-template label,
+.diary-content-section label {
   font-weight: bold;
   margin-bottom: 5px;
+  display: block;
 }
 
-/* 入力フィールドのスタイル */
-form input[type="text"],
-form input[type="date"],
-form select,
-form textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+/* 日記のメタ情報（日時、天気、スタンプ）を横並びにする */
+.diary-meta {
+  display: flex;
+  gap: 20px;
 }
 
-/* 既存の写真のスタイル */
-.existing-media {
-  width: 100%;
+/* 日記のメタ情報内の各フィールドを縦に並べる */
+.diary-meta > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 既存の写真・動画の表示 */
 .existing-media ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .existing-media li {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
 }
 
-.existing-media img {
-  max-width: 100px;
-  border-radius: 4px;
+/* 画像と動画のスタイル */
+.existing-media img,
+.existing-media video {
+  max-width: 200px;
+  border-radius: 5px;
 }
 
-/* ボタンのスタイル */
-.actions-section {
-  display: flex;
-  justify-content: flex-end; /* 右下に配置 */
-  gap: 10px;
-}
-
+/* 編集ボタンのスタイル（右下に固定） */
 .actions-section .btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #dda0dd;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  position: fixed; /* 固定位置に設定 */
+  bottom: 20px; /* 画面下からの距離 */
+  right: 20px; /* 画面右からの距離 */
+  padding: 10px 20px; /* ボタン内の余白 */
+  font-size: 16px; /* フォントサイズ */
+  color: white; /* テキストの色 */
+  background-color: #dda0dd; /* 背景色 */
+  border: none; /* 枠線を削除 */
+  border-radius: 5px; /* 角を丸くする */
+  cursor: pointer; /* カーソルをポインタに変更 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  transition: background-color 0.3s ease; /* ホバー時のトランジション */
 }
 
-.actions-section .btn-danger {
-  background-color: #dc3545;
-}
-
+/* ボタンのホバー時のスタイル */
 .actions-section .btn:hover {
-  background-color: #c5a3cd;
+  background-color: #c5a3cd; /* ホバー時の背景色 */
 }
-
-.actions-section .btn-danger:hover {
-  background-color: #c82333;
-}
-

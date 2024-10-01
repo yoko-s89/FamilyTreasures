@@ -8,7 +8,7 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/artwork_detail.css' %}">
 
-  <h2>{{ artwork.title }}</h2>
+  <h2>制作物詳細画面</h2>
   <div class="artwork-detail">
     {% if artwork.image %}
       <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
@@ -18,12 +18,13 @@
     <p>子供の名前: {{ artwork.child.child_name }}</p>
     <p>作成日: {{ artwork.creation_date }}</p>
     <p>コメント・感想:</p>
-    <p>{{ artwork.comment }}</p>
+    <p>{{ artwork.comment|linebreaksbr }}</p>
     
-    <a href="{% url 'app:artwork_edit' artwork.id %}" class="btn btn-secondary">編集</a>
-    <form action="{% url 'app:artwork_delete' artwork.id %}" method="post" style="display:inline;">
+    <a href="{% url 'app:artwork_edit' artwork.id %}" class="btn btn-secondary">作品の編集</a>
+    
+    <form id="delete-form" action="{% url 'app:artwork_delete' artwork.id %}" method="post" style="display:inline;">
       {% csrf_token %}
-      <button type="submit" class="btn btn-danger">削除</button>
+      <a href="{% url 'app:artwork_delete' artwork.id %}" class="btn btn-danger">作品の削除</a>
     </form>
   </div>
 {% endblock %}

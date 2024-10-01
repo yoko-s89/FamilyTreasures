@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/comment_confirm_delete.css' %}">
 
     <div class="delete-form">
-        <h2>コメント削除</h2>
-        <p>以下のコメントを削除してもよろしいですか？</p>
-        <blockquote>
-            {{ comment.content }}  <!-- 元のコメントの内容を表示 -->
-        </blockquote>
+        <h2>日記コメント削除</h2>
+        <p>本当にこのコメント「  {{ comment.content }} 」を削除してもよろしいですか？</p>
         <form method="post">
             {% csrf_token %}
             <div class="form-actions">

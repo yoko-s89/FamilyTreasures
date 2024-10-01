@@ -50,25 +50,7 @@ class LoginForm(forms.Form):
     def get_user(self):
         return self.user
 
-# class LoginForm(forms.Form):
-#     email = forms.EmailField()
-#     password = forms.CharField()
-#     def clean(self):
-#         print("ログインフォームのクリーンが呼び出された")
-#         email = self.cleaned_data.get('email')
-#         password = self.cleaned_data.get("password")
-#         print(email, password)
-#         if email is None:
-#             raise forms.ValidationError("emailは必須です")
-#         if password is None:
-#             raise forms.ValidationError("passwordは必須です")
-#         self.user = authenticate(email=email, password=password)
-#         if self.user is None:
-#             raise forms.ValidationError("認証に失敗しました")
-#         return self.cleaned_data
-    
-#     def get_user(self):
-#         return self.user
+
     
 class AccountUpdateForm(forms.ModelForm):
     current_password = forms.CharField(widget=forms.PasswordInput, label="現在のパスワード")
@@ -101,14 +83,7 @@ class UserProfileForm(forms.ModelForm):
             'image_url': forms.FileInput(),
         }
     
-# class UserProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['user_name', 'image_url']  
-#         widgets = {
-#             'image_url': forms.FileInput(),  
-#             'user_name': forms.TextInput(attrs={'placeholder': 'ユーザ名'}),
-#         }
+
 
     def clean_user_name(self):
         user_name = self.cleaned_data.get('user_name')
@@ -117,13 +92,6 @@ class UserProfileForm(forms.ModelForm):
         return user_name
     
 
-# class UserProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['user_name', 'image_url']  
-#         widgets = {
-#             'image_url': forms.FileInput(),  
-#         }
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
@@ -173,15 +141,6 @@ class InvitationSignupForm(UserCreationForm):
         except Invitation.DoesNotExist:
             return False
         return True
-
-# class InvitationSignupForm(UserCreationForm):
-#     class Meta:
-#         model = User
-#         fields = ['user_name', 'email', 'password1', 'password2'] 
-#         labels = {
-#             'user_name': '名前/ニックネーム',
-#             'email': 'メールアドレス',
-#         }
 
 
 class DiaryForm(forms.ModelForm):
@@ -237,73 +196,7 @@ class DiaryForm(forms.ModelForm):
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
 
-    # ファイルのバリデーションはビュー側で実施
-    
-# class DiaryForm(forms.ModelForm):
-#     class Meta:
-#         model = Diary
-#         fields = ['child', 'template', 'stamp', 'weather', 'content', 'entry_date']
-#         widgets = {
-#             'content': forms.Textarea(attrs={
-#                 'placeholder': '内容',
-#                 'rows': 5,
-#             }),
-#         }
 
-#     child = forms.ModelChoiceField(
-#         queryset=Children.objects.none(),  
-#         required=False,
-#         empty_label="子供を選択してください",
-#         label="子供"
-#     )
-
-#     # メディアの追加用フィールド
-#     # media_files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
-#     media_files = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False)
-
-
-#     weather = forms.ModelChoiceField(
-#         queryset=Weather.objects.all(),
-#         required=False,
-#         empty_label="天気を選択してください",
-#         label="天気"
-#     )
-    
-#     stamp = forms.ModelChoiceField(
-#         queryset=Stamp.objects.all(),
-#         required=False,
-#         empty_label="気持ちを選択してください",
-#         label="気持ちのスタンプ",
-#         widget=forms.Select(attrs={'class': 'stamp-select'})
-#     )
-
-#     template = forms.ModelChoiceField(
-#         queryset=Template.objects.all(),
-#         required=False,
-#         empty_label="定型文を選択してください",
-#         label="一言"
-#     )
-    
-#     entry_date = forms.DateField(
-#         initial=timezone.now,
-#         widget=forms.DateInput(attrs={'type': 'date'}),
-#         label="日記の日付"
-#     )
-
-#     def __init__(self, *args, **kwargs):
-#         user = kwargs.pop('user', None)
-#         super(DiaryForm, self).__init__(*args, **kwargs)
-#         if user:
-#             self.fields['child'].queryset = Children.objects.filter(household=user.household)
-
-
-# class DiaryMediaForm(forms.ModelForm):
-#     class Meta:
-#         model = DiaryMedia
-#         fields = ['media_file']
-#         widgets = {
-#             'media_file': forms.FileInput(),  # multiple 属性を削除
-#         }
 class DiaryMediaForm(forms.ModelForm):
     class Meta:
         model = DiaryMedia
@@ -350,20 +243,6 @@ class ArtworkForm(forms.ModelForm):
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
         
-# class ArtworkForm(forms.ModelForm):
-#     class Meta:
-#         model = Artwork
-#         fields = ['child', 'image', 'title', 'comment', 'creation_date']
-#         widgets = {
-#             'creation_date': forms.SelectDateWidget(years=range(2010, 2040)),
-#         }
-
-#     def __init__(self, *args, **kwargs):
-#         user = kwargs.pop('user', None)  
-#         super().__init__(*args, **kwargs)
-#         self.fields['creation_date'].initial = timezone.now().date() 
-#         if user:
-#             self.fields['child'].queryset = Children.objects.filter(household=user.household)
 
 class GrowthRecordForm(forms.ModelForm):
     class Meta:
@@ -396,28 +275,3 @@ class GrowthRecordForm(forms.ModelForm):
         if user:
             self.fields['child'].queryset = Children.objects.filter(household=user.household)
             
-# class GrowthRecordForm(forms.ModelForm):
-#     class Meta:
-#         model = GrowthRecord
-#         fields = ['child', 'measurement_date', 'height', 'weight', 'memo']
-#         widgets = {
-#             'measurement_date': forms.SelectDateWidget(years=range(2010, 2040)),  # 年月日入力用のウィジェット
-#         }
-
-#         labels = {
-#             'child': '子供の名前',
-#             'measurement_date': '計測日',
-#             'height': '身長 (cm)',
-#             'weight': '体重 (kg)',
-#             'memo': 'メモ',
-#         }
-#         help_texts = {
-#             'memo': 'その他のメモや詳細を記入してください。',
-#         }
-
-
-#     def __init__(self, *args, **kwargs):
-#         user = kwargs.pop('user', None)  
-#         super().__init__(*args, **kwargs)
-#         if user:
-#             self.fields['child'].queryset = Children.objects.filter(household=user.household)

@@ -1,101 +1,93 @@
-/* 全体のスタイル */
-body { 
-  font-family: Arial, sans-serif; /* フォントを指定 */
-  background-color: #f0f0f0; /* 背景色 */
-  margin: 0;
-  padding: 20px 0 0 0; /* ナビゲーションバーとの間の余白 */
+/* フォーム全体のスタイル */
+.diary-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
 }
 
-/* フォームコンテナ（特定のクラスに限定） */
-form.diary-form {
-  background-color: #fff; /* フォームの背景色 */
-  padding: 20px; /* 内側の余白 */
-  border-radius: 8px; /* 角を丸くする */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
-  max-width: 800px; /* 最大幅を指定 */
-  margin: 20px auto; /* 上下の余白を設定して中央寄せ */
-}
-
-/* 以下、他のスタイルはそのまま */
+/* フォームグループのスタイル */
 .form-group {
-  margin-bottom: 20px; /* 下部の余白 */
-}
-
-label {
-  display: block; /* ブロック要素にして下に配置 */
-  margin-bottom: 5px; /* 下部の余白 */
-  font-weight: bold; /* 太字 */
-}
-
-input[type="text"],
-input[type="date"],
-select {
-  width: 100%; /* 幅を100%に */
-  padding: 8px; /* 内側の余白 */
-  margin-top: 5px; /* 上部の余白 */
-  box-sizing: border-box; /* ボックスのサイズを調整 */
-  font-size: 16px; /* 文字サイズ */
-}
-
-.flex-container {
-  display: flex;
-  justify-content: space-between; /* 要素間のスペースを均等に配置 */
-  gap: 10px; /* 要素間のスペース */
-}
-
-.flex-container > .form-group {
-  flex: 1; /* フレックスボックスで均等に幅を配分 */
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical; /* 垂直方向のリサイズを許可 */
-  min-height: 100px; /* 最低の高さ */
-}
-
-textarea::placeholder {
-  color: #999; /* プレースホルダーの色 */
-}
-
-.submit-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #dda0dd; /* 背景色 */
-  color: white; /* 文字色 */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  position: fixed; /* 画面に固定 */
-  bottom: 20px; /* 下部からの距離 */
-  right: 20px; /* 右からの距離 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
-}
-
-.submit-button:hover {
-  background-color: #c5a3cd; /* ホバー時の背景色 */
-}
-
-.alert-danger {
-  color: red; /* エラーメッセージの文字色 */
-  font-size: 14px;
   margin-bottom: 20px;
 }
 
-#file-list {
-  list-style: none; /* リストマーカーを消す */
-  padding-left: 0;
-  margin-top: 10px;
+/* 横並びにするコンテナ */
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap; /* 項目を折り返さず横並びにする */
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-#media-preview img,
-#media-preview video {
-  max-width: 100%; /* プレビューの最大幅 */
-  height: auto;
-  border: 1px solid #ddd; /* 枠線を追加 */
-  border-radius: 5px; /* 角を丸くする */
-  margin-top: 10px; /* 上部にスペースを追加 */
+/* 各入力エリアのスタイル */
+.flex-container .form-group {
+  flex: 1 1 0; /* すべての項目が同じ幅で均等に横並びにする */
+}
+
+/* ファイルアップロードエリア */
+.file-upload input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* テンプレートと内容入力エリア */
+.diary-form .form-group textarea,
+.diary-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* 投稿ボタンを右下に固定 */
+.form-actions {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* 投稿ボタンのスタイル */
+.submit-button {
+  display: block;
+  width: auto;
+  padding: 10px 20px;
+  background-color: #dda0dd;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 投稿ボタンのホバー時の効果 */
+.submit-button:hover {
+  background-color: #c5a3ed;
+}
+
+/* ファイルプレビューの画像と動画のスタイル */
+#media-preview img, #media-preview video {
+  max-width: 200px;
+  margin: 10px;
+}
+
+/* レスポンシブ対応（画面幅が768px以下の場合） */
+@media screen and (max-width: 768px) {
+  .flex-container {
+    flex-direction: column; /* 項目を縦に並べる */
+  }
+
+  /* 投稿ボタンの位置調整 */
+  .form-actions {
+    position: static;
+    margin-top: 20px;
+    text-align: right;
+  }
 }

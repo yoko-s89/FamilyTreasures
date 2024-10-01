@@ -10,6 +10,10 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
 }
 
+h2 {
+  margin-left: 250px; /* 50px分右に寄せる */
+}
+
 /* 上部のヘッダー部分（子供の名前と投稿者） */
 .diary-header {
   display: flex;

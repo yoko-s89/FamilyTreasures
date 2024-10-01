@@ -1,0 +1,50 @@
+/* 作品削除ページのスタイル */
+
+/* ページ全体の中央に配置 */
+.artwork-confirm-delete-container {
+  display: flex;
+  justify-content: center; /* 横方向に中央揃え */
+  align-items: center; /* 縦方向に中央揃え */
+  min-height: 80vh; /* ビューポートの高さに対する最小値を設定 */
+  flex-direction: column; /* 垂直方向に配置 */
+  text-align: center; /* テキストを中央揃え */
+}
+
+/* 見出しのスタイル */
+.artwork-confirm-delete-container  h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* ボタンのスタイル */
+.artwork-confirm-delete-container  .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px; /* ボタン間の間隔 */
+  transition: background-color 0.3s ease; /* 背景色の変化をスムーズに */
+}
+
+/* 削除ボタンのスタイル */
+.artwork-confirm-delete-container  .btn-danger {
+  background-color: #dc3545; /* 赤色 */
+  color: #fff;
+}
+
+.artwork-confirm-delete-container  .btn-danger:hover {
+  background-color: #c82333; /* ホバー時の色 */
+}
+
+/* キャンセルボタンのスタイル */
+.artwork-confirm-delete-container  .btn-secondary {
+  background-color: #6c757d; /* グレー色 */
+  color: #fff;
+}
+
+.artwork-confirm-delete-container  .btn-secondary:hover {
+  background-color: #5a6268; /* ホバー時の色 */
+}

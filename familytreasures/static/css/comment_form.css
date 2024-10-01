@@ -1,44 +1,52 @@
-/* コメントフォームのスタイル */
+/* コメントフォーム全体のスタイル */
 .comment-form {
-  width: 100%; /* フォーム全体の幅を調整 */
-  max-width: 800px; /* 必要に応じて最大幅を設定 */
-  margin: 40px auto; /* 上下のマージンを設定して中央に配置 */
-  padding: 20px; /* フォーム内の余白 */
-  border: 1px solid #ccc; /* 枠線 */
-  border-radius: 5px; /* 角を丸く */
-  background-color: #f9f9f9; /* 背景色 */
-}
-
-/* コメント入力欄 */
-.comment-form .form-group textarea {
-  width: 100%; /* 幅をフォームに合わせる */
-  height: 200px; /* 高さを大きくする */
-  padding: 10px; /* 内側の余白 */
-  font-size: 16px; /* フォントサイズ */
-  border: 1px solid #ccc; /* 枠線 */
-  border-radius: 5px; /* 角を丸く */
-  resize: vertical; /* 垂直方向にリサイズを許可 */
-}
-
-/* コメント送信ボタンを右下に配置 */
-.comment-form .form-actions {
-  text-align: right; /* ボタンを右揃え */
-  margin-top: 10px; /* 上に余白を追加 */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
 }
 
 /* コメント送信ボタンのスタイル */
-.comment-form .btn-submit {
-  padding: 10px 20px; /* ボタン内の余白 */
-  font-size: 16px; /* フォントサイズ */
-  color: #fff; /* テキストの色 */
-  background-color:#dda0dd; /* ボタンの背景色 */
-  border: none; /* 枠線を削除 */
-  border-radius: 5px; /* 角を丸く */
-  cursor: pointer; /* カーソルをポインタに変更 */
-  transition: background-color 0.3s; /* ホバー時の背景色のトランジション */
+.btn-submit {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color:  #dda0dd; /* 青い背景色 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* ボタンのホバー効果 */
-.comment-form .btn-submit:hover {
-  background-color: #c5a3ed; /* ホバー時の背景色 */
+/* コメント送信ボタンのホバー時のスタイル */
+.btn-submit:hover {
+  background-color: #c5a3ed;
+}
+
+/* キャンセルボタンのスタイル */
+.btn-cancel {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* キャンセルボタンのホバー時のスタイル */
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* ボタンのグループ */
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* ボタンを右端に配置 */
+  gap: 10px;
 }

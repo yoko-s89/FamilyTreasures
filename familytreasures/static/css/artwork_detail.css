@@ -32,7 +32,7 @@
 
 /* ボタンの個別スタイル */
 .artwork-detail .btn-secondary {
-  background-color: #6c757d; /* 背景色 */
+  background-color: #dda0dd; /* 背景色 */
 }
 
 .artwork-detail .btn-danger {
@@ -41,5 +41,6 @@
 
 /* ボタンのホバー時のスタイル */
 .artwork-detail .btn:hover {
-  opacity: 0.8; /* ホバー時の透明度を変更 */
+  background-color: #c5a3cd; /* ホバー時の背景色 */
 }
+  

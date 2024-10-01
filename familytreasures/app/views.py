@@ -942,17 +942,27 @@ class ArtworkEditView(LoginRequiredMixin, View):
             return redirect('app:artwork_detail', pk=artwork.pk)
         return render(request, self.template_name, {'form': form, 'artwork': artwork})
     
+
+
+
 class ArtworkDeleteView(LoginRequiredMixin, View):
     template_name = 'artwork_confirm_delete.html'
 
+    def get_object(self, pk, user):
+        # userの所属するhouseholdに紐づいたArtworkのみを取得
+        return get_object_or_404(Artwork, pk=pk, user__household=user.household)
+
     def get(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household) 
+        # GETリクエストで削除確認画面を表示
+        artwork = self.get_object(pk, request.user)
         return render(request, self.template_name, {'artwork': artwork})
 
     def post(self, request, pk):
-        artwork = get_object_or_404(Artwork, pk=pk, user__household=request.user.household)
+        # POSTリクエストで実際に削除処理を行う
+        artwork = self.get_object(pk, request.user)
         artwork.delete()
-        return redirect(reverse('app:artwork_list'))  
+        return redirect(reverse_lazy('app:artwork_list'))  # 削除後にリストページへリダイレクト
+
 class GrowthRecordCreateView(LoginRequiredMixin, View):
     template_name = 'growth_record_form.html'
 
@@ -1026,35 +1036,22 @@ class GrowthRecordUpdateView(LoginRequiredMixin, View):
 
         # バリデーションエラーがある場合、フォームを再表示
         return render(request, self.template_name, {'form': form, 'record': record})
-
-# class GrowthRecordUpdateView(LoginRequiredMixin, View):
-#     template_name = 'growth_record_update.html'
-
-#     def get(self, request, pk):
-#         # 編集対象の成長記録を取得
-#         record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
-#         form = GrowthRecordForm(instance=record)
-#         return render(request, self.template_name, {'form': form, 'record': record})
-#     def post(self, request, pk):
-#         # 編集対象の成長記録を取得
-#         record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
-#         form = GrowthRecordForm(request.POST, instance=record)
-
-#         # 「保存」ボタンが押された場合
-#         if 'save' in request.POST and form.is_valid():
-#             form.save()
-#             # 成功時に詳細画面へ
-#             return redirect('app:growth_record_list')
-
-#         # 「削除」ボタンが押された場合
-#         elif 'delete' in request.POST:
-#             record.delete()
-#             # 削除後に一覧画面へ
-#             return redirect('app:growth_record_list')
-
-#         # バリデーションエラーがある場合、フォームを再表示
-#         return render(request, self.template_name, {'form': form, 'record': record})
     
+    
+class GrowthRecordDeleteView(LoginRequiredMixin, View):
+    template_name = 'growth_record_confirm_delete.html'
+
+    def get(self, request, pk):
+        record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
+        return render(request, self.template_name, {'record': record})
+
+    def post(self, request, pk):
+        record = get_object_or_404(GrowthRecord, pk=pk, child__household=request.user.household)
+        record.delete()
+        messages.success(request, '成長記録が削除されました。')
+        return redirect('app:growth_record_list')
+
+
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
         def ensure_datetime(dt):
@@ -1137,86 +1134,3 @@ class HomeView(LoginRequiredMixin, View):
             "selected_child_id": selected_child_id,
         })
     
-# class HomeView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         def ensure_datetime(dt):
-#             if isinstance(dt, date):
-#                 dt = datetime.combine(dt, datetime.min.time())
-#             if timezone.is_naive(dt):
-#                 dt = timezone.make_aware(dt)
-#             return dt
-        
-#         # 選択された子供の取得
-#         selected_child_id = request.GET.get('child_id')
-
-#         # 子供のリストを取得
-#         children_list = Children.objects.filter(household=request.user.household)
-
-#         # 選択された子供の投稿を取得
-#         if selected_child_id:
-#             selected_child = get_object_or_404(Children, id=selected_child_id, household=request.user.household)
-#             diaries = Diary.objects.filter(child=selected_child)
-#             artworks = Artwork.objects.filter(child=selected_child)
-#             growth_records = GrowthRecord.objects.filter(child=selected_child)
-#         else:
-#             # 「みんなの日記」も含む（child=None の日記も取得）
-#             diaries = Diary.objects.filter(
-#                 (Q(child__household=request.user.household) | Q(child=None))
-#             ).order_by('-entry_date')
-#             artworks = Artwork.objects.filter(child__household=request.user.household)
-#             growth_records = GrowthRecord.objects.filter(child__household=request.user.household)
-
-#         # 各リストを作成
-#         diaries_list = [
-#             {
-#                 'created_at': ensure_datetime(d.entry_date),
-#                 'id': d.id,
-#                 'type': 'diary',
-#                 'child_name': d.child.child_name if d.child else None,  
-#                 'content': d.content,
-#                 'template': d.template.text if d.template else '',
-#                 'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
-#                 'detail_url': reverse('app:diary_detail', args=[d.id]),
-#             }
-#             for d in diaries
-#         ]
-
-#         artworks_list = [
-#             {
-#                 'created_at': ensure_datetime(a.creation_date),
-#                 'id': a.id,
-#                 'type': 'artwork',
-#                 'child_name': a.child.child_name if a.child else None,
-#                 'title': a.title,
-#                 'image': a.image.url if a.image else None,
-#                 'detail_url': reverse('app:artwork_detail', args=[a.id]),
-#             }
-#             for a in artworks
-#         ]
-
-#         growth_records_list = [
-#             {
-#                 'created_at': ensure_datetime(g.measurement_date),
-#                 'id': g.id,
-#                 'type': 'growth_record',
-#                 'child_name': g.child.child_name,
-#                 'height': g.height,
-#                 'weight': g.weight,
-#                 'memo': g.memo,
-#                 'list_url': reverse('app:growth_record_list'),
-#             }
-#             for g in growth_records
-#         ]
-
-#         # 全ての投稿を1つのリストにまとめてソート
-#         combined_list = sorted(
-#             chain(diaries_list, artworks_list, growth_records_list),
-#             key=lambda x: x['created_at'],
-#             reverse=True
-#         )
-
-#         return render(request, "home.html", context={
-#             "combined_list": combined_list,
-#             "children_list": children_list,
-#             "selected_child_id": selected_child_id,  # 選択された子供のIDをテンプレートに渡す
-#         })

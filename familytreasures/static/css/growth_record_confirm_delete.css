@@ -1,13 +1,13 @@
-/* コメント削除フォームのスタイル */
+/* 全体の削除フォームのスタイル */
 .delete-form {
-  position: relative; /* ボタンを絶対位置で配置するために必要 */
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 800px;
-  margin: 150px auto;
+  margin: 150px auto; /* 上下のマージンを設定して中央に配置 */
   padding: 0;
   border: none;
   background-color: transparent;
@@ -37,17 +37,16 @@
   max-width: 800px; /* 最大幅を設定して幅が広がりすぎないようにする */
   padding: 40px; /* 内側の余白を設定 */
   border: 2px solid #ccc; /* 枠線のスタイル */
-  border-radius: 5px; /* 角を丸くする場合 */
+  border-radius: 5px; /* 角を丸くする */
   background-color: #f9f9f9; /* 背景色 */
 }
 
-/* ボタンを削除確認メッセージの右下に配置 */
+/* ボタンを中央に配置 */
 .delete-form .form-actions {
-  position: absolute; /* 絶対位置指定 */
-  bottom: -50px; /* 下からの位置を小さくしてボタンを下にずらす */
-  right: 20px; /* 右からの位置 */
   display: flex; /* フレックスボックスで配置 */
+  justify-content: center; /* 水平方向に中央揃え */
   gap: 10px; /* ボタン間のスペース */
+  margin-top: 20px; /* 上にスペースを追加 */
 }
 
 /* 削除ボタンのスタイル */
@@ -55,7 +54,7 @@
   padding: 10px 20px;
   font-size: 16px !important; /* ボタンの文字サイズ */
   color: #fff;
-  background-color: #dc3545;
+  background-color: #dc3545; /* 削除ボタンの背景色 */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -64,16 +63,15 @@
 
 /* 削除ボタンのホバー効果 */
 .delete-form .btn-delete:hover {
-  background-color: #c82333;
+  background-color: #c82333; /* ホバー時の色 */
 }
-
 
 /* キャンセルボタンのスタイル */
 .delete-form .btn-cancel {
   padding: 10px 20px;
   font-size: 16px; /* ボタンの文字サイズ */
   color: #fff; /* 文字色を白に設定 */
-  background-color: #6c757d; /* グレーの背景色 */
+  background-color: #6c757d; /* キャンセルボタンの背景色 */
   border: none;
   border-radius: 5px;
   text-decoration: none;
@@ -85,4 +83,3 @@
 .delete-form .btn-cancel:hover {
   background-color: #5a6268; /* ホバー時の背景色 */
 }
-
