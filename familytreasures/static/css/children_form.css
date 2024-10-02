@@ -1,19 +1,21 @@
 /* 全体のスタイル */
 body {
-  font-family: Arial, sans-serif; /* フォントを指定 */
-  background-color: #f0f0f0; /* 背景色 */
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
   margin: 0;
+  font-weight: normal; /* 全体のフォントウェイトを標準に */
 }
 
 /* フォームコンテナのスタイル */
 .form-container {
-  background-color: #fff; /* 背景色 */
-  padding: 20px; /* 内側の余白 */
-  border-radius: 8px; /* 角を丸くする */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
-  max-width: 400px; /* 最大幅を指定 */
-  width: 100%; /* 幅を100%に */
-  margin: 20px auto; /* 上下の余白を設定して中央寄せ */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 20px auto;
+  font-weight: normal; /* フォーム内の文字も標準の太さに */
 }
 
 /* フォームのスタイル */
@@ -24,56 +26,54 @@ form {
 
 /* ラベルと入力のスタイル */
 label {
-  margin-top: 10px; /* ラベルの上に余白を追加 */
+  margin-top: 10px;
+  font-weight: normal; /* ラベルの文字も標準の太さに */
 }
 
 input[type="text"], input[type="date"] {
-  width: 100%; /* 幅を100%に */
-  padding: 8px; /* 内側の余白 */
-  margin-top: 5px; /* 上部の余白 */
-  box-sizing: border-box; /* ボックスのサイズを調整 */
-  font-size: 16px; /* 文字サイズ */
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: normal; /* 入力フィールド内の文字も標準の太さに */
 }
 
 /* ボタンのスタイル */
 button {
-  padding: 10px; /* 内側の余白 */
-  font-size: 16px; /* 文字サイズ */
-  background-color: #dda0dd; /* 背景色 */
-  color: white; /* 文字色 */
-  border: none; /* 枠線をなくす */
-  border-radius: 4px; /* 角を丸くする */
-  cursor: pointer; /* カーソルの形状 */
-  margin-top: 20px; /* ボタンの上にスペース */
+  padding: 10px;
+  font-size: 16px;
+  background-color: #dda0dd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: bold; /* ボタンの文字は太字 */
 }
 
 /* ボタンのホバー時のスタイル */
 button:hover {
-  background-color: #c5a3cd; /* ホバー時の背景色 */
-}
-
-/* エラーメッセージのスタイル */
-.errors {
-  color: red; /* エラーメッセージの文字色 */
-  font-size: 14px; /* 文字サイズ */
+  background-color: #c5a3cd;
 }
 
 /* 見出しのスタイル */
 h2 {
-  text-align: center; /* 中央揃え */
-  font-size: 24px; /* 文字サイズ */
-  margin-bottom: 20px; /* 下部の余白 */
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold; /* 見出しは太字 */
 }
 
 /* リンクのスタイル */
 a {
-  display: block; /* ブロック要素に */
-  text-align: center; /* 中央揃え */
-  margin-top: 20px; /* 上部の余白 */
-  color: #007BFF; /* リンクの色 */
-  text-decoration: none; /* 下線をなくす */
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #007BFF;
+  text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline; /* ホバー時に下線を追加 */
+  text-decoration: underline;
 }

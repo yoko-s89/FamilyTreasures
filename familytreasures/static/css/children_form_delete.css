@@ -3,6 +3,11 @@ body {
   font-family: Arial, sans-serif; /* フォントを指定 */
   background-color: #f0f0f0; /* 背景色 */
   margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* 画面全体にフィット */
 }
 
 /* フォームコンテナのスタイル */
@@ -11,9 +16,10 @@ body {
   padding: 20px; /* 内側の余白 */
   border-radius: 8px; /* 角を丸くする */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
-  max-width: 400px; /* 最大幅を指定 */
+  max-width: 500px; /* 最大幅を拡大 */
   width: 100%; /* 幅を100%に */
   margin: 20px auto; /* 上下の余白を設定して中央寄せ */
+  box-sizing: border-box; /* パディングとボーダーを含めてサイズを調整 */
 }
 
 /* フォームのスタイル */
@@ -30,15 +36,17 @@ form div {
 /* ラベルと入力のスタイル */
 input[type="text"], input[type="date"] {
   width: 100%; /* 幅を100%に */
-  padding: 8px; /* 内側の余白 */
+  padding: 10px; /* 内側の余白を少し増やす */
   margin-top: 5px; /* 上部の余白 */
   box-sizing: border-box; /* ボックスのサイズを調整 */
-  font-size: 20px; /* 文字サイズ */
+  font-size: 18px; /* 文字サイズを調整 */
+  border: 1px solid #ccc; /* ボーダーを追加 */
+  border-radius: 4px; /* 角を丸くする */
 }
 
 /* ボタンのスタイル */
 button {
-  padding: 10px; /* 内側の余白 */
+  padding: 12px; /* 内側の余白を少し大きく */
   font-size: 16px; /* 文字サイズ */
   background-color: #dda0dd; /* 背景色 */
   color: white; /* 文字色 */
@@ -46,6 +54,7 @@ button {
   border-radius: 4px; /* 角を丸くする */
   cursor: pointer; /* カーソルの形状 */
   margin-top: 10px; /* ボタン間のスペース */
+  transition: background-color 0.3s ease; /* スムーズな色変化 */
 }
 
 /* ボタンのホバー時のスタイル */
@@ -57,10 +66,11 @@ button:hover {
 .errors {
   color: red; /* エラーメッセージの文字色 */
   font-size: 14px; /* 文字サイズ */
+  margin-bottom: 15px; /* エラーメッセージの下に余白 */
 }
 
 /* 見出しのスタイル */
-h2{
+h2 {
   text-align: center; /* 中央揃え */
   font-size: 24px; /* 文字サイズ */
   margin-bottom: 20px; /* 下部の余白 */
@@ -71,11 +81,28 @@ h2{
   background-color: #dc3545; /* 赤色 */
   color: #fff;
   border: none;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 12px; /* 内側の余白 */
+  border-radius: 4px; /* 角を丸くする */
   cursor: pointer;
+  font-size: 16px;
 }
 
 .btn-danger:hover {
   background-color: #c82333; /* ホバー時の色 */
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 90%; /* 小さい画面では幅を広げる */
+    padding: 15px;
+  }
+
+  input[type="text"], input[type="date"] {
+    font-size: 16px; /* フォントサイズを少し縮小 */
+  }
+
+  button {
+    padding: 10px; /* ボタンのパディングを縮小 */
+  }
 }

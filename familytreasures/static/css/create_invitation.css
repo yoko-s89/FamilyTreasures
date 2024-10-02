@@ -1,96 +1,76 @@
-/* ナビゲーションバー全体のスタイル */
-.navbar {
-  background-color: #dda0dd;
-  height: 50px; /* 高さを調整 */
-  padding: 5px 10px; /* パディングを減らして幅を縮小 */
-  margin-top: 0 !important; /* ナビゲーションバーの上の余白をリセット */
-  max-width: 100%; /* 最大幅を100%に設定してページ全体に広がるのを防ぐ */
-  margin: 0 auto; /* 中央揃え */
-  box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズ */
-}
-
-/* ナビゲーションバーのリンクのスタイル */
-.navbar .nav-link {
-  font-weight: bold;
-  color: #000; /* 通常リンクの文字色 */
-  font-size: 0.9em; /* フォントサイズを小さくする */
-  margin: 0 8px; /* リンク間のスペースを調整 */
-}
-
-/* ロゴやタイトルのスタイル */
-.navbar .navbar-brand {
-  font-size: 1em; /* ロゴやタイトルのフォントサイズを小さくする */
-}
-
-/* ナビゲーションバーのリンクのホバー効果 */
-.navbar .nav-link:hover {
-  text-decoration: underline; /* ホバー時に下線を追加 */
-}
-
-/* その他のスタイル */
-.container {
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-size: 18px; /* 全体のフォントサイズを大きく */
+}
+
+/* 中央揃え用のコンテナ */
+.center-container {
+  display: flex;
   align-items: center;
-  margin-top: 20px; /* ナビゲーションバーからの余白を調整 */
-  text-align: center; /* テキストを中央に揃える */
-  padding: 20px; /* コンテンツ周りのパディング */
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
 }
 
+/* フォームコンテナのスタイル */
+.form-container {
+  background-color: #fff;
+  padding: 30px; /* パディングを増やす */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px; /* 最大幅を広げる */
+  width: 100%;
+  text-align: center;
+}
+
+/* 見出しを大きくする */
 h1 {
-  font-size: 2em; /* 必要に応じてサイズを変更 */
+  font-size: 2.5em; /* 見出しをさらに大きく */
 }
 
-/* ボタンのスタイル */
+/* ボタンのサイズを大きくする */
 button {
-  padding: 10px 20px;
-  font-size: 1.2em; /* ボタンの文字サイズ */
-  background-color: #dda0dd; /* ボタンの背景色 */
-  color: white;
+  padding: 15px 30px; /* ボタンを大きく */
+  font-size: 18px;    /* ボタンのフォントサイズを大きく */
+  background-color: #dda0dd !important;
+  color: white !important;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   margin-top: 20px;
 }
 
+/* ボタンのホバー時のスタイル */
 button:hover {
-  background-color: #c5a3cd; /* ホバー時の色 */
+  background-color: #c5a3cd !important;
 }
 
-/* 段落とリンクのスタイル */
-p, a, ul {
-  font-size: 1.2em; /* テキストのサイズ */
-  margin-top: 10px;
-}
-
-/* リンクのスタイル */
-a {
-  color: #1E90FF; /* リンクの色 */
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ナビゲーションバーの下に余白を追加 */
-.navbar + .container {
-  margin-top: 20px; /* ナビゲーションバーからの余白 */
-}
-
-/* 左寄せのためのクラス */
+/* 利用方法の左寄せ */
 .left-align {
-  text-align: left; /* テキストを左寄せ */
-  margin-top: 20px; /* 上部の余白を追加（必要に応じて調整） */
+  text-align: left;
+  margin-top: 20px;
 }
 
-/* リストのスタイル */
 .left-align ul {
-  list-style-type: disc; /* リストのマーカーを設定 */
-  padding-left: 20px; /* リストのインデントを設定 */
+  list-style-type: disc;
+  padding-left: 20px;
 }
 
-/* 段落の余白 */
-.left-align p {
-  margin-top: 10px;
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 90%;
+  }
+
+  button {
+    font-size: 1.5em; /* ボタンのサイズもレスポンシブ対応 */
+    padding: 12px 24px; /* パディングを調整 */
+  }
 }

@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家族削除確認-Family Treasures</title>
-</head>
-<body>
-    <h1>家族削除確認</h1>
-    <p>本当に「{{ member.user_name }}」を削除してもよろしいですか？この操作は取り消せません。</p>
+{% extends 'base.html' %}
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn">削除</button>
-    </form>
+{% block title %}
+家族削除確認-Family Treasures
+{% endblock %}
 
-    <a href="{% url 'app:my_page' %}">キャンセル</a>
-</body>
-</html>
+{% block content %}
+    {% load static %}
+    <!-- CSSファイルの読み込み -->
+    <link rel="stylesheet" href="{% static 'css/family_delete_confirm.css' %}">
+
+    <div class="delete-form">
+        <h1>家族削除確認</h1>
+        <p>本当に「{{ member.user_name }}」を削除しますか？この操作は取り消せません。</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn-delete">削除</button>
+                <a href="{% url 'app:my_page' %}" class="btn-cancel">キャンセル</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
