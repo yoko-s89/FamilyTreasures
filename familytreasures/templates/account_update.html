@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-アカウント情報変更-Family Treasures
+アカウント情報変更
 {% endblock %}
 
 {% block content %}
-    <!-- CSSファイルの読み込み -->
+    <!-- 静的ファイルを読み込む -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/account_update.css' %}">
 
@@ -15,8 +15,11 @@
         <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">変更を保存</button>
+        <div class="button-group">
+            <button type="submit" class="btn btn-save">変更を保存</button>
+            <a href="{% url 'app:password_change' %}" class="btn btn-password-change">パスワード変更画面へ</a>
+            <a href="{% url 'app:home' %}" class="btn btn-cancel">キャンセル</a>
+        </div>
         </form>
-        <a href="{% url 'app:home' %}">キャンセル</a>
     </div>
 {% endblock %}

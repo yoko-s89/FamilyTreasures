@@ -6,7 +6,7 @@ from .views import (
     CommentDeleteView, DiaryEditView, DiaryDeleteView, ArtworkCreateView, ArtworkListView, 
     ArtworkDetailView, ArtworkEditView, ArtworkDeleteView, GrowthRecordListView, 
     GrowthRecordCreateView, GrowthRecordUpdateView,  my_page, family_delete, create_invitation_view,
-    InviteSignupView, family_delete_confirm, DeleteMediaView, GrowthRecordDeleteView
+    InviteSignupView, family_delete_confirm, DeleteMediaView, GrowthRecordDeleteView, PasswordChangeDoneView
 )
 from . import views
 
@@ -21,14 +21,15 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'), 
     #アカウント情報更新
     path('account/update/', views.account_update, name='account_update'),
+    path('account/password_change/', views.custom_password_change, name='password_change'),
+    path('account/password_change/done/', PasswordChangeDoneView.as_view(template_name='password_change_done.html'), name='password_change_done'),
+    # path('account/password_change/done/', views.password_change_done, name='password_change_done'),
     #マイページ
     path('my_page/', views.my_page, name='my_page'),
     path('image_update/', views.image_update, name='image_update'),
     path('image_delete/', views.image_delete, name='image_delete'),
     #家族招待
     path('create_invitation/', create_invitation_view, name='create_invitation'),
-    # path('join/<uuid:token>/', use_invitation, name='use_invitation'),  # 招待URLのパターン
-    # path('join/<uuid:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),
     path('join/<str:token>/', InviteSignupView.as_view(), name='signup_from_invitation'),
     #家族削除
     path('family_delete/<int:id>/', family_delete, name='family_delete'),  

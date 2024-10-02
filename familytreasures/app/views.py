@@ -1,6 +1,7 @@
 from app.forms import SignupForm, LoginForm, ChildrenForm, ArtworkForm, GrowthRecordForm, ImageUploadForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.contrib.auth.views import PasswordChangeDoneView
 from django.views.generic import TemplateView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import update_session_auth_hash
@@ -10,6 +11,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from django.contrib.auth import get_user_model   
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 User = get_user_model()
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -293,6 +296,7 @@ def family_delete_confirm(request, id):
     # GETリクエストの場合は確認ページを表示
     return render(request, 'family_delete_confirm.html', {'member': member})
 
+
 @login_required
 def account_update(request):
     user = request.user
@@ -300,22 +304,29 @@ def account_update(request):
     if request.method == 'POST':
         form = AccountUpdateForm(request.POST, instance=user)
         if form.is_valid():
-            # 現在のパスワードを確認
-            current_password = form.cleaned_data['current_password']
-            if not user.check_password(current_password):
-                form.add_error('current_password', '現在のパスワードが正しくありません。')
-            else:
-                # パスワード変更を実行
-                user.set_password(form.cleaned_data['new_password'])
-                user.save()
-                # パスワードを変更した後にセッションを更新
-                update_session_auth_hash(request, user)
-                messages.success(request, 'アカウント情報が更新されました。')
-                return redirect('app:login')  # ログイン画面へ
+            form.save()
+            messages.success(request, 'アカウント情報が更新されました。')
+            return redirect('app:home')  # 適切なリダイレクト先に変更
     else:
         form = AccountUpdateForm(instance=user)
 
     return render(request, 'account_update.html', {'form': form})
+
+# @login_required
+# def account_update(request):
+#     user = request.user
+
+#     if request.method == 'POST':
+#         form = AccountUpdateForm(request.POST, instance=user)
+#         if form.is_valid():
+#             form.save()  # ユーザー名とメールアドレスを保存
+#             messages.success(request, 'アカウント情報が更新されました。')
+#             return redirect('app:home')  # 適切なリダイレクト先に変更
+#     else:
+#         form = AccountUpdateForm(instance=user)
+
+#     return render(request, 'account_update.html', {'form': form})
+
 
 def image_update(request):
     # 現在のユーザーを取得
@@ -344,7 +355,65 @@ def image_delete(request):
 
     return render(request, 'app/image_delete_confirm.html')
 
+# @login_required
+# def password_change(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(user=request.user, data=request.POST)
+#         if form.is_valid():
+#             form.save()
+#             update_session_auth_hash(request, form.user)  # ユーザーをログアウトさせない
+#             messages.success(request, 'パスワードが変更されました。')
+#             return redirect('password_change_done')  # カスタム完了ページにリダイレクト
+#     else:
+#         form = PasswordChangeForm(user=request.user)
+    
+#     return render(request, 'password_change.html', {'form': form})
+
+@login_required
+def custom_password_change(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # ユーザーをログアウトさせない
+            messages.success(request, 'パスワードが正常に変更されました。')
+            return redirect(reverse('app:password_change_done'))  # reverse でリダイレクト
+        else:
+            messages.error(request, 'パスワードの変更に失敗しました。正しい情報を入力してください。')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(request, 'password_change.html', {'form': form})
+
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'account/password_change_done.html'  # テンプレートファイルをカスタマイズする場合
+# @login_required
+# def password_change_done(request):
+#     return render(request, 'password_change_done.html')
+
+
+# @login_required
+# def password_change(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(user=request.user, data=request.POST)
+#         if form.is_valid():
+#             form.save()  # パスワードを保存
+#             messages.success(request, 'パスワードが変更されました。')
+#             return redirect('app:password_change_done')  # パスワード変更後のリダイレクト先
+#     else:
+#         form = PasswordChangeForm(user=request.user)
+
+#     return render(request, 'password_change.html', {'form': form})
+
+# @login_required
+# def password_change_done(request):
+#     return render(request, 'password_change_done.html')
+
+
 # 子供の情報作成
+
+
 class ChildrenCreateView(LoginRequiredMixin, View):
     def get(self, request):
         form = ChildrenForm()
@@ -1089,7 +1158,7 @@ class HomeView(LoginRequiredMixin, View):
                 'content': d.content,
                 'template': d.template.text if d.template else '',
                 'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
-                'detail_url': reverse('app:diary_detail', args=[d.id]),
+                'detail_url': reverse('app:diary_detail', args=[d.id]),  # 日記詳細ページへのリンク
             }
             for d in diaries
         ]
@@ -1102,7 +1171,7 @@ class HomeView(LoginRequiredMixin, View):
                 'child_name': a.child.child_name if a.child else "家族作品",
                 'title': a.title,
                 'image': a.image.url if a.image else None,
-                'detail_url': reverse('app:artwork_detail', args=[a.id]),
+                'detail_url': reverse('app:artwork_detail', args=[a.id]),  # 作品詳細ページへのリンク
             }
             for a in artworks
         ]
@@ -1116,7 +1185,7 @@ class HomeView(LoginRequiredMixin, View):
                 'height': g.height,
                 'weight': g.weight,
                 'memo': g.memo,
-                'list_url': reverse('app:growth_record_list'),
+                'list_url': reverse('app:growth_record_list'),  # 一覧画面へのリンク
             }
             for g in growth_records
         ]
@@ -1133,4 +1202,86 @@ class HomeView(LoginRequiredMixin, View):
             "children_list": children_list,
             "selected_child_id": selected_child_id,
         })
+
+# class HomeView(LoginRequiredMixin, View):
+#     def get(self, request):
+#         def ensure_datetime(dt):
+#             if isinstance(dt, date):
+#                 dt = datetime.combine(dt, datetime.min.time())
+#             if timezone.is_naive(dt):
+#                 dt = timezone.make_aware(dt)
+#             return dt
+        
+#         # 選択された子供の取得
+#         selected_child_id = request.GET.get('child_id')
+
+#         # 子供のリストを取得
+#         children_list = Children.objects.filter(household=request.user.household)
+
+#         # 選択された子供の投稿を取得
+#         if selected_child_id:
+#             selected_child = get_object_or_404(Children, id=selected_child_id, household=request.user.household)
+#             diaries = Diary.objects.filter(child=selected_child, user__household=request.user.household)
+#             artworks = Artwork.objects.filter(child=selected_child, user__household=request.user.household)
+#             growth_records = GrowthRecord.objects.filter(child=selected_child, user__household=request.user.household)
+#         else:
+#             # 「すべて」を選択した場合、家族のみの投稿（child=None を含む）を表示
+#             diaries = Diary.objects.filter(user__household=request.user.household).order_by('-entry_date')
+#             artworks = Artwork.objects.filter(user__household=request.user.household)
+#             growth_records = GrowthRecord.objects.filter(user__household=request.user.household)
+
+#         # 各リストを作成
+#         diaries_list = [
+#             {
+#                 'created_at': ensure_datetime(d.entry_date),
+#                 'id': d.id,
+#                 'type': 'diary',
+#                 'child_name': d.child.child_name if d.child else "みんな",  
+#                 'content': d.content,
+#                 'template': d.template.text if d.template else '',
+#                 'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
+#                 'detail_url': reverse('app:diary_detail', args=[d.id]),
+#             }
+#             for d in diaries
+#         ]
+
+#         artworks_list = [
+#             {
+#                 'created_at': ensure_datetime(a.creation_date),
+#                 'id': a.id,
+#                 'type': 'artwork',
+#                 'child_name': a.child.child_name if a.child else "家族作品",
+#                 'title': a.title,
+#                 'image': a.image.url if a.image else None,
+#                 'detail_url': reverse('app:artwork_detail', args=[a.id]),
+#             }
+#             for a in artworks
+#         ]
+
+#         growth_records_list = [
+#             {
+#                 'created_at': ensure_datetime(g.measurement_date),
+#                 'id': g.id,
+#                 'type': 'growth_record',
+#                 'child_name': g.child.child_name,
+#                 'height': g.height,
+#                 'weight': g.weight,
+#                 'memo': g.memo,
+#                 'list_url': reverse('app:growth_record_list'),
+#             }
+#             for g in growth_records
+#         ]
+
+#         # 全ての投稿を1つのリストにまとめてソート
+#         combined_list = sorted(
+#             chain(diaries_list, artworks_list, growth_records_list),
+#             key=lambda x: x['created_at'],
+#             reverse=True
+#         )
+
+#         return render(request, "home.html", context={
+#             "combined_list": combined_list,
+#             "children_list": children_list,
+#             "selected_child_id": selected_child_id,
+#         })
     

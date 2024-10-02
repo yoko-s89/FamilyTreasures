@@ -53,10 +53,11 @@ class LoginForm(forms.Form):
 
     
 class AccountUpdateForm(forms.ModelForm):
-    current_password = forms.CharField(widget=forms.PasswordInput, label="現在のパスワード")
-    new_password = forms.CharField(widget=forms.PasswordInput, label="新しいパスワード")
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label="新しいパスワード（確認）")
-
+    current_password = forms.CharField(
+        widget=forms.PasswordInput, 
+        label="現在のパスワード", 
+        required=True
+    )
     class Meta:
         model = User
         fields = ['user_name', 'email']
@@ -64,17 +65,13 @@ class AccountUpdateForm(forms.ModelForm):
             'user_name': '名前/ニックネーム',
             'email': 'メールアドレス',
         }
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password')
+        if not self.instance.check_password(current_password):
+            raise forms.ValidationError("現在のパスワードが正しくありません。")
+        return current_password
 
-    def clean(self):
-        cleaned_data = super().clean()
-        new_password = cleaned_data.get('new_password')
-        confirm_password = cleaned_data.get('confirm_password')
 
-        if new_password and new_password != confirm_password:
-            self.add_error('confirm_password', 'パスワードが一致しません。')
-
-        return cleaned_data    
-    
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
