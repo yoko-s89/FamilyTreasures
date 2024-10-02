@@ -1,5 +1,5 @@
-__pycache__
-db.sqlite3db.sqlite3
+__pycache__/
+db.sqlite3
 
 # mediaフォルダ全体を無視
 media/
