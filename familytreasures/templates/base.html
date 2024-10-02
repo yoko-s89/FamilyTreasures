@@ -51,9 +51,14 @@
                         <li><a class="dropdown-item" href="{% url 'app:artwork_list' %}">閲覧画面</a></li>
                     </ul>
                 </li>
-                <!-- 成長記録リンク -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'app:growth_record_list' %}">成長記録</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"data-bs-toggle="dropdown" aria-expanded="false">
+                        成長記録
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'app:growth_record_add' %}">投稿画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:growth_record_list' %}">閲覧画面</a></li>
+                    </ul>
                 </li>
                 <!-- マイページリンク -->
                 <li class="nav-item">
