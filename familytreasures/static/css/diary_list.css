@@ -45,17 +45,18 @@
   background-color: #f0f0f0; /* ホバー時の背景色 */
 }
 
-/* 日付部分を固定幅で表示 */
 .diary-date {
-  flex-shrink: 0; /* サイズを固定 */
-  width: 100px; /* 必要に応じて幅を調整 */
-  margin-right: 20px; /* 内容との間隔 */
-  text-align: right; /* 日付を右寄せにする */
+  flex-shrink: 0;
+  width: auto; /* 自動幅 */
+  margin-right: 20px;
+  display: flex; /* 横並びにする */
+  align-items: center; /* 垂直方向の中央揃え */
+  text-align: left; /* 日付を左揃えに変更 */
 }
 
-/* 日付部分で曜日と日付を縦に表示 */
 .diary-date p {
   margin: 0;
+  padding-right: 5px; /* 日付と曜日の間に余白を追加 */
 }
 
 /* 内容部分を日付の隣に寄せて表示 */

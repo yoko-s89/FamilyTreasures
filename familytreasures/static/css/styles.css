@@ -8,6 +8,9 @@
   display: flex;
   align-items: center;
   font-size: 30px !important; /* すべてのページでナビゲーションバーの文字サイズを強制 */
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 }
 
 /* ロゴ（Family Treasures） */
@@ -55,10 +58,17 @@
 /* ドロップダウンメニューのスタイル */
 .dropdown-menu {
   background-color: #e6dff1;
+  padding: 0; /* ドロップダウン全体の余白をリセット */
 }
 
+/* ドロップダウンアイテムのスタイル */
 .dropdown-item {
+  padding: 10px 15px; /* アイテム間の余白を適切に調整 */
   color: #000 !important;
+  display: block; /* アイテムをブロック表示で整列 */
+  width: 100%; /* ドロップダウンメニューの幅に合わせる */
+  line-height: 1.5; /* 行間を調整 */
+  text-align: left; /* 文字の揃えを左揃えに */
 }
 
 .dropdown-item:hover {
@@ -66,3 +76,11 @@
   color: #fff !important;
 }
 
+/* ページ全体に対するコンテンツのスタイル */
+.container {
+  margin-top: 100px; 
+}
+/* ページ全体にナビゲーションバー分の余白を追加 */
+body {
+  padding-top: 60px; /* ナビゲーションバーの高さに応じて調整してください */
+}

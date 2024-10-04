@@ -20,13 +20,12 @@
 
 <!-- ナビゲーションバー -->
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #dda0dd !important;">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="#">Family Treasures</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <!-- 左側のナビゲーションリンク -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'app:home' %}">ホーム</a>
@@ -37,8 +36,8 @@
                         日記
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownDiary">
-                        <li><a class="dropdown-item" href="{% url 'app:diary_new' %}">投稿画面</a></li>
-                        <li><a class="dropdown-item" href="{% url 'app:diary_list' %}">一覧画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:diary_new' %}">日記投稿画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:diary_list' %}">日記一覧画面</a></li>
                     </ul>
                 </li>
                 <!-- アルバムドロップダウン -->
@@ -47,17 +46,18 @@
                         アルバム
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownAlbum">
-                        <li><a class="dropdown-item" href="{% url 'app:artwork_create' %}">投稿画面</a></li>
-                        <li><a class="dropdown-item" href="{% url 'app:artwork_list' %}">閲覧画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:artwork_create' %}">制作物投稿画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:artwork_list' %}">制作物一覧画面</a></li>
                     </ul>
                 </li>
+                <!-- 成長記録ドロップダウン -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         成長記録
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'app:growth_record_add' %}">投稿画面</a></li>
-                        <li><a class="dropdown-item" href="{% url 'app:growth_record_list' %}">閲覧画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:growth_record_add' %}">成長記録入力画面</a></li>
+                        <li><a class="dropdown-item" href="{% url 'app:growth_record_list' %}">成長記録一覧画面</a></li>
                     </ul>
                 </li>
                 <!-- マイページリンク -->
@@ -96,7 +96,7 @@
 </div>
 
 <!-- ページコンテンツ -->
-<div class="container">
+<div class="container mt-5">
     {% block content %}
     <!-- 子テンプレートで指定されたコンテンツがここに表示されます -->
     {% endblock %}

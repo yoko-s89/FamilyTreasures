@@ -1,24 +1,24 @@
-/* メインコンテナのスタイル*/
+/* メインコンテナのスタイル */
 .growth-record-list-container {
-  max-width: 900px; /* コンテンツの最大幅 */
-  margin: 40px auto; /* 中央に配置 */
+  max-width: 900px;
+  margin: 40px auto;
   padding: 20px;
-  background-color: #fff; /* 背景色 */
-  border-radius: 8px; /* 角を丸くする */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* フィルタリングフォームのスタイル */
 .growth-record-list-container form {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* 左寄せ */
-  margin-bottom: 20px; /* 下部に余白 */
+  justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 .growth-record-list-container label {
-  margin-right: 10px; /* ラベルの右側にスペースを追加 */
-  font-weight: bold; /* 太字 */
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 .growth-record-list-container select,
@@ -30,45 +30,55 @@
 }
 
 .growth-record-list-container input[type="submit"] {
-  background-color: #dda0dd; /* 背景色 */
-  color: white; /* 文字色 */
+  background-color: #dda0dd;
+  color: white;
   cursor: pointer;
-  margin-left: 10px; /* 左側にスペースを追加 */
+  margin-left: 10px;
 }
 
 .growth-record-list-container input[type="submit"]:hover {
-  background-color: #c5a3ed; /* ホバー時の背景色 */
+  background-color: #c5a3ed;
 }
 
 /* テーブルのスタイル */
 .growth-record-list-container table {
   width: 100%;
-  border-collapse: collapse; /* ボーダーの重複をなくす */
+  border-collapse: collapse;
 }
 
 .growth-record-list-container th,
 .growth-record-list-container td {
   padding: 12px;
   border: 1px solid #ddd;
-  text-align: center; /* 中央寄せ */
+  text-align: center;
 }
 
 .growth-record-list-container th {
-  background-color: #f4f4f4; /* ヘッダーの背景色 */
-  font-weight: bold; /* 太字 */
+  background-color: #f4f4f4;
+  font-weight: bold;
 }
 
 .growth-record-list-container tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* 偶数行の背景色 */
+  background-color: #f9f9f9;
 }
 
 .growth-record-list-container tbody tr:hover {
-  background-color: #f1f1f1; /* ホバー時の背景色 */
+  background-color: #f1f1f1;
 }
 
-/* テキストのスタイル */
 .growth-record-list-container h1 {
   text-align: center;
-  margin-bottom: 20px; /* 下部に余白 */
+  margin-bottom: 20px;
 }
 
+table td {
+  text-align: center;
+  vertical-align: top;
+}
+
+/* メモフィールドのスタイル */
+.memo-field {
+  text-align: left !important;  /* 左寄せを強制 */
+  vertical-align: top;  /* 上寄せ */
+  white-space: pre-wrap;  /* 改行を保持 */
+}

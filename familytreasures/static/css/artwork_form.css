@@ -1,62 +1,53 @@
 /* 全体のコンテナのスタイル */
 .artwork-form-container {
-  max-width: 1200px; /* コンテナの最大幅 */
-  margin: 0 auto; /* コンテナを中央に配置 */
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9; /* 背景色 */
-  border-radius: 8px; /* 角を丸く */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 軽い影 */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative; /* ボタンの絶対位置の基準を作る */
+  min-height: 800px; /* カード全体の高さを少し広げる */
+  box-sizing: border-box;
 }
 
-/* 内部コンテナでフレックスボックスを設定して左右に分割 */
+/* 内部コンテナをフレックスボックスで左右に分割 */
 .form-inner-container {
-  display: flex; /* フレックスボックスでレイアウト */
-  justify-content: space-between; /* 左右の要素の間にスペースを入れる */
-  align-items: flex-start; /* 上端を揃える */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-/* メディアセクション（左側） */
+/* 左側のメディアセクション */
 .media-section {
-  flex: 0 0 40%; /* 左側の幅を40%に設定 */
-  background-color: #fff; /* 背景色 */
+  flex: 0 0 40%;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
-  text-align: center; /* 中央揃え */
+  text-align: center;
+  box-sizing: border-box;
 }
 
-/* プレビューエリアのスタイル */
-#media-preview {
-  margin-top: 10px; /* ボタンとの間にスペース */
-}
-
-#media-preview img,
-#media-preview video {
-  max-width: 100%; /* メディアの最大幅を100%に制限 */
-  height: auto; /* 自動調整 */
-  border: 1px solid #ddd; /* 枠線 */
-  border-radius: 5px; /* 角を丸くする */
-  margin-top: 10px; /* 上にスペースを追加 */
-}
-
-/* フォームセクション（右側） */
+/* 右側のフォームセクション */
 .form-section {
-  flex: 1; /* 残りの幅をフォームセクションに割り当てる */
-  background-color: #fff; /* 背景色 */
+  flex: 1;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 /* 各フォームグループのスタイル */
 .form-group {
-  margin-bottom: 15px; /* 各フォームフィールドの間にスペースを追加 */
+  margin-bottom: 15px;
 }
 
 /* ラベルのスタイル */
 .form-group label {
   display: block;
-  margin-bottom: 5px; /* ラベルとフィールドの間にスペースを追加 */
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
@@ -64,51 +55,47 @@
 .form-group input,
 .form-group textarea,
 .form-group select {
-  width: 100%; /* フィールドの幅を100%に設定 */
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* パディングとボーダーを含む */
-  background-color: #f9f9f9; /* フィールドの背景色をコンテナと統一 */
+  background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 /* 投稿ボタンのスタイル */
 .submit-button {
-  position: fixed; /* 画面の右下に固定 */
-  bottom: 20px; /* 下から20pxの位置に配置 */
-  right: 20px; /* 右から20pxの位置に配置 */
-  width: auto; /* 必要に応じて自動調整 */
-  padding: 10px 20px; /* ボタン内の余白を設定 */
-  background-color: #dda0dd; /* ボタンの背景色 */
-  color: #fff; /* テキストの色 */
-  border: none; /* 枠線を消す */
-  border-radius: 5px; /* 角を丸くする */
-  font-size: 16px; /* 文字の大きさ */
-  cursor: pointer; /* マウスカーソルをポインタに */
-  transition: background-color 0.3s; /* ホバー時のエフェクト */
+  position: absolute; /* 絶対位置で右下に固定 */
+  bottom: 10px; /* 下から10pxに設定し、ボタンをさらに下げる */
+  right: 20px; /* 右から20px */
+  padding: 10px 20px;
+  background-color: #dda0dd;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 /* 投稿ボタンのホバー時の効果 */
 .submit-button:hover {
-  background-color: #c5a3ed; /* ホバー時の背景色 */
+  background-color: #c5a3ed;
 }
 
-/* レスポンシブ対応：画面が狭くなったら縦に並べる */
+/* レスポンシブ対応：画面が狭くなった場合 */
 @media screen and (max-width: 768px) {
   .form-inner-container {
-    flex-direction: column; /* 縦に並べる */
+    flex-direction: column;
   }
 
   .media-section {
-    margin-bottom: 20px; /* 下にスペース */
+    margin-bottom: 20px;
   }
 
-  /* ボタンの位置を調整 */
   .submit-button {
-    width: 100%; /* 小さい画面ではボタンを幅100%にする */
-    position: relative; /* 固定を解除して通常のレイアウトに */
-    bottom: auto;
-    right: auto;
-    margin-top: 20px; /* 上にスペースを追加 */
+    position: static; /* 小さい画面では絶対位置を解除 */
+    width: 100%;
+    margin-top: 20px;
   }
 }

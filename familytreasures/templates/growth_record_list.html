@@ -53,7 +53,7 @@
                 <td>{{ record.age_years }}年 {{ record.age_months }}ヶ月</td>
                 <td>{{ record.height }}</td>
                 <td>{{ record.weight }}</td>
-                <td>{{ record.memo }}</td>
+                <td class="memo-field">{{ record.memo|linebreaksbr }}</td>
             </tr>
             {% empty %}
             <tr>

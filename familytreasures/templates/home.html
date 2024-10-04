@@ -50,7 +50,7 @@
                                 {% elif item.type == 'growth_record' %}
                                     <p>身長: {{ item.height }} cm</p>
                                     <p>体重: {{ item.weight }} kg</p>
-                                    <p>メモ: {{ item.memo }}</p>
+                                    <p>メモ: {{ item.memo|linebreaksbr  }}</p>
                                 {% endif %}
                             </div>
                         </div>

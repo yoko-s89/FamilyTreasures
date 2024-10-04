@@ -44,3 +44,9 @@
   background-color: #c5a3cd; /* ホバー時の背景色 */
 }
   
+
+
+.left-aligned-text {
+  text-align: left; /* 左寄せ */
+  margin-top: 20px; /* 上部に余白を追加 */
+}

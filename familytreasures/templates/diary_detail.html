@@ -82,7 +82,7 @@
             <ul>
                 {% for comment in comments %}
                     <li>
-                        <strong>{{ comment.user.user_name }}:</strong> {{ comment.content }}
+                        <strong>{{ comment.user.user_name }}:</strong> {{ comment.content|linebreaks }}
                         {% if request.user == comment.user %}
                             <!-- 編集・削除リンク -->
                             <a href="{% url 'app:comment_edit' comment.pk %}">編集</a>

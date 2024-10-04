@@ -668,115 +668,7 @@ class DiaryEditView(LoginRequiredMixin, View):
                 'media_list': media_list,
                 'errors': form.errors  # エラーメッセージをテンプレートに渡す
             })
-# class DiaryEditView(LoginRequiredMixin, View):
-    # template_name = 'diary_edit.html'
 
-    # def get(self, request, pk):
-    #     # 日記を取得
-    #     try:
-    #         diary = Diary.objects.get(pk=pk)
-    #     except Diary.DoesNotExist:
-    #         raise Http404("Diary not found")
-
-    #     # 家族のみが編集できるように制限
-    #     if diary.user.household != request.user.household:
-    #         raise PermissionDenied("この日記を編集する権限がありません。")
-
-    #     form = DiaryForm(instance=diary, user=request.user)
-    #     media_list = diary.medias.all()  # 日記に関連するメディアを取得
-
-    #     return render(request, self.template_name, {
-    #         'form': form,
-    #         'diary': diary,
-    #         'media_list': media_list
-    #     })
-
-    # def post(self, request, pk):
-    #     # 日記を取得
-    #     try:
-    #         diary = Diary.objects.get(pk=pk)
-    #     except Diary.DoesNotExist:
-    #         raise Http404("Diary not found")
-
-    #     # 家族のみが編集できるように制限
-    #     if diary.user.household != request.user.household:
-    #         raise PermissionDenied("この日記を編集する権限がありません。")
-
-    #     form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user)
-
-    #     if form.is_valid():
-    #         form.save()
-
-    #         # 新しいメディアを追加
-    #         media_files = request.FILES.getlist('media_files')
-    #         for media_file in media_files:
-    #             media_type = 'image' if media_file.content_type.startswith('image') else 'video'
-    #             DiaryMedia.objects.create(diary=diary, media_file=media_file, media_type=media_type)
-
-    #         # 削除するメディアのIDを取得
-    #         delete_media_ids = request.POST.getlist('delete_media')
-
-    #         if delete_media_ids:
-    #             DiaryMedia.objects.filter(id__in=delete_media_ids, diary=diary).delete()
-
-    #         # 編集後、詳細ページにリダイレクト
-    #         return redirect(reverse('app:diary_detail', kwargs={'pk': diary.pk}))
-    #     else:
-    #         # バリデーション失敗時にメディアリストを再取得
-    #         media_list = diary.medias.all()
-    #         return render(request, self.template_name, {
-    #             'form': form,
-    #             'diary': diary,
-    #             'media_list': media_list,
-    #             'errors': form.errors  # エラーメッセージをテンプレートに渡す
-    #         })        
-        
-
-    # def post(self, request, pk):
-    #     # childがNoneの場合も考慮して日記を取得
-    #     if Diary.objects.filter(pk=pk, child__isnull=False).exists():
-    #         diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household)
-    #     else:
-    #         diary = get_object_or_404(Diary, pk=pk, child=None)
-
-    #     form = DiaryForm(request.POST, request.FILES, instance=diary, user=request.user)
-
-    #     print("POST request data:", request.POST)
-    #     print("FILES request data:", request.FILES)
-
-    #     if form.is_valid():
-    #         print("Form is valid.")  # フォームが有効ならデバッグ出力
-
-    #         form.save()
-
-    #         # 新しいメディアを追加
-    #         media_files = request.FILES.getlist('media_files')
-    #         for media_file in media_files:
-    #             media_type = 'image' if media_file.content_type.startswith('image') else 'video'
-    #             DiaryMedia.objects.create(diary=diary, media_file=media_file, media_type=media_type)
-
-    #         # 削除するメディアのIDを取得
-    #         delete_media_ids = request.POST.getlist('delete_media')
-    #         print("Delete media IDs:", delete_media_ids)  # 削除対象のメディアIDをデバッグ出力
-
-    #         if delete_media_ids:
-    #             DiaryMedia.objects.filter(id__in=delete_media_ids, diary=diary).delete()
-    #             print("Deleted media with IDs:", delete_media_ids)  # 削除完了の確認
-
-    #         # 編集後、詳細ページにリダイレクト
-    #         return redirect(reverse('app:diary_detail', kwargs={'pk': diary.pk}))
-    #     else:
-    #         print("Form is invalid.")  # フォームが無効ならデバッグ出力
-    #         print(form.errors)  # エラーメッセージを出力
-
-    #     # バリデーション失敗時にメディアリストを再取得
-    #     media_list = diary.medias.all()
-    #     return render(request, self.template_name, {
-    #         'form': form,
-    #         'diary': diary,
-    #         'media_list': media_list,
-    #         'errors': form.errors  # エラーメッセージをテンプレートに渡す
-    #     })
         
 class DiaryDeleteView(LoginRequiredMixin, View):
     template_name = 'diary_confirm_delete.html'  
@@ -793,14 +685,6 @@ class DiaryDeleteView(LoginRequiredMixin, View):
         diary.delete()  # 日記を削除
         # 削除後に一覧ページへリダイレクト
         return redirect(reverse('app:diary_list'))
-    
-    # def post(self, request, pk):
-    #     # childがNoneの場合も考慮して、削除する日記を取得
-    #     diary = get_object_or_404(Diary, pk=pk, child__household=request.user.household) if Diary.objects.filter(pk=pk, child__isnull=False).exists() else get_object_or_404(Diary, pk=pk, child=None)
-    #     diary.delete()  # 日記を削除
-    #     # 削除後に一覧ページへ
-    #     return redirect(reverse('app:diary_list'))
-
 
 class DeleteMediaView(LoginRequiredMixin, View):
     def post(self, request, pk, media_pk):
@@ -820,31 +704,6 @@ class DeleteMediaView(LoginRequiredMixin, View):
         # 削除後、日記の編集ページへリダイレクト
         return redirect(reverse('app:diary_edit', kwargs={'pk': pk}))
 
-# class DeleteMediaView(LoginRequiredMixin, View):
-#     def post(self, request, pk, media_pk):
-#         # Qオブジェクトを最初に使い、フィルタを作成
-#         media = DiaryMedia.objects.filter(
-#             Q(diary__child__household=request.user.household) | Q(diary__child=None, diary__user__household=request.user.household),
-#             pk=media_pk,
-#             diary__pk=pk
-#         ).first()
-
-#         # メディアが存在しない場合は404エラー
-#         if not media:
-#             raise Http404("Media not found")
-
-#         # メディアの削除処理
-#         media.delete()
-
-#         # 削除後、日記の編集ページへリダイレクト
-#         return redirect(reverse('app:diary_edit', kwargs={'pk': pk}))
-    
-    # def post(self, request, pk, media_pk):
-    #     # メディアの削除処理
-    #     media = get_object_or_404(DiaryMedia, pk=media_pk, diary__pk=pk)
-    #     media.delete()
-    #     # 削除後、編集ページへ
-    #     return redirect(reverse('app:diary_edit', kwargs={'pk': pk}))
 class CommentCreateView(LoginRequiredMixin, View):
     def get(self, request, diary_id):
         form = CommentForm()
@@ -1202,86 +1061,3 @@ class HomeView(LoginRequiredMixin, View):
             "children_list": children_list,
             "selected_child_id": selected_child_id,
         })
-
-# class HomeView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         def ensure_datetime(dt):
-#             if isinstance(dt, date):
-#                 dt = datetime.combine(dt, datetime.min.time())
-#             if timezone.is_naive(dt):
-#                 dt = timezone.make_aware(dt)
-#             return dt
-        
-#         # 選択された子供の取得
-#         selected_child_id = request.GET.get('child_id')
-
-#         # 子供のリストを取得
-#         children_list = Children.objects.filter(household=request.user.household)
-
-#         # 選択された子供の投稿を取得
-#         if selected_child_id:
-#             selected_child = get_object_or_404(Children, id=selected_child_id, household=request.user.household)
-#             diaries = Diary.objects.filter(child=selected_child, user__household=request.user.household)
-#             artworks = Artwork.objects.filter(child=selected_child, user__household=request.user.household)
-#             growth_records = GrowthRecord.objects.filter(child=selected_child, user__household=request.user.household)
-#         else:
-#             # 「すべて」を選択した場合、家族のみの投稿（child=None を含む）を表示
-#             diaries = Diary.objects.filter(user__household=request.user.household).order_by('-entry_date')
-#             artworks = Artwork.objects.filter(user__household=request.user.household)
-#             growth_records = GrowthRecord.objects.filter(user__household=request.user.household)
-
-#         # 各リストを作成
-#         diaries_list = [
-#             {
-#                 'created_at': ensure_datetime(d.entry_date),
-#                 'id': d.id,
-#                 'type': 'diary',
-#                 'child_name': d.child.child_name if d.child else "みんな",  
-#                 'content': d.content,
-#                 'template': d.template.text if d.template else '',
-#                 'first_image': d.medias.filter(media_type='image').first().media_file.url if d.medias.filter(media_type='image').exists() else None,
-#                 'detail_url': reverse('app:diary_detail', args=[d.id]),
-#             }
-#             for d in diaries
-#         ]
-
-#         artworks_list = [
-#             {
-#                 'created_at': ensure_datetime(a.creation_date),
-#                 'id': a.id,
-#                 'type': 'artwork',
-#                 'child_name': a.child.child_name if a.child else "家族作品",
-#                 'title': a.title,
-#                 'image': a.image.url if a.image else None,
-#                 'detail_url': reverse('app:artwork_detail', args=[a.id]),
-#             }
-#             for a in artworks
-#         ]
-
-#         growth_records_list = [
-#             {
-#                 'created_at': ensure_datetime(g.measurement_date),
-#                 'id': g.id,
-#                 'type': 'growth_record',
-#                 'child_name': g.child.child_name,
-#                 'height': g.height,
-#                 'weight': g.weight,
-#                 'memo': g.memo,
-#                 'list_url': reverse('app:growth_record_list'),
-#             }
-#             for g in growth_records
-#         ]
-
-#         # 全ての投稿を1つのリストにまとめてソート
-#         combined_list = sorted(
-#             chain(diaries_list, artworks_list, growth_records_list),
-#             key=lambda x: x['created_at'],
-#             reverse=True
-#         )
-
-#         return render(request, "home.html", context={
-#             "combined_list": combined_list,
-#             "children_list": children_list,
-#             "selected_child_id": selected_child_id,
-#         })
-    

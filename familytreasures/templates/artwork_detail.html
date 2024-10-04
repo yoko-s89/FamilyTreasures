@@ -18,7 +18,7 @@
     <p>子供の名前: {{ artwork.child.child_name }}</p>
     <p>作成日: {{ artwork.creation_date }}</p>
     <p>コメント・感想:</p>
-    <p>{{ artwork.comment|linebreaksbr }}</p>
+    <p class="left-aligned-text">{{ artwork.comment|linebreaksbr }}</p>
     
     <a href="{% url 'app:artwork_edit' artwork.id %}" class="btn btn-secondary">作品の編集</a>
     

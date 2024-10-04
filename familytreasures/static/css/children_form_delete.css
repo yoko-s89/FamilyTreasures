@@ -1,94 +1,82 @@
 /* 全体のスタイル */
 body {
-  font-family: Arial, sans-serif; /* フォントを指定 */
-  background-color: #f0f0f0; /* 背景色 */
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+}
+
+/* コンテナをナビゲーションバーの下に配置 */
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* 画面全体にフィット */
+  justify-content: center; /* 水平方向の中央揃え */
+  margin-top: 80px; /* ナビゲーションバーの高さに合わせて調整（例: 80px） */
 }
 
 /* フォームコンテナのスタイル */
 .form-container {
-  background-color: #fff; /* 背景色 */
-  padding: 20px; /* 内側の余白 */
-  border-radius: 8px; /* 角を丸くする */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影を追加 */
-  max-width: 500px; /* 最大幅を拡大 */
-  width: 100%; /* 幅を100%に */
-  margin: 20px auto; /* 上下の余白を設定して中央寄せ */
-  box-sizing: border-box; /* パディングとボーダーを含めてサイズを調整 */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto; /* 上下の余白をなくし、左右中央揃え */
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto; /* 高さが画面に収まらない場合はスクロールを表示 */
 }
 
-/* フォームのスタイル */
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-/* 各入力要素のスタイル */
-form div {
-  margin-bottom: 15px; /* 下部の余白 */
-}
-
-/* ラベルと入力のスタイル */
+/* ラベルと入力フィールドのスタイル */
 input[type="text"], input[type="date"] {
-  width: 100%; /* 幅を100%に */
-  padding: 10px; /* 内側の余白を少し増やす */
-  margin-top: 5px; /* 上部の余白 */
-  box-sizing: border-box; /* ボックスのサイズを調整 */
-  font-size: 18px; /* 文字サイズを調整 */
-  border: 1px solid #ccc; /* ボーダーを追加 */
-  border-radius: 4px; /* 角を丸くする */
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* ボタンを中央に配置するフレックスボックスのコンテナ */
+.button-container {
+  display: flex;
+  justify-content: center; /* ボタンを中央に配置 */
+  gap: 20px; /* ボタン間の間隔を設定 */
+  margin-top: 20px;
 }
 
 /* ボタンのスタイル */
 button {
-  padding: 12px; /* 内側の余白を少し大きく */
-  font-size: 16px; /* 文字サイズ */
-  background-color: #dda0dd; /* 背景色 */
-  color: white; /* 文字色 */
-  border: none; /* 枠線をなくす */
-  border-radius: 4px; /* 角を丸くする */
-  cursor: pointer; /* カーソルの形状 */
-  margin-top: 10px; /* ボタン間のスペース */
-  transition: background-color 0.3s ease; /* スムーズな色変化 */
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #dda0dd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* ボタンのホバー時のスタイル */
 button:hover {
-  background-color: #c5a3cd; /* ホバー時の背景色 */
-}
-
-/* エラーメッセージのスタイル */
-.errors {
-  color: red; /* エラーメッセージの文字色 */
-  font-size: 14px; /* 文字サイズ */
-  margin-bottom: 15px; /* エラーメッセージの下に余白 */
-}
-
-/* 見出しのスタイル */
-h2 {
-  text-align: center; /* 中央揃え */
-  font-size: 24px; /* 文字サイズ */
-  margin-bottom: 20px; /* 下部の余白 */
+  background-color: #c5a3cd;
 }
 
 /* 削除ボタンのスタイル */
 .btn-danger {
-  background-color: #dc3545; /* 赤色 */
-  color: #fff;
-  border: none;
-  padding: 12px; /* 内側の余白 */
-  border-radius: 4px; /* 角を丸くする */
-  cursor: pointer;
-  font-size: 16px;
+  background-color: #dc3545;
 }
 
 .btn-danger:hover {
-  background-color: #c82333; /* ホバー時の色 */
+  background-color: #c82333;
+}
+
+/* 見出しのスタイル */
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 /* レスポンシブ対応 */
@@ -99,10 +87,11 @@ h2 {
   }
 
   input[type="text"], input[type="date"] {
-    font-size: 16px; /* フォントサイズを少し縮小 */
+    font-size: 16px;
   }
 
-  button {
-    padding: 10px; /* ボタンのパディングを縮小 */
+  .button-container {
+    flex-direction: column; /* 小さい画面ではボタンを縦に並べる */
+    align-items: center;
   }
 }
