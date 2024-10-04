@@ -69,11 +69,15 @@
   border-radius: 5px;
 }
 
-/* 編集ボタンのスタイル（右下に固定） */
+/* 編集ボタンのスタイル（カード内の右下に配置） */
+.actions-section {
+  position: relative; /* 親要素を相対位置に設定 */
+}
+
 .actions-section .btn {
-  position: fixed; /* 固定位置に設定 */
-  bottom: 20px; /* 画面下からの距離 */
-  right: 20px; /* 画面右からの距離 */
+  position: absolute; /* ボタンを絶対位置に設定 */
+  bottom: 20px; /* カードの下からの距離 */
+  right: 20px; /* カードの右からの距離 */
   padding: 10px 20px; /* ボタン内の余白 */
   font-size: 16px; /* フォントサイズ */
   color: white; /* テキストの色 */
